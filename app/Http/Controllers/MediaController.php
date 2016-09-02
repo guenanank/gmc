@@ -23,15 +23,15 @@ class MediaController extends Controller
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'mediaName';
-        $sortType = 'ASC';
+        $sortColumn = 'mediaId';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -59,7 +59,7 @@ class MediaController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
     /**
@@ -82,21 +82,17 @@ class MediaController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'mediaName' => 'required|string|max:127|unique:media',
-                'mediaTypeId' => 'required|exists:mediaTypes,mediaTypeId'
-            ]);
-            
+            $validator = Validator::make($request->all(), Media::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
             $create = Media::create($request->all());
-            return response()->json($create, 200);
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -123,21 +119,19 @@ class MediaController extends Controller
         if ($request->ajax())
         {
             $media = Media::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'mediaName' => 'required|string|max:127|unique:media,mediaName,' . $media->mediaId . ',mediaId',
-                'mediaTypeId' => 'required|exists:mediaTypes,mediaTypeId'
-            ]);
+            Media::$rules['mediaName'] = 'required|string|max:127|unique:media,mediaName,' . $media->mediaId . ',mediaId';
+            $validator = Validator::make($request->all(), Media::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $media->update($request->all());
-            return response()->json($media, 200);
+            $update = $media->update($request->all());
+            return response()->json(['update' => $update], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -149,7 +143,7 @@ class MediaController extends Controller
     public function destroy($id)
     {
         $media = Media::findOrFail($id);
-        $media->delete();
-        return response()->json($media);
+        $delete = $media->delete();
+        return response()->json($delete, 200);
     }
 }

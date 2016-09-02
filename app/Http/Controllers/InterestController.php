@@ -23,15 +23,15 @@ class InterestController extends Controller
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'interestName';
-        $sortType = 'ASC';
+        $sortColumn = 'interestId';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -59,7 +59,7 @@ class InterestController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
     /**
@@ -82,21 +82,17 @@ class InterestController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'interestSubFrom' => 'exists:interests,interestId',
-                'interestName' => 'required|string|max:127|unique:interests',
-            ]);
-            
+            $validator = Validator::make($request->all(), Interest::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
             $create = Interest::create($request->all());
-            return response()->json($create, 200);
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -123,21 +119,19 @@ class InterestController extends Controller
         if ($request->ajax())
         {
             $interest = Interest::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'interestSubFrom' => 'exists:interests,interestId',
-                'interestName' => 'required|string|max:127|unique:interests,interestName,' . $interest->interestId . ',interestId',
-            ]);
+            Interest::$rules['interestName'] = 'required|string|max:127|unique:interests,interestName,' . $interest->interestId . ',interestId';
+            $validator = Validator::make($request->all(), Interest::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $interest->update($request->all());
-            return response()->json($interest, 200);
+            $update = $interest->update($request->all());
+            return response()->json(['update' => $update], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -149,7 +143,7 @@ class InterestController extends Controller
     public function destroy($id)
     {
         $interest = Interest::findOrFail($id);
-        $interest->delete();
-        return response()->json($interest);
+        $delete = $interest->delete();
+        return response()->json($delete, 200);
     }
 }

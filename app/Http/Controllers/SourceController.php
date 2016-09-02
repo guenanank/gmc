@@ -23,15 +23,15 @@ class SourceController extends Controller
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'sourceName';
-        $sortType = 'ASC';
+        $sortColumn = 'sourceId';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -53,7 +53,7 @@ class SourceController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
     /**
@@ -77,20 +77,17 @@ class SourceController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'sourceName' => 'required|string|max:127|unique:sources',
-            ]);
-            
+            $validator = Validator::make($request->all(), Source::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
             $create = Source::create($request->all());
-            return response()->json($create, 200);
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -117,20 +114,19 @@ class SourceController extends Controller
         if ($request->ajax())
         {
             $source = Source::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'sourceName' => 'required|string|max:127|unique:sources,sourceName,' . $source->sourceId . ',sourceId',
-            ]);
+            Source::$rules['sourceName'] = 'required|string|max:127|unique:sources,sourceName,' . $source->sourceId . ',sourceId';
+            $validator = Validator::make($request->all(), Source::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $source->update($request->all());
-            return response()->json($source, 200);
+            $update = $source->update($request->all());
+            return response()->json(['update' => $update], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -142,7 +138,7 @@ class SourceController extends Controller
     public function destroy($id) 
     {
         $source = Source::findOrFail($id);
-        $source->delete();
-        return response()->json($source);
+        $delete = $source->delete();
+        return response()->json($delete, 200);
     }
 }

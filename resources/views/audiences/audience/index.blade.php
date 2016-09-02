@@ -11,8 +11,12 @@
 <div class="card">
     <div class="card-header">
         <h2>Audiences <small>Master data of audience.</small></h2>
-        <a href="{{ action('AudienceController@create') }}" class="btn btn-float bgm-lightblue waves-circle" data-toggle="tooltip" data-placement="left" title="Create New Audiencess">
+        <a href="{{ action('AudienceController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Audiences">
             <i class="add-new-item zmdi zmdi-plus"></i>
+        </a>
+        
+        <a href="#" class="btn bgm-teal btn-icon pull-right m-r-10" data-toggle="tooltip" data-placement="top" title="Upload Audiences">
+            <i class="zmdi zmdi-upload"></i>
         </a>
     </div>
 
@@ -20,15 +24,11 @@
         <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('audience/audience/bootgrid') }}">
             <thead>
                 <tr>
-                    <th data-column-id="audienceFullname" data-type="string" data-identifier="true">Fullname</th>
-                    <th data-column-id="audienceNickname" data-type="string" data-identifier="true">Nickname</th>
-                    <th data-column-id="audienceGender" data-type="string" data-identifier="true">Gender</th>
-                    <th data-column-id="audienceDoB" data-type="string" data-identifier="true">Date of Birth</th>
-                    <th data-column-id="audienceBirthPlace" data-type="string" data-identifier="true">Birthplace</th>
-                    <th data-column-id="audienceAddress" data-type="string" data-identifier="true">Address</th>
-                    <th data-column-id="audiencePhone" data-type="string" data-identifier="true">Phone</th>
-                    <th data-column-id="audienceHandphone" data-type="string" data-identifier="true">Handphone</th>
-                    <th data-column-id="audienceEmail" data-type="string" data-identifier="true">Email</th>
+                    <th data-column-id="audienceId" data-formatter="pk" data-type="int" data-identifier="true">Audience ID</th>
+                    <th data-column-id="audienceType" data-formatter="type" data-type="string">Audience Type</th>
+                    <th data-column-id="clubId" data-type="string">Club ID</th>
+                    <th data-column-id="memberId" data-type="string">Member ID</th>
+                    <th data-column-id="activityId" data-formatter="activity" data-type="string">Activity</th>
                     <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
                 </tr>
             </thead>
@@ -56,35 +56,38 @@
             iconRefresh: 'zmdi-refresh'
         },
         formatters: {
+            pk: function(column, row) {
+                return $.strPad(row.audienceId, 8);
+            },
+            type: function(column, row) {
+                return row.audienceType.substr(0,1).toUpperCase() + row.audienceType.substr(1);
+            },
+            activity: function(column, row) {
+                var activities = [];
+                $.each(row.activities, function(k, v) {
+                    activities.push(v.activityName);
+                });
+                
+                return activities.join(', ');
+            },
             commands: function (column, row) {
-                return '<a href="{{ url("audience/audience") }}/' + row.audienceId + '/edit" class="btn btn-icon c-blue command-edit waves-effect waves-circle" title="Edit ' + row.audienceFullname + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                        '<button type="button" class="btn btn-icon c-red command-delete waves-effect waves-circle" data-row-id="' + row.audienceId + '" title="Delete ' + row.audienceFullname + '"><span class="zmdi zmdi-delete"></span></button>';
+                var detail = '<a data-href="{{ url("audience/audience/") }}/' + row.audienceId + '" class="bgm-orange command-detail btn btn-default btn-icon waves-effect waves-circle"><i class="zmdi zmdi-format-list-numbered"></i></a>&nbsp; ';
+                var edit = '<a href="{{ url("audience/audience") }}/' + row.audienceId + '/edit" class="bgm-blue command-edit btn btn-default btn-icon waves-effect waves-circle" title="Edit ' + row.audienceFullname + '"><i class="zmdi zmdi-edit"></i></a>&nbsp; ';
+                var del = '<button type="button" class="bgm-red command-delete btn btn-default btn-icon waves-effect waves-circle" data-row-id="' + row.audienceId + '" title="Delete ' + row.audienceFullname + '"><i class="zmdi zmdi-delete"></i></button>';
+                return detail + edit + del;
             }
         }
     }).on('loaded.rs.jquery.bootgrid', function () {
-        $('#bootgrid').find('.command-delete').on('click', function (e) {
-            var audienceId = $(this).data('row-id');
+        $('#bootgrid').find('.command-detail').on('click', function (e) {
             e.preventDefault();
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this file!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                $.post('audience/' + audienceId, {_method: 'DELETE'}, function () {
-                    swal({
-                        title: 'Deleted!',
-                        text: 'Your file has been deleted.',
-                        type: 'success',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    $('#bootgrid').bootgrid('reload');
-                });
+            $.get($(this).data('href'), function (data) {
+                $(data).modal();
             });
+            
+        });
+        $('#bootgrid').find('.command-delete').on('click', function (e) {
+            e.preventDefault();
+            deletes('audience', $(this).data('row-id'));
         });
     });
 </script>

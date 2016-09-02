@@ -31,6 +31,7 @@ var paths = {
     typeheadJs: bowerComponents + 'typeahead.js/dist/',
     moment: bowerComponents + 'moment/',
     bootgrid: bowerComponents + 'jquery.bootgrid/dist/',
+    clipboard: bowerComponents + 'clipboard/dist/',
     bootstrapWizard: bowerComponents + 'twitter-bootstrap-wizard/'
 };
 
@@ -61,7 +62,7 @@ elixir(function (mix) {
     mix.scripts(paths.malihuCustomScrollbarPlugin + 'jquery.mCustomScrollbar.concat.min.js', null, bowerComponents);
     mix.scripts(paths.waves + 'waves.js', null, bowerComponents);
     mix.scripts(paths.growl + 'bootstrap-growl.js', null, bowerComponents);
-    mix.scripts(paths.sweetAlert + 'sweet-alert.js', null, bowerComponents);
+    mix.scripts(paths.sweetAlert + 'sweet-alert.min.js', null, bowerComponents);
     mix.scripts(paths.autosize + 'autosize.js', null, bowerComponents);
     mix.scripts(paths.bootstrapSelect + 'js/bootstrap-select.js', null, bowerComponents);
     mix.scripts(paths.nouislider + 'jquery.nouislider.all.js', null, bowerComponents);
@@ -72,6 +73,7 @@ elixir(function (mix) {
     mix.scripts(paths.moment + 'moment.js', null, bowerComponents);
     mix.scripts(paths.chosen + 'chosen.jquery.js', null, bowerComponents);
     mix.scripts(paths.bootgrid + 'jquery.bootgrid.js', null, bowerComponents);
+    mix.scripts(paths.clipboard + 'clipboard.min.js', null, bowerComponents);
     mix.scripts(paths.bootstrapWizard + 'jquery.bootstrap.wizard.js', null, bowerComponents);
     
     mix.browserify('resources/assets/js/materialAdmin/fileinput.min.js', 'public/js');
@@ -80,4 +82,5 @@ elixir(function (mix) {
     
     mix.browserify('materialAdmin/functions.js');
     mix.browserify('materialAdmin/demo.js');
+    mix.browserify('materialAdmin/ajaxForm.js');
 });

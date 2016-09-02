@@ -12,18 +12,18 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Expense <small>Master data of expense.</small></h2>
-        <a href="{{ action('ExpenseController@index') }}" class="btn btn-float bgm-lightblue waves-circle" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('ExpenseController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
     <br />
-    {!! Form::open(['route' => 'master.expense.store'])!!}
+    {!! Form::open(['route' => 'master.expense.store', 'class' => 'ajaxForm'])!!}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('expenseMin', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '000,000,000,000']) !!}
+                        {!! Form::text('expenseMin', null, ['class' => 'form-control fg-input']) !!}
                         {!! Form::label('expenseMin', 'Expense Min', ['class' => 'fg-label']) !!}
                     </div>
                     <small id="expenseMin" class="help-block"></small>
@@ -35,7 +35,7 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('expenseMax', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '000,000,000,000']) !!}
+                        {!! Form::text('expenseMax', null, ['class' => 'form-control fg-input']) !!}
                         {!! Form::label('expenseMax', 'Expense Max', ['class' => 'fg-label']) !!}
                     </div>
                     <small id="expenseMax" class="help-block"></small>
@@ -55,37 +55,3 @@
     {!! Form::close() !!}
 </div>
 @endsection
-
-@section('scripts')
-<script type="text/javascript">
-    $('form').submit(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: $('form').attr('action'),
-            data: {
-                expenseMin: $('input[name="expenseMin"]').val().replace(/[^0-9\.]+/g, ""),
-                expenseMax: $('input[name="expenseMax"]').val().replace(/[^0-9\.]+/g, "")
-            },
-            success: function () {
-                swal({
-                    title: 'Success!',
-                    text: 'Data Saved.',
-                    type: 'success',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                $('div.form-group').removeClass('has-warning');
-                $('small.help-block').text(null);
-                $('input[type="text"]').val(null).blur();
-            },
-            error: function (response) {
-                $.each($.parseJSON(response.responseText), function (k, v) {
-                    $('#' + k).parents('div.form-group').addClass('has-warning');
-                    $('#' + k).text(v);
-                });
-            }
-        });
-    });
-</script>
-@stop

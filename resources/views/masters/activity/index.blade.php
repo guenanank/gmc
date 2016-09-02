@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Activity <small>Master data of activity.</small></h2>
-        <a href="{{ action('ActivityController@create') }}" class="btn btn-float bgm-lightblue waves-circle" data-toggle="tooltip" data-placement="left" title="Create New Activities">
+        <a href="{{ action('ActivityController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Activities">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -20,9 +20,9 @@
         <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('master/activity/bootgrid') }}">
             <thead>
                 <tr>
-                    <th data-column-id="activityName" data-type="string" data-identifier="true">Activity Name</th>
-                    <th data-column-id="activityWhere" data-type="string">Activity Location</th>
-                    <th data-column-id="activityWhen" data-converter="datetime" data-type="date">Activity Date</th>
+                    <th data-column-id="activityName" data-type="string">Name</th>
+                    <th data-column-id="activityWhere" data-type="string">Location</th>
+                    <th data-column-id="activityWhen" data-converter="datetime" data-type="date">Date</th>
                     <th data-column-id="sourceId" data-formatter="source" data-type="string">Source</th>
                     <th data-column-id="mediaGroupId" data-formatter="mediaGroup" data-type="string">Media Group</th>
                     <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
@@ -48,8 +48,8 @@
         css: {
             icon: 'zmdi icon',
             iconColumns: 'zmdi-view-module',
-            iconDown: 'zmdi-caret-down',
-            iconUp: 'zmdi-caret-up',
+            iconDown: 'zmdi-sort-desc',
+            iconUp: 'zmdi-sort-asc',
             iconRefresh: 'zmdi-refresh'
         },
         converters: {
@@ -64,40 +64,37 @@
         },
         formatters: {
             source: function (column, row) {
-                return row.source.sourceName;
+                return (row.source) ? row.source.sourceName : 'None';
             },
             mediaGroup: function (column, row) {
-                return row.media_group.mediaGroupName;
+                return (row.media_group) ? row.media_group.mediaGroupName : 'None';
             },
             commands: function (column, row) {
-                return '<a href="{{ url("master/activity") }}/' + row.activityId + '/edit" class="btn btn-icon c-blue command-edit waves-effect waves-circle" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                        '<button type="button" class="btn btn-icon c-red command-delete waves-effect waves-circle" data-row-id="' + row.activityId + '" title="Delete ' + row.activityName + '"><span class="zmdi zmdi-delete"></span></button>';
+                return '<button id="btn" type="button" class="btn btn-icon bgm-bluegray command-copy" data-toggle="tooltip" title="Copy token into clipboard\n' + row.activityToken + '" data-clipboard-text="' + row.activityToken + '"><span class="zmdi zmdi-copy"></span></button>&nbsp; ' +
+                        '<a href="{{ url("master/activity") }}/' + row.activityId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
+                        '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.activityId + '" data-toggle="tooltip" title="Delete ' + row.activityName + '"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
     }).on('loaded.rs.jquery.bootgrid', function () {
-        $('#bootgrid').find('.command-delete').on('click', function (e) {
-            var activityId = $(this).data('row-id');
+
+        $('#bootgrid').find('.command-copy').on('click', function (e) {
             e.preventDefault();
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this file!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                $.post('activity/' + activityId, {_method: 'DELETE'}, function () {
-                    swal({
-                        title: 'Deleted!',
-                        text: 'Your file has been deleted.',
-                        type: 'success',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    $('#bootgrid').bootgrid('reload');
+            var btn = document.querySelectorAll('button.command-copy');
+            var clipboard = new Clipboard(btn);
+            clipboard.on('success', function () {
+                swal({
+                    title: 'Copied!',
+                    text: 'Activity token was copied into cliboard.',
+                    type: 'success',
+                    showConfirmButton: false,
+                    timer: 2000
                 });
             });
+        });
+
+        $('#bootgrid').find('.command-delete').on('click', function (e) {
+            e.preventDefault();
+            deletes('activity', $(this).data('row-id'));
         });
     });
 </script>

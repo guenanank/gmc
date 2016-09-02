@@ -199,7 +199,6 @@
                 <li class="sub-menu">
                     <a href="{{ url('#') }}"><i class="zmdi zmdi-accounts-list"></i> Audiences</a>
                     <ul>
-<!--                        <li><a href="{{ url('audience/audienceType/') }}">Types</a></li>-->
                         <li><a href="{{ url('audience/layerQuestion') }}">Layer Questions</a></li>
                         <li><a href="{{ url('audience/audience/') }}">Audiences</a></li>
                     </ul>
@@ -208,8 +207,8 @@
                     <a href="#"><i class="zmdi zmdi-layers"></i> Master Data</a>
                     <ul>
                         <li><a href="{{ url('master/activity/') }}">Activities</a></li>
-                        <li><a href="{{ url('master/education/') }}">Educations</a></li>
-                        <li><a href="{{ url('master/expense/') }}">Expense</a></li>
+                        <li><a href="{{ url('master/education/') }}">Education</a></li>
+                        <li><a href="{{ url('master/expense/') }}">Expenses</a></li>
                         <li><a href="{{ url('master/hobby/') }}">Hobbies</a></li>
                         <li><a href="{{ url('master/interest') }}">Interests</a></li>
                         <li><a href="{{ url('master/media') }}">Media</a></li>
@@ -279,7 +278,8 @@
     <script type="text/javascript" src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/waves.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-growl.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/sweet-alert.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/sweet-alert.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.bootstrap.wizard.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('js/moment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.js') }}"></script>
@@ -287,6 +287,7 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/typeahead.bundle.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/summernote.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/clipboard.min.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('js/chosen.jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/input-mask.min.js') }}"></script>
@@ -295,22 +296,82 @@
     <!--<script type="text/javascript" src="{{ asset('js/jquery.bootgrid.js') }}"></script>-->
     <script type="text/javascript" src="{{ asset('js/jquery.bootgrid.updated.min.js') }}"></script>
 
+    <script type="text/javascript" src="{{ asset('js/autosize.js') }}"></script>
+
     <script type="text/javascript" src="{{ asset('js/functions.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/demo.js') }}"></script>
+    <!--<script type="text/javascript" src="{{ asset('js/demo.js') }}"></script>-->
+    <script type="text/javascript" src="{{ asset('js/ajaxForm.js') }}"></script>
 
     <script type="text/javascript">
-        (function ($) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    _token: $('meta[name="csrf-token"]').attr('content')
+
+        /* Usage
+         * $.strPad(12, 5); // returns 00012
+         * $.strPad('abc', 6, '#'); // returns ###abc
+         */
+        $.strPad = function (i, l, s) {
+            var o = i.toString();
+            if (!s) {
+                s = '0';
+            }
+            while (o.length < l) {
+                o = s + o;
+            }
+            return o;
+        };
+        
+        
+        var notify = function (message, type){
+            $.growl({
+                message: message
+            },{
+                type: type,
+                offset: {
+                    x: 20,
+                    y: 85
                 }
             });
-        })(jQuery);
+        };
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                _token: $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('form.ajaxForm').submit(function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            $(this).ajaxForm();
+        });
+
+        var deletes = function (controller, id) {
+            swal({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this file!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            }, function () {
+                $.post(controller + '/' + id, {_method: 'DELETE'}, function () {
+                    swal({
+                        title: 'Deleted!',
+                        text: 'Your file has been deleted.',
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    $('#bootgrid').bootgrid('reload');
+                });
+            });
+        };
+
     </script>
+
     @section('scripts')
 
     @show
-
 </body>
 </html>

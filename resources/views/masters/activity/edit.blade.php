@@ -4,7 +4,7 @@
 <ol class="breadcrumb">
     <li><a href="{{ url('dashboard/') }}">GMC</a></li>
     <li><a href="{{ url('master/activity') }}">Activity</a></li>
-    <li class="active">Create</li>
+    <li class="active">Edit</li>
 </ol>
 @stop
 
@@ -12,12 +12,12 @@
 <div class="card">
     <div class="card-header">
         <h2>Edit Activity <small>Master data of activity.</small></h2>
-        <a href="{{ action('ActivityController@index') }}" class="btn btn-float bgm-lightblue waves-circle" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('ActivityController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
     <br />
-    {!! Form::model($activity, ['route' => ['master.activity.update', $activity], 'method' =>'patch'])!!}
+    {!! Form::model($activity, ['route' => ['master.activity.update', $activity], 'method' =>'patch', 'class' => 'ajaxForm'])!!}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
@@ -38,7 +38,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {!! Form::select('mediaGroupId', [''=>''] + App\MediaGroup::where('mediaGroupSubFrom', '!=', 0)->lists('mediaGroupName', 'mediaGroupId')->all(), $activity->mediaGroupId, ['class' => 'form-control']) !!}
+                            {!! Form::select('mediaGroupId', [''=>''] + App\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all(), $activity->mediaGroupId, ['class' => 'form-control']) !!}
                         </div>
                         {!! Form::label('mediaGroupId', 'Choose Media Group', ['class' => 'fg-label']) !!}
                     </div>
@@ -83,7 +83,7 @@
             </div>
         </div>
         <br />
-        
+
         <div class="form-group">
             <div class="col-sm-offset-1 col-sm-10">
                 <button class="btn btn-primary btn-icon-text btn-sm waves-effect" type="submit">
@@ -96,40 +96,3 @@
     {!! Form::close() !!}
 </div>
 @endsection
-
-@section('scripts')
-<script type="text/javascript">
-    $('form').submit(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: $('form').attr('action'),
-            data: {
-                _method: 'PATCH',
-                sourceId: $('select[name="sourceId"]').val(),
-                mediaGroupId: $('select[name="mediaGroupId"]').val(),
-                activityName: $('input[name="activityName"]').val(),
-                activityWhere: $('input[name="activityWhere"]').val(),
-                activityWhen: $('input[name="activityWhen"]').val()
-            },
-            success: function () {
-                swal({
-                    title: 'Success!',
-                    text: 'Data Saved.',
-                    type: 'success',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                $('div.form-group').removeClass('has-warning');
-                $('small.help-block').text(null);
-            },
-            error: function (response) {
-                $.each($.parseJSON(response.responseText), function (k, v) {
-                    $('#' + k).parents('div.form-group').addClass('has-warning');
-                    $('#' + k).text(v);
-                });
-            }
-        });
-    });
-</script>
-@stop

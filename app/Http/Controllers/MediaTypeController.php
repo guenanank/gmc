@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\AudienceType;
+use App\MediaType;
 
-class AudienceTypeController extends Controller
+class MediaTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,22 +16,22 @@ class AudienceTypeController extends Controller
      */
     public function index()
     {
-        return view('audiences.type.index');
+        return view('masters.mediaType.index');
     }
-    
+
     public function bootgrid(Request $request) 
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'audienceTypeName';
-        $sortType = 'ASC';
+        $sortColumn = 'mediaTypeId';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -41,11 +41,11 @@ class AudienceTypeController extends Controller
             endforeach;
         }
 
-        $rows = AudienceType::where('audienceTypeName', 'like', '%' . $search . '%')
+        $rows = MediaType::where('mediaTypeName', 'LIKE', '%' . $search . '%')
                     ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                     ->get();
 
-        $total = AudienceType::where('audienceTypeName', 'like', '%' . $search . '%')
+        $total = MediaType::where('mediaTypeName', 'LIKE', '%' . $search . '%')
                     ->count();
         
         return response()->json([
@@ -53,9 +53,9 @@ class AudienceTypeController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -63,7 +63,7 @@ class AudienceTypeController extends Controller
      */
     public function create()
     {
-        return view('audiences.type.create');
+        return view('masters.mediaType.create');
     }
 
     /**
@@ -76,20 +76,17 @@ class AudienceTypeController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'audienceTypeName' => 'required|string|max:127|unique:audienceTypes',
-            ]);
-            
+            $validator = Validator::make($request->all(), MediaType::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $create = AudienceType::create($request->all());
-            return response()->json($create, 200);
+            $create = MediaType::create($request->all());
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -100,8 +97,8 @@ class AudienceTypeController extends Controller
      */
     public function edit($id)
     {
-        $audienceType = AudienceType::findOrFail($id);
-        return view('audiences.type.edit', compact('audienceType'));
+        $mediaType = MediaType::findOrFail($id);
+        return view('masters.mediaType.edit', compact('mediaType'));
     }
 
     /**
@@ -115,21 +112,20 @@ class AudienceTypeController extends Controller
     {
         if ($request->ajax())
         {
-            $audienceType = AudienceType::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'audienceTypeName' => 'required|string|max:127|unique:audienceTypes,audienceTypeName,' . $audienceType->audienceTypeId . ',audienceTypeId',
-            ]);
+            $mediaType = MediaType::findOrFail($id);
+            MediaType::$rules['mediaTypeName'] = 'required|string|max:127|unique:mediaTypes,mediaTypeName,' . $mediaType->mediaTypeId . ',mediaTypeId';
+            $validator = Validator::make($request->all(), MediaType::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $audienceType->update($request->all());
-            return response()->json($audienceType, 200);
+            $update = $mediaType->update($request->all());
+            return response()->json(['update' => $update], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -140,8 +136,8 @@ class AudienceTypeController extends Controller
      */
     public function destroy($id)
     {
-        $audienceType = AudienceType::findOrFail($id);
-        $audienceType->delete();
-        return response()->json($audienceType);
+        $mediaType = MediaType::findOrFail($id);
+        $delete = $mediaType->delete();
+        return response()->json($delete, 200);
     }
 }

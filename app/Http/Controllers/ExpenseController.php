@@ -23,7 +23,7 @@ class ExpenseController extends Controller
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
@@ -31,7 +31,7 @@ class ExpenseController extends Controller
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
         $sortColumn = 'expenseId';
-        $sortType = 'ASC';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -55,7 +55,7 @@ class ExpenseController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
     /**
@@ -78,21 +78,17 @@ class ExpenseController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'expenseMin' => 'required|numeric|between:0,999.999.999.999.999,9|unique:expenses',
-                'expenseMax' => 'required|numeric|between:0,999.999.999.999.999,9|unique:expenses',
-            ]);
-            
+            $validator = Validator::make($request->all(), Expense::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $create = Expense::create($request->all());
-            return response()->json($create, 200);
+            //$create = Expense::create($request->all());
+            return response()->json(['create' => false], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
     
     /**
@@ -119,21 +115,17 @@ class ExpenseController extends Controller
         if ($request->ajax())
         {
             $expense = Expense::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'expenseMin' => 'required|numeric|between:0,999.999.999.999.999,9',
-                'expenseMax' => 'required|numeric|between:0,999.999.999.999.999,9',
-            ]);
-            
+            $validator = Validator::make($request->all(), Expense::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $expense->update($request->all());
-            return response()->json($expense, 200);
+            $update = $expense->update($request->all());
+            return response()->json(['update' => $update], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -145,7 +137,7 @@ class ExpenseController extends Controller
     public function destroy($id)
     {
         $expense = Expense::findOrFail($id);
-        $expense->delete();
-        return response()->json($expense);
+        $delete = $expense->delete();
+        return response()->json($delete, 200);
     }
 }

@@ -10,7 +10,13 @@ class MediaGroup extends Model
     public $primaryKey = 'mediaGroupId';
     protected $fillable = ['mediaGroupSubFrom', 'mediaGroupName', 'mediaGroupMap'];
     
-    public function childs()
+    public static $rules = [
+        'mediaGroupSubFrom' => 'exists:mediaGroups,mediaGroupId',
+        'mediaGroupName' => 'required|string|max:127|unique:mediaGroups',
+        'mediaGroupMap' => 'string|max:15'
+    ];
+    
+    public function child()
     {
         return $this->hasMany('App\MediaGroup', 'mediaGroupSubFrom');
     }

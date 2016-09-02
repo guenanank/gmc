@@ -80,6 +80,7 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'url'                  => 'The :attribute format is invalid.',
 
+    'greater_than'         => 'The :attribute must be larger than :field',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

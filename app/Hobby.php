@@ -1,15 +1,28 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Hobby extends Model
 {
     public $primaryKey = 'hobbyId';
     protected $fillable = ['hobbySubFrom', 'hobbyName'];
     
-    public function childs()
+    public static $rules = [
+        'hobbySubFrom' => 'exists:hobbies,hobbyId',
+        'hobbyName' => 'required|string|max:127|unique:hobbies'
+    ];
+    
+    protected $appends = ['hobbyParent'];
+    
+    public function getHobbyParentAttribute()
+    {
+        $parent = self::find($this->hobbySubFrom);
+        return $parent ? $parent->hobbyName : null;
+    }
+    
+    public function child()
     {
         return $this->hasMany('App\Hobby', 'hobbySubFrom');
     }
@@ -18,4 +31,6 @@ class Hobby extends Model
     {
         return $this->belongsTo('App\Hobby', 'hobbySubFrom');
     }
+    
+    
 }

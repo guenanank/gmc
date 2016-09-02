@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\LayerQuestion;
+use App\Layer;
+use App\Question;
 
-class LayerQuestionController extends Controller
+class LayerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,45 +17,53 @@ class LayerQuestionController extends Controller
      */
     public function index()
     {
-        return view('audiences.layerQuestion.index');
+        return view('audiences.layerQuestion.layer.index');
+    }
+    
+    public function layer($layerId)
+    {
+        $layer = Layer::findOrFail($layerId);
+        $questionType = Question::$questionType;
+        $formType = Question::$questionFormType;
+        return view('audiences.layerQuestion.question.index', compact('layer', 'questionType', 'formType'));
     }
     
     public function bootgrid(Request $request) 
     {
-        if ($request->ajax() == false)
+        if ($request->ajax() == false) 
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
-        
+
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'layerQuestionName';
-        $sortType = 'ASC';
-        
+        $sortColumn = 'layerId';
+        $sortType = 'DESC';
+
         if(is_array($request->input('sort')))
         {
-            foreach($request->input('sort') as $key => $value):
+            foreach ($request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
         }
-        
-        $rows = LayerQuestion::where('layerQuestionName', 'like', '%' . $search . '%')
-                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                    ->get();
 
-        $total = LayerQuestion::where('layerQuestionName', 'like', '%' . $search . '%')
+        $rows = Layer::where('layerName', 'LIKE', '%' . $search . '%')
+                    ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+
+        $total = Layer::where('layerName', 'LIKE', '%' . $search . '%')
+                    ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
                     ->count();
-        
+
         return response()->json([
             'current' => (int) $current,
             'rowCount' => (int) $rowCount,
-            'searchPhrase' => $search,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
     /**
@@ -64,7 +73,7 @@ class LayerQuestionController extends Controller
      */
     public function create()
     {
-        return view('audiences.layerQuestion.create');
+        return view('audiences.layerQuestion.layer.create');
     }
 
     /**
@@ -77,21 +86,17 @@ class LayerQuestionController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'layerQuestionName' => 'required|string|max:127|unique:layerQuestions',
-            ]);
-            
+            $validator = Validator::make($request->all(), Layer::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $create = LayerQuestion::create($request->all());
-            return response()->json($create, 200);
-            
+            $create = Layer::create($request->all());
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -102,8 +107,8 @@ class LayerQuestionController extends Controller
      */
     public function edit($id)
     {
-        $layerQuestion = LayerQuestion::findOrFail($id);
-        return view('audiences.layerQuestion.edit', compact('layerQuestion'));
+        $layer = Layer::findOrFail($id);
+        return view('audiences.layerQuestion.layer.edit', compact('layer'));
     }
 
     /**
@@ -117,22 +122,21 @@ class LayerQuestionController extends Controller
     {
         if ($request->ajax())
         {
-            $layerQuestion = LayerQuestion::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'layerQuestionName' => 'required|string|max:127|unique:layerQuestions,layerQuestionName,' . $layerQuestion->layerQuestionId . ',layerQuestionId',
-            ]);
+            $layer = Layer::findOrFail($id);
+            Layer::$rules['layerName'] = 'required|string|max:127|unique:layers,layerName,' . $layer->layerId . ',layerId';
+            $validator = Validator::make($request->all(), Layer::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $layerQuestion->update($request->all());
-            return response()->json($layerQuestion, 200);
+            $update = $layer->update($request->all());
+            return response()->json(['update' => $update], 200);
             
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -143,8 +147,9 @@ class LayerQuestionController extends Controller
      */
     public function destroy($id)
     {
-        $layerQuestion = LayerQuestion::findOrFail($id);
-        $layerQuestion->delete();
-        return response()->json($layerQuestion);
+        $layer = Layer::findOrFail($id);
+        $delete = $layer->delete();
+        return response()->json($delete, 200);
     }
+    
 }

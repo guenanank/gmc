@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Crypt;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -23,15 +24,15 @@ class ActivityController extends Controller
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'activityName';
-        $sortType = 'ASC';
+        $sortColumn = 'activityId';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -63,7 +64,6 @@ class ActivityController extends Controller
                     ->orWhereHas('mediaGroup', function($query) use ($search) {
                             $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
                         })
-                    ->with('source', 'mediaGroup')
                     ->count();
         
         return response()->json([
@@ -71,7 +71,7 @@ class ActivityController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
     /**
@@ -94,24 +94,18 @@ class ActivityController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'sourceId' => 'required|exists:sources,sourceId',
-                'mediaGroupId' => 'required|exists:mediaGroups,mediaGroupId',
-                'activityName' => 'required|string|max:127|unique:activities',
-                'activityWhere' => 'string',
-                'activityWhen' => 'date_format:Y-m-d'
-            ]);
-            
+            $validator = Validator::make($request->all(), Activity::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
-            
+                        
+            $request->merge(['activityToken' => Crypt::encrypt($request->activityName)]);
             $create = Activity::create($request->all());
-            return response()->json($create, 200);
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -138,25 +132,20 @@ class ActivityController extends Controller
         if ($request->ajax())
         {
             $activity = Activity::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'sourceId' => 'required|exists:sources,sourceId',
-                'mediaGroupId' => 'required|exists:mediaGroups,mediaGroupId',
-                'activityName' => 'required|string|max:127|unique:activities,activityName,' . $activity->activityId . ',activityId',
-                'activityWhere' => 'string',
-                'activityWhen' => 'date_format:Y-m-d'
-            ]);
+            Activity::$rules['activityName'] = 'required|string|max:127|unique:activities,activityName,' . $activity->activityId . ',activityId';
+            $validator = Validator::make($request->all(), Activity::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $activity->update($request->all());
-            return response()->json($activity, 200);
+            $update = $activity->update($request->all());
+            return response()->json(['update' => $update], 200);
             
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -168,7 +157,7 @@ class ActivityController extends Controller
     public function destroy($id)
     {
         $activity = Activity::findOrFail($id);
-        $activity->delete();
-        return response()->json($activity);
+        $delete = $activity->delete();
+        return response()->json($delete, 200);
     }
 }

@@ -23,15 +23,15 @@ class HobbyController extends Controller
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'hobbyName';
-        $sortType = 'ASC';
+        $sortColumn = 'hobbyId';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -59,7 +59,7 @@ class HobbyController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
     /**
@@ -82,21 +82,17 @@ class HobbyController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'hobbySubFrom' => 'exists:hobbies,hobbyId',
-                'hobbyName' => 'required|string|max:127|unique:hobbies',
-            ]);
-            
+            $validator = Validator::make($request->all(), Hobby::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
             $create = Hobby::create($request->all());
-            return response()->json($create, 200);
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
     
     /**
@@ -123,21 +119,19 @@ class HobbyController extends Controller
         if ($request->ajax())
         {
             $hobby = Hobby::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'hobbySubFrom' => 'exists:hobbies,hobbyId',
-                'hobbyName' => 'required|string|max:127|unique:hobbies,hobbyName,' . $hobby->hobbyId . ',hobbyId',
-            ]);
+            Hobby::$rules['hobbyName'] = 'required|string|max:127|unique:hobbies,hobbyName,' . $hobby->hobbyId . ',hobbyId';
+            $validator = Validator::make($request->all(), Hobby::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $hobby->update($request->all());
-            return response()->json($hobby, 200);
+            $update = $hobby->update($request->all());
+            return response()->json(['update' => $update], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -149,7 +143,7 @@ class HobbyController extends Controller
     public function destroy($id)
     {
         $hobby = Hobby::findOrFail($id);
-        $hobby->delete();
-        return response()->json($hobby);
+        $delete = $hobby->delete();
+        return response()->json($delete, 200);
     }
 }

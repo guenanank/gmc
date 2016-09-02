@@ -9,7 +9,20 @@ class Profession extends Model
     public $primaryKey = 'professionId';
     protected $fillable = ['professionSubFrom', 'professionName'];
     
-    public function childs()
+    public static $rules = [
+        'professionSubFrom' => 'exists:professions,professionId',
+        'professionName' => 'required|string|max:127|unique:professions'
+    ];
+
+    protected $appends = ['professionParent'];
+    
+    public function getProfessionParentAttribute()
+    {
+        $parent = self::find($this->professionSubFrom);
+        return $parent ? $parent->professionName : null;
+    }
+    
+    public function child()
     {
         return $this->hasMany('App\Profession', 'professionSubFrom');
     }
@@ -18,4 +31,5 @@ class Profession extends Model
     {
         return $this->belongsTo('App\Profession', 'professionSubFrom');
     }
+    
 }

@@ -24,15 +24,15 @@ class EducationController extends Controller
     {
         if ($request->ajax() == false)
         {
-            return response()->toJson(['message' => 'SEX!'], 404);
+            return response()->json(['message' => 'SEX!'], 404);
         }
         
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'educationName';
-        $sortType = 'ASC';
+        $sortColumn = 'educationId';
+        $sortType = 'DESC';
         
         if(is_array($request->input('sort')))
         {
@@ -54,7 +54,7 @@ class EducationController extends Controller
             'rowCount' => (int) $rowCount,
             'rows' => $rows,
             'total' => $total
-        ]);
+        ], 200);
     }
 
 
@@ -78,20 +78,18 @@ class EducationController extends Controller
     {
         if ($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'educationName' => 'required|string|max:127|unique:education',
-            ]);
-            
+            $validator = Validator::make($request->all(), Education::$rules);
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
             $create = Education::create($request->all());
-            return response()->json($create, 200);
+            dd($create);
+            return response()->json(['create' => $create], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -118,20 +116,19 @@ class EducationController extends Controller
         if ($request->ajax())
         {
             $education = Education::findOrFail($id);
-            $validator = Validator::make($request->all(), [
-                'educationName' => 'required|string|max:127|unique:education,educationName,' . $education->educationId . ',educationId',
-            ]);
+            Education::$rules['educationName'] = 'required|string|max:127|unique:education,educationName,' . $education->educationId . ',educationId';
+            $validator = Validator::make($request->all(), Education::$rules);
             
             if ($validator->fails())
             {
                 return response()->json($validator->errors(), 422);
             }
             
-            $education->update($request->all());
-            return response()->json($education, 200);
+            $update = $education->update($request->all());
+            return response()->json(['update' => $update], 200);
         }
         
-        return response()->toJson(['message' => 'SEX!'], 404);
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**
@@ -143,8 +140,8 @@ class EducationController extends Controller
     public function destroy($id) 
     {
         $education = Education::findOrFail($id);
-        $education->delete();
-        return response()->json($education);
+        $delete = $education->delete();
+        return response()->json($delete, 200);
     }
 
 }
