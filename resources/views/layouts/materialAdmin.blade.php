@@ -295,15 +295,11 @@
 
     <!--<script type="text/javascript" src="{{ asset('js/jquery.bootgrid.js') }}"></script>-->
     <script type="text/javascript" src="{{ asset('js/jquery.bootgrid.updated.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('js/autosize.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('js/functions.js') }}"></script>
     <!--<script type="text/javascript" src="{{ asset('js/demo.js') }}"></script>-->
-    <script type="text/javascript" src="{{ asset('js/ajaxForm.js') }}"></script>
-
     <script type="text/javascript">
-
+        
         /* Usage
          * $.strPad(12, 5); // returns 00012
          * $.strPad('abc', 6, '#'); // returns ###abc
@@ -318,8 +314,7 @@
             }
             return o;
         };
-        
-        
+                
         var notify = function (message, type){
             $.growl({
                 message: message
@@ -369,9 +364,13 @@
         };
 
     </script>
+    <script type="text/javascript" src="{{ asset('js/ajaxForm.js') }}"></script>
 
     @section('scripts')
 
     @show
+    <script type="text/javascript">
+        console.log($('*').length);
+    </script>
 </body>
 </html>

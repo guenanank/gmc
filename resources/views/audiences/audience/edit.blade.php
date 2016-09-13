@@ -17,13 +17,13 @@
         </a>
     </div>
     <br />
+    {{ Form::model($audience, ['route' => ['audience.audience.update', $audience], 'method' => 'patch', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
-        {{ Form::open(['route' => 'audience.audience.store', 'class' => 'ajaxForm']) }}
         {{ Form::hidden('audienceType', 'manual') }}
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <p class="f-500 c-black">SELECT ACTIVITY SOURCE</p>
-                {!! Form::select('activityId', App\Activity::lists('activityName', 'activityId'), null, ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true]) !!}
+                {{ Form::select('activityId[]', App\Activity::lists('activityName', 'activityId'), $audience->activities->pluck('activityId')->all(), ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true]) }}
                 <small id="activityId" class="help-block"></small>
             </div>
         </div>
@@ -33,7 +33,7 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-line">
                     <p class="f-500 c-black">CLUB ID</p>
-                    {!! Form::text('clubId', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-000000']) !!}
+                    {{ Form::text('clubId', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-000000']) }}
                     <small id="clubId" class="help-block"></small>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-line">
                     <p class="f-500 c-black">MEMBER ID</p>
-                    {!! Form::text('memberId', null, ['class' => 'form-control fg-input']) !!}
+                    {{ Form::text('memberId', null, ['class' => 'form-control fg-input']) }}
                     <small id="memberId" class="help-block"></small>
                 </div>
             </div>
@@ -115,81 +115,51 @@
                 <li class="finish"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-check"></i></a></li>
             </ul>
         </div>
+        <br />
+        <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect"><i class="zmdi zmdi-square-right"></i>SUBMIT</button>
     </div>
+    {{ Form::close() }}
 </div>
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="{{ asset('js/validateAudience.js') }}"></script>
 <script type="text/javascript">
 
-//    $('.selectpicker').selectpicker('val', $('.selectpicker option:selected').val());
-    var selected = [];
-    $.each($('.selectpicker'), function(i) {
-        var opt = $('select[name="' + this.name + '"] option:selected').val();
-        $('select[name="' + this.name + '"]').selectpicker('val', opt);
-    });
-
-    var clear = function (create) {
-        if(create) {
-            $('form').find(':input').trigger('blur');
-            $('.selectpicker').selectpicker('deselectAll');
-        }
-        $('div.form-group').removeClass('has-warning');
-        $('small.help-block').text(null);
-    };
-
-    var submit = function(target, elm) {
-        var status, input = {};
-        if(typeof elm === 'undefined') {
-            input = $('form').serialize();
-        } else {
-            $.each(elm.find(':input'), function(k, v) {
-                input[v.name] = v.value;
-            });
-        }
-        
-        $.ajax((target) ? target : $('form').attr('action'), {
-            method: $('form').attr('method'),
-            data: input,
-            async: false,
-            success: function() {
-                clear(true);
-                status = true;
-            },
-            error: function(response) {
-                notify('Oh snap! Change a few things up and try submitting again. ', 'danger');
-                $.each(response.responseJSON, function (k, v) {
-                    $('#' + k).parents('div.form-group').addClass('has-warning');
-                    $('#' + k).text(v);
-                });
-
-                status = false;
-            }
-        });
-      
-        return status;
-    };
-
-
+(function ($) {
     $('.form-wizard-audience').bootstrapWizard({
         tabClass: 'fw-nav',
         nextSelector: '.next',
         previousSelector: '.previous',
-        onTabClick: function (tab) {
-            return submit('validate', $(tab.children('a').attr('href')));
+        onTabClick: function () {
+            return false;
         },
         onNext: function (tab) {
-            return submit('validate', $(tab.children('a').attr('href')));
+            return $(tab.children('a').attr('href')).validateAudience({
+                target: '{{ url("audience/audience/validate") }}'
+            });
         },
         onPrevious: function () {
-            clear(false);
+            $('div.form-group').removeClass('has-warning');
+            $('small.help-block').text(null);
+            $('.btnSubmit').addClass('hide');
         },
-        onFinish: function(tab) {
-            if(submit('validate', $(tab.children('a').attr('href')))) {
-                $('.btnSubmit').removeClass('hide');
-            }
+        onFinish: function (tab) {
+            $(tab.children('a').attr('href')).validateAudience({
+                target: '{{ url("audience/audience/validate") }}',
+                callback: function () {
+                    if (this.status === 200) {
+                        $('.btnSubmit').removeClass('hide');
+                    }
+                }
+            });
         }
     });
-
+    
+    $(document).bind('ajaxComplete', function() {
+        $('.btnSubmit').addClass('hide');
+    });
+})(jQuery);
+    
 </script>
 @stop

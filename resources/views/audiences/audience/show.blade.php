@@ -9,7 +9,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><strong>Audience ID</strong></label>
                         <div class="col-sm-10">
-                            <p class="form-control-static">{{ str_pad($audience->audienceId, 8, '0', STR_PAD_LEFT) }}</p>
+                            <p class="form-control-static f-500 c-blue">{{ str_pad($audience->audienceId, 8, '0', STR_PAD_LEFT) }}</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -17,10 +17,7 @@
                         <div class="col-sm-10">
                             <p class="form-control-static">
                                 @foreach($audience->activities as $index => $activity)
-                                    {{ $activity->activityName }}
-                                    @if($index > 1)
-                                        <br />
-                                    @endif
+                                    {{ $activity->activityName }}<br />
                                 @endforeach
                             </p>
                         </div>
@@ -46,15 +43,14 @@
                                                 @foreach(collect(json_decode($q->master->masterFormat)) as $format)
                                                     @unless($q->master->masterUseAPI == 1)
                                                         {{--*/ $model = 'App\\' . str_singular(ucfirst($format->name)) /*--}}
+                                                        @continue(empty($response->get($q->questionId)))
                                                         {{--*/ $master = $model::find($response->get($q->questionId)) /*--}}
-                                                        
                                                         @foreach($format->form->value as $key => $val)
                                                             {{ is_numeric($master->{$val}) ? number_format($master->{$val}) : $master->{$val} }}
                                                             @if(!empty($master->{$val}) && ($key + 1) < count($format->form->value))
                                                                 &nbsp;&HorizontalLine;&nbsp;
                                                             @endif
                                                         @endforeach
-                                                        
                                                     @endunless
                                                 @endforeach
                                             @else

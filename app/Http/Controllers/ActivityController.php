@@ -131,7 +131,7 @@ class ActivityController extends Controller
     {
         if ($request->ajax())
         {
-            $activity = Activity::findOrFail($id);
+            $activity = Activity::find($id);
             Activity::$rules['activityName'] = 'required|string|max:127|unique:activities,activityName,' . $activity->activityId . ',activityId';
             $validator = Validator::make($request->all(), Activity::$rules);
             
@@ -140,6 +140,7 @@ class ActivityController extends Controller
                 return response()->json($validator->errors(), 422);
             }
             
+            $request->merge(['activityToken' => Crypt::encrypt($request->activityName)]);
             $update = $activity->update($request->all());
             return response()->json(['update' => $update], 200);
             

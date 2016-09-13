@@ -60,6 +60,11 @@ class AudienceController extends Controller
         return response()->json(['message' => 'SEX!'], 404);
     }
     
+    public function upload() 
+    {
+        return view('audiences.audience.upload');
+    }
+    
     static function validationRules($layer)
     {
         $field = [];
@@ -118,6 +123,7 @@ class AudienceController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()) :
+            
             $validator = Validator::make($request->all(), Audience::$rules + AudienceActivity::$rules);
         
             if ($validator->fails()) :
@@ -128,16 +134,12 @@ class AudienceController extends Controller
             
             foreach(Layer::all() as $l) :
                 $audienceLayerResponse = [];
-                $except = ['_token', 'audienceType', 'activityId', 'clubId','memberId', 'layerId'];
                 foreach(Question::where('layerId', $l->layerId)->get() as $q) :
                     $questionText = camel_case($q->questionText);
                     if(array_key_exists($questionText, $request->all())) :
                         $audienceLayerResponse[$q->questionId] = $request->input($questionText);
-                        $except[] = $questionText;
                     endif;
                 endforeach;
-                
-                //array_push($audienceLayerResponse, $request->except($except));
                 
                 AudienceLayer::create([
                     'audienceId' => $create->audienceId,
@@ -146,10 +148,12 @@ class AudienceController extends Controller
                 ]);
             endforeach;
             
-            AudienceActivity::create([
-                'activityId' => $request->activityId,
-                'audienceId' => $create->audienceId
-            ]);
+            foreach($request->activityId as $activityId) :
+                AudienceActivity::create([
+                    'activityId' => $activityId,
+                    'audienceId' => $create->audienceId
+                ]);
+            endforeach;
             
             return response()->json(['create' => $create], 200);
         endif;
@@ -191,7 +195,45 @@ class AudienceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->ajax()) :
+            $audience = Audience::find($id);
+            $validator = Validator::make($request->all(), Audience::$rules + AudienceActivity::$rules);
+        
+            if ($validator->fails()) :
+                return response()->json($validator->errors(), 422);
+            endif;
+            
+            $update = $audience->update($request->all());
+            AudienceLayer::where('audienceId', $audience->audienceId)->delete();
+            AudienceActivity::where('audienceId', $audience->audienceId)->delete();
+            
+            foreach(Layer::all() as $l) :
+                $audienceLayerResponse = [];
+                foreach(Question::where('layerId', $l->layerId)->get() as $q) :
+                    $questionText = camel_case($q->questionText);
+                    if(array_key_exists($questionText, $request->all())) :
+                        $audienceLayerResponse[$q->questionId] = $request->input($questionText);
+                    endif;
+                endforeach;
+                
+                AudienceLayer::create([
+                    'audienceId' => $audience->audienceId,
+                    'layerId' => $l->layerId,
+                    'audienceLayerResponse' => collect($audienceLayerResponse)->toJson()
+                ]);
+            endforeach;
+            
+            foreach($request->activityId as $activityId) :
+                AudienceActivity::create([
+                    'activityId' => $activityId,
+                    'audienceId' => $audience->audienceId
+                ]);
+            endforeach;
+            
+            return response()->json(['update' => $update], 200);
+        endif;
+        
+        return response()->json(['message' => 'SEX!'], 404);
     }
 
     /**

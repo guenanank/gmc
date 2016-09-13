@@ -15,7 +15,7 @@
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
         
-        <a href="#" class="btn bgm-teal btn-icon pull-right m-r-10" data-toggle="tooltip" data-placement="top" title="Upload Audiences">
+        <a href="{{ action('AudienceController@upload') }}" class="btn bgm-teal btn-icon pull-right m-r-10" data-toggle="tooltip" data-placement="top" title="Upload Audiences">
             <i class="zmdi zmdi-upload"></i>
         </a>
     </div>
@@ -39,6 +39,7 @@
 
 @section('scripts')
 <script type="text/javascript">
+(function ($) {
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -90,5 +91,6 @@
             deletes('audience', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

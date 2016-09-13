@@ -36,8 +36,8 @@ var paths = {
 };
 
 elixir(function (mix) {
-    mix.copy('resources/assets/fonts/materialAdmin/**', 'public/fonts');
-    mix.copy('resources/assets/images/materialAdmin/**', 'public/images');
+    mix.copy('resources/assets/fonts/**', 'public/fonts');
+    mix.copy('resources/assets/images/**', 'public/images');
     
     mix.styles([
         paths.animate + 'animate.css',
@@ -54,8 +54,8 @@ elixir(function (mix) {
     
     mix.copy(paths.materialDesignIconicFont + 'fonts/**', 'public/fonts');
     
-    mix.styles('materialAdmin/app.1.css');
-    mix.styles('materialAdmin/app.2.css');
+    mix.styles('app.1.css');
+    mix.styles('app.2.css');
     
     mix.scripts(paths.jquery + 'jquery.js', null, bowerComponents);
     mix.scripts(paths.bootstrap + 'js/bootstrap.js', null, bowerComponents);
@@ -76,11 +76,12 @@ elixir(function (mix) {
     mix.scripts(paths.clipboard + 'clipboard.min.js', null, bowerComponents);
     mix.scripts(paths.bootstrapWizard + 'jquery.bootstrap.wizard.js', null, bowerComponents);
     
-    mix.browserify('resources/assets/js/materialAdmin/fileinput.min.js', 'public/js');
-    mix.browserify('resources/assets/js/materialAdmin/input-mask.min.js', 'public/js');
-    mix.browserify('resources/assets/js/materialAdmin/jquery.bootgrid.updated.min.js', 'public/js');
+    mix.browserify('resources/assets/js/fileinput.min.js', 'public/js');
+    mix.browserify('resources/assets/js/input-mask.min.js', 'public/js');
+    mix.browserify('resources/assets/js/jquery.bootgrid.updated.min.js', 'public/js');
     
-    mix.browserify('materialAdmin/functions.js');
-    mix.browserify('materialAdmin/demo.js');
-    mix.browserify('materialAdmin/ajaxForm.js');
+    mix.browserify('functions.js');
+    mix.browserify('demo.js');
+    mix.browserify('ajaxForm.js');
+    mix.browserify('validateAudience.js');
 });
