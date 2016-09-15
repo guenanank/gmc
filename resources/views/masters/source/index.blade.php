@@ -17,7 +17,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('master/source/bootgrid') }}">
+        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('source.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="sourceName" data-type="string" data-identifier="true">Name</th>
@@ -31,7 +31,7 @@
 
 @section('scripts')
 <script type="text/javascript">
-
+(function ($) {
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -50,7 +50,7 @@
         },
         formatters: {
             commands: function (column, row) {
-                return '<a href="{{ url("master/source") }}/' + row.sourceId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.sourceName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
+                return '<a href="{{ url("source") }}/' + row.sourceId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.sourceName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
                         '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.sourceId + '" title="Delete ' + row.sourceName + '"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
@@ -60,5 +60,6 @@
             deletes('source', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

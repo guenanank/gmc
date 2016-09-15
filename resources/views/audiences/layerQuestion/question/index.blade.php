@@ -21,7 +21,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-striped table-condensed table-vmiddle" data-url="{{ url('audience/question/bootgrid') }}">
+        <table id="bootgrid" class="table table-striped table-condensed table-vmiddle" data-url="{{ route('question.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="questionId" data-type="numeric" data-formatter="iD" data-identifier="true">#Id</th>
@@ -42,9 +42,8 @@
 
 @section('scripts')
 <script type="text/javascript">
-
-    var divModal = $('div.modal');
-
+(function ($) {
+    
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -77,7 +76,7 @@
                 return (row.master) ? row.master.masterName : '';
             },
             commands: function (column, row) {
-                return '<a href="#" data-href="{{ url("audience/question") }}/' + row.questionId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit"><span class="zmdi zmdi-edit"></span></a>&nbsp;' +
+                return '<a href="#" data-href="{{ url("question") }}/' + row.questionId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit"><span class="zmdi zmdi-edit"></span></a>&nbsp;' +
                         '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.questionId + '" data-toggle="tooltip" title="Delete"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
@@ -102,6 +101,8 @@
         e.preventDefault();
         $('div#create').modal('show');
     });
+
+    var divModal = $('body').find('div.modal');
 
     var clearField = function (response) {
         if (response._method !== 'PATCH') {
@@ -164,14 +165,12 @@
                 });
             }
         });
-
-        return false;
     });
-
 
     $('div#create').on('hidden.bs.modal', function () {
         clearField({create: false});
     });
-
+    
+})(jQuery);
 </script>
 @stop

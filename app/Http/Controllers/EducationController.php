@@ -22,11 +22,6 @@ class EducationController extends Controller
 
     public function bootgrid(Request $request) 
     {
-        if ($request->ajax() == false)
-        {
-            return response()->json(['message' => 'SEX!'], 404);
-        }
-        
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
@@ -34,13 +29,12 @@ class EducationController extends Controller
         $sortColumn = 'educationId';
         $sortType = 'DESC';
         
-        if(is_array($request->input('sort')))
-        {
+        if(is_array($request->input('sort'))) :
             foreach($request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
-        }
+        endif;
 
         $rows = Education::where('educationName', 'like', '%' . $search . '%')
                     ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
@@ -76,20 +70,13 @@ class EducationController extends Controller
      */
     public function store(Request $request) 
     {
-        if ($request->ajax())
-        {
-            $validator = Validator::make($request->all(), Education::$rules);
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $create = Education::create($request->all());
-            dd($create);
-            return response()->json(['create' => $create], 200);
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $validator = Validator::make($request->all(), Education::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $create = Education::create($request->all());
+        return response()->json(['create' => $create], 200);
     }
 
     /**
@@ -113,22 +100,15 @@ class EducationController extends Controller
      */
     public function update(Request $request, $id) 
     {
-        if ($request->ajax())
-        {
-            $education = Education::findOrFail($id);
-            Education::$rules['educationName'] = 'required|string|max:127|unique:education,educationName,' . $education->educationId . ',educationId';
-            $validator = Validator::make($request->all(), Education::$rules);
-            
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $update = $education->update($request->all());
-            return response()->json(['update' => $update], 200);
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $education = Education::findOrFail($id);
+        Education::$rules['educationName'] = 'required|string|max:127|unique:education,educationName,' . $education->educationId . ',educationId';
+        $validator = Validator::make($request->all(), Education::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $update = $education->update($request->all());
+        return response()->json(['update' => $update], 200);
     }
 
     /**

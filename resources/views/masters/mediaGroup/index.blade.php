@@ -17,7 +17,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('master/mediaGroup/bootgrid') }}">
+        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('mediaGroup.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="mediaGroupName" data-type="string" data-identifier="true">Name</th>
@@ -32,6 +32,7 @@
 
 @section('scripts')
 <script type="text/javascript">
+(function ($) {
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -54,7 +55,7 @@
                     return row.parent.mediaGroupName;
             },
             commands: function (column, row) {
-                return '<a href="{{ url("master/mediaGroup") }}/' + row.mediaGroupId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.mediaGroupName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
+                return '<a href="{{ url("mediaGroup") }}/' + row.mediaGroupId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.mediaGroupName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
                         '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.mediaGroupId + '" title="Delete ' + row.mediaGroupName + '"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
@@ -64,5 +65,6 @@
             deletes('mediaGroup', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

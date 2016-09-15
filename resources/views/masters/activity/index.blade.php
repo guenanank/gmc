@@ -17,7 +17,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('master/activity/bootgrid') }}">
+        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('activity.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="activityName" data-type="string">Name</th>
@@ -35,7 +35,7 @@
 
 @section('scripts')
 <script type="text/javascript">
-
+(function ($) {
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -71,7 +71,7 @@
             },
             commands: function (column, row) {
                 return '<button id="btn" type="button" class="btn btn-icon bgm-bluegray command-copy" data-toggle="tooltip" title="Copy token into clipboard\n' + row.activityToken + '" data-clipboard-text="' + row.activityToken + '"><span class="zmdi zmdi-copy"></span></button>&nbsp; ' +
-                        '<a href="{{ url("master/activity") }}/' + row.activityId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
+                        '<a href="{{ url("activity") }}/' + row.activityId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
                         '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.activityId + '" data-toggle="tooltip" title="Delete ' + row.activityName + '"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
@@ -97,5 +97,6 @@
             deletes('activity', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

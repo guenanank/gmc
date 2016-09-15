@@ -17,7 +17,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('master/media/bootgrid') }}">
+        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('media.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="mediaName" data-type="string" data-identifier="true">Name</th>
@@ -32,6 +32,7 @@
 
 @section('scripts')
 <script type="text/javascript">
+(function ($) {
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -53,7 +54,7 @@
                 return (row.media_type) ? row.media_type.mediaTypeName : 'Unknown';
             },
             commands: function (column, row) {
-                return '<a href="{{ url("master/media") }}/' + row.mediaId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.mediaName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
+                return '<a href="{{ url("media") }}/' + row.mediaId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.mediaName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
                         '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.mediaId + '" title="Delete ' + row.mediaName + '"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
@@ -63,5 +64,6 @@
             deletes('media', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

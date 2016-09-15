@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {!! Form::model($hobby, ['route' => ['master.hobby.update', $hobby], 'method' =>'patch', 'class' => 'ajaxForm']) !!}
+    {{ Form::model($hobby, ['route' => ['hobby.update', $hobby], 'method' =>'patch', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('hobbyName', $hobby->hobbyName, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('hobbyName', 'Hobby Name', ['class' => 'fg-label']) !!}
+                        {{ Form::text('hobbyName', $hobby->hobbyName, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('hobbyName', 'Hobby Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="hobbyName" class="help-block"></small>
                 </div>
@@ -36,9 +36,9 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {!! Form::select('hobbySubFrom', [''=>''] + App\Hobby::lists('hobbyName', 'hobbyId')->all(), $hobby->hobbySubFrom, ['class' => 'form-control']) !!}
+                            {{ Form::select('hobbySubFrom', [''=>''] + App\Hobby::lists('hobbyName', 'hobbyId')->all(), $hobby->hobbySubFrom, ['class' => 'form-control']) }}
                         </div>
-                        {!! Form::label('hobbySubFrom', 'Is Sub Hobby From', ['class' => 'fg-label']) !!}
+                        {{ Form::label('hobbySubFrom', 'Is Sub Hobby From', ['class' => 'fg-label']) }}
                     </div>
                     <small id="hobbySubFrom" class="help-block"></small>
                 </div>
@@ -54,6 +54,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection

@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {!! Form::open(['route' => 'audience.layerQuestion.store', 'class' => 'ajaxForm'])!!}
+    {{ Form::open(['route' => 'layerQuestion.store', 'class' => 'ajaxForm'])}}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('layerName', null, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('layerName', 'Layer Name', ['class' => 'fg-label']) !!}
+                        {{ Form::text('layerName', null, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('layerName', 'Layer Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="layerName" class="help-block"></small>
                 </div>
@@ -35,8 +35,8 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::textarea('layerDesc', null, ['class' => 'form-control fg-input auto-size', 'cols' => '', 'rows' => '']) !!}
-                        {!! Form::label('layerDesc', 'Layer Description', ['class' => 'fg-label']) !!}
+                        {{ Form::textarea('layerDesc', null, ['class' => 'form-control fg-input auto-size', 'cols' => '', 'rows' => '']) }}
+                        {{ Form::label('layerDesc', 'Layer Description', ['class' => 'fg-label']) }}
                     </div>
                     <small id="layerDesc" class="help-block"></small>
                 </div>
@@ -52,6 +52,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection

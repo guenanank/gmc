@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {!! Form::model($source, ['route' => ['master.source.update', $source], 'method' =>'patch', 'class' => 'ajaxForm'])!!}
+    {{ Form::model($source, ['route' => ['source.update', $source], 'method' =>'patch', 'class' => 'ajaxForm'])}}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('sourceName', $source->sourceName, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('sourceName', 'Hobby Name', ['class' => 'fg-label']) !!}
+                        {{ Form::text('sourceName', $source->sourceName, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('sourceName', 'Hobby Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="sourceName" class="help-block"></small>
                 </div>
@@ -40,6 +40,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection

@@ -17,7 +17,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('master/hobby/bootgrid') }}">
+        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('hobby.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="hobbyName" data-type="string" data-identifier="true">Name</th>
@@ -32,6 +32,7 @@
 
 @section('scripts')
 <script type="text/javascript">
+(function ($) {
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -54,7 +55,7 @@
                     return row.parent.hobbyName;
             },
             commands: function (column, row) {
-                return '<a href="{{ url("master/hobby") }}/' + row.hobbyId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.hobbyName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
+                return '<a href="{{ url("hobby") }}/' + row.hobbyId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.hobbyName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
                         '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.hobbyId + '" title="Delete ' + row.hobbyName + '"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
@@ -64,5 +65,6 @@
             deletes('hobby', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

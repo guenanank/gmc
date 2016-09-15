@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {!! Form::open(['route' => 'master.mediaGroup.store', 'class' => 'ajaxForm']) !!}
+    {{ Form::open(['route' => 'mediaGroup.store', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('mediaGroupName', null, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('mediaGroupName', 'Media Group Name', ['class' => 'fg-label']) !!}
+                        {{ Form::text('mediaGroupName', null, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('mediaGroupName', 'Media Group Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="mediaGroupName" class="help-block"></small>
                 </div>
@@ -36,9 +36,9 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {!! Form::select('mediaGroupSubFrom', [''=>''] + App\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all(), null, ['class' => 'form-control']) !!}
+                            {{ Form::select('mediaGroupSubFrom', [''=>''] + App\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all(), null, ['class' => 'form-control']) }}
                         </div>
-                        {!! Form::label('mediaGroupSubFrom', 'Is Sub Media Group From', ['class' => 'fg-label']) !!}
+                        {{ Form::label('mediaGroupSubFrom', 'Is Sub Media Group From', ['class' => 'fg-label']) }}
                     </div>
                     <small id="mediaGroupSubFrom" class="help-block"></small>
                 </div>
@@ -54,6 +54,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection

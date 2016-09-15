@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gramedia Majalah Community</title>
-    <link rel="stylesheet" href="{{ asset('css/all.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/app.1.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/app.2.css') }}" />
+    {{ Html::style('css/all.css') }}
+    {{ Html::style('css/app.1.css') }}
+    {{ Html::style('css/app.2.css') }}
     @section('styles')
 
     @show
@@ -26,7 +26,7 @@
             </li>
 
             <li class="logo hidden-xs">
-                <a href="#">Gramedia Majalah Community</a>
+                {{ link_to('#', 'Gramedia Majalah Community') }}
             </li>
 
             <li class="pull-right">
@@ -51,7 +51,6 @@
                             <div class="listview" id="notifications">
                                 <div class="lv-header">
                                     Notification
-
                                     <ul class="actions">
                                         <li class="dropdown">
                                             <a href="#" data-clear="notification">
@@ -117,10 +116,8 @@
                                         </div>
                                     </a>
                                 </div>
-
                                 <a class="lv-footer" href="#">View Previous</a>
                             </div>
-
                         </div>
                     </li>
                     <li class="dropdown">
@@ -199,42 +196,42 @@
                 <li class="sub-menu">
                     <a href="{{ url('#') }}"><i class="zmdi zmdi-accounts-list"></i> Audiences</a>
                     <ul>
-                        <li><a href="{{ url('audience/layerQuestion') }}">Layer Questions</a></li>
-                        <li><a href="{{ url('audience/audience/') }}">Audiences</a></li>
+                        <li>{{ link_to('layerQuestion', 'Layer Questions') }}</li>
+                        <li>{{ link_to('audience', 'Audiences') }}</li>
                     </ul>
                 </li>
                 <li class="sub-menu">
                     <a href="#"><i class="zmdi zmdi-layers"></i> Master Data</a>
                     <ul>
-                        <li><a href="{{ url('master/activity/') }}">Activities</a></li>
-                        <li><a href="{{ url('master/education/') }}">Education</a></li>
-                        <li><a href="{{ url('master/expense/') }}">Expenses</a></li>
-                        <li><a href="{{ url('master/hobby/') }}">Hobbies</a></li>
-                        <li><a href="{{ url('master/interest') }}">Interests</a></li>
-                        <li><a href="{{ url('master/media') }}">Media</a></li>
-                        <li><a href="{{ url('master/mediaGroup') }}">Media Groups</a></li>
-                        <li><a href="{{ url('master/profession') }}">Professions</a></li>
+                        <li>{{ link_to('activity', 'Activities') }}</li>
+                        <li>{{ link_to('education', 'Education') }}</li>
+                        <li>{{ link_to('expense', 'Expenses') }}</li>
+                        <li>{{ link_to('hobby', 'Hobbies') }}</li>
+                        <li>{{ link_to('interest', 'Interests') }}</li>
+                        <li>{{ link_to('media', 'Media') }}</li>
+                        <li>{{ link_to('mediaGroup', 'Media Groups') }}</li>
+                        <li>{{ link_to('profession', 'Professions') }}</li>
                         <li class="sub-menu">
-                            <a href="{{ '#' }}">Residence</a>
+                            {{ link_to('#', 'Residence') }}
                             <ul>
-                                <li><a href="#">Countries</a></li>
-                                <li><a href="#">Provinces</a></li>
-                                <li><a href="#">Cities</a></li>
-                                <li><a href="#">Districts</a></li>
-                                <li><a href="#">Post Codes</a></li>
-                                <li><a href="#">Dwellings</a></li>
-                                <li><a href="#">Greater Areas</a></li>
+                                <li>{{ link_to('#', 'Countries') }}</li>
+                                <li>{{ link_to('#', 'Provinces') }}</li>
+                                <li>{{ link_to('#', 'Cities') }}</li>
+                                <li>{{ link_to('#', 'Districts') }}</li>
+                                <li>{{ link_to('#', 'Post Codes') }}</li>
+                                <li>{{ link_to('#', 'Dwellings') }}</li>
+                                <li>{{ link_to('#', 'Greater Areas') }}</li>
                             </ul>
                         </li>
-                        <li><a href="{{ url('master/source') }}">Sources</a></li>
+                        <li>{{ link_to('master/source', 'Sources') }}</li>
                         <li class="sub-menu">
-                            <a href="{{ '#' }}">Vehicles</a>
+                            {{ link_to('#', 'Vehicles') }}
                             <ul>
-                                <li><a href="#">Brands</a></li>
-                                <li><a href="#">Clasifications</a></li>
-                                <li><a href="#">Series</a></li>
-                                <li><a href="#">Types</a></li>
-                                <li><a href="#">Vehicles</a></li>
+                                <li>{{ link_to('#', 'Brands') }}</li>
+                                <li>{{ link_to('#', 'Clasifications') }}</li>
+                                <li>{{ link_to('#', 'Series') }}</li>
+                                <li>{{ link_to('#', 'Types') }}</li>
+                                <li>{{ link_to('#', 'Vehicles') }}</li>
                             </ul>
                         </li>
                     </ul>
@@ -272,32 +269,27 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/waves.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-growl.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/sweet-alert.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery.bootstrap.wizard.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('js/moment.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-select.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery.nouislider.all.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/typeahead.bundle.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/summernote.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/clipboard.min.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('js/chosen.jquery.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/input-mask.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/fileinput.min.js') }}"></script>
-
-    <!--<script type="text/javascript" src="{{ asset('js/jquery.bootgrid.js') }}"></script>-->
-    <script type="text/javascript" src="{{ asset('js/jquery.bootgrid.updated.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/autosize.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/functions.js') }}"></script>
-    <!--<script type="text/javascript" src="{{ asset('js/demo.js') }}"></script>-->
+    {{ Html::script('js/jquery.js') }}
+    {{ Html::script('js/bootstrap.js') }}
+    {{ Html::script('js/jquery.mCustomScrollbar.concat.min.js') }}
+    {{ Html::script('js/waves.js') }}
+    {{ Html::script('js/bootstrap-growl.js') }}
+    {{ Html::script('js/sweet-alert.min.js') }}
+    {{ Html::script('js/jquery.bootstrap.wizard.js') }}
+    {{ Html::script('js/moment.js') }}
+    {{ Html::script('js/bootstrap-select.js') }}
+    {{ Html::script('js/jquery.nouislider.all.js') }}
+    {{ Html::script('js/bootstrap-datetimepicker.min.js') }}
+    {{ Html::script('js/typeahead.bundle.js') }}
+    {{ Html::script('js/summernote.min.js') }}
+    {{ Html::script('js/clipboard.min.js') }}
+    {{ Html::script('js/chosen.jquery.js') }}
+    {{ Html::script('js/input-mask.min.js') }}
+    {{ Html::script('js/fileinput.min.js') }}
+    {{ Html::script('js/jquery.bootgrid.updated.min.js') }}
+    {{ Html::script('js/autosize.js') }}
+    {{ Html::script('js/functions.js') }}
+    
     <script type="text/javascript">
         
         /* Usage
@@ -364,13 +356,12 @@
         };
 
     </script>
-    <script type="text/javascript" src="{{ asset('js/ajaxForm.js') }}"></script>
-
+    {{ Html::script('js/ajaxForm.js') }}
     @section('scripts')
 
     @show
     <script type="text/javascript">
-        console.log($('*').length);
+        console.info('Document length: ' + $(document).length);
     </script>
 </body>
 </html>

@@ -32,12 +32,16 @@ var paths = {
     moment: bowerComponents + 'moment/',
     bootgrid: bowerComponents + 'jquery.bootgrid/dist/',
     clipboard: bowerComponents + 'clipboard/dist/',
-    bootstrapWizard: bowerComponents + 'twitter-bootstrap-wizard/'
+    bootstrapWizard: bowerComponents + 'twitter-bootstrap-wizard/',
+    dropzone: bowerComponents + 'dropzone/downloads/'
 };
 
 elixir(function (mix) {
     mix.copy('resources/assets/fonts/**', 'public/fonts');
     mix.copy('resources/assets/images/**', 'public/images');
+    
+    mix.copy(paths.dropzone + 'images/**', 'public/images');
+    mix.styles(paths.dropzone + 'css/dropzone.css', null, bowerComponents);
     
     mix.styles([
         paths.animate + 'animate.css',
@@ -49,6 +53,7 @@ elixir(function (mix) {
         paths.bootstrapDatetimePicker + 'css/bootstrap-datetimepicker.css',
         paths.chosen + 'chosen.css',
         paths.summernote + 'summernote.css',
+        
         paths.bootgrid + 'jquery.bootgrid.css'
     ], null, bowerComponents);
     
@@ -75,6 +80,7 @@ elixir(function (mix) {
     mix.scripts(paths.bootgrid + 'jquery.bootgrid.js', null, bowerComponents);
     mix.scripts(paths.clipboard + 'clipboard.min.js', null, bowerComponents);
     mix.scripts(paths.bootstrapWizard + 'jquery.bootstrap.wizard.js', null, bowerComponents);
+    mix.scripts(paths.dropzone + 'dropzone.min.js', null, bowerComponents);
     
     mix.browserify('resources/assets/js/fileinput.min.js', 'public/js');
     mix.browserify('resources/assets/js/input-mask.min.js', 'public/js');

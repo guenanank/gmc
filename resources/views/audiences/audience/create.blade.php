@@ -17,7 +17,7 @@
         </a>
     </div>
     <br />
-    {{ Form::open(['route' => 'audience.audience.store', 'class' => 'ajaxForm']) }}
+    {{ Form::open(['route' => 'audience.store', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         {{ Form::hidden('audienceType', 'manual') }}
         <div class="row">
@@ -126,9 +126,8 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{ asset('js/validateAudience.js') }}"></script>
+{{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
-    
 (function ($) {
     $('.form-wizard-audience').bootstrapWizard({
         tabClass: 'fw-nav',
@@ -159,6 +158,7 @@
     $(document).bind('ajaxComplete', function() {
         $('.btnSubmit').addClass('hide');
     });
+    
 })(jQuery);
 </script>
 @stop

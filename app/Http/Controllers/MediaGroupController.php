@@ -21,11 +21,6 @@ class MediaGroupController extends Controller
 
     public function bootgrid(Request $request) 
     {
-        if ($request->ajax() == false)
-        {
-            return response()->json(['message' => 'SEX!'], 404);
-        }
-        
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
@@ -33,26 +28,25 @@ class MediaGroupController extends Controller
         $sortColumn = 'mediaGroupId';
         $sortType = 'DESC';
         
-        if(is_array($request->input('sort')))
-        {
+        if(is_array($request->input('sort'))) :
             foreach($request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
-        }
+        endif;
         
         $rows = MediaGroup::where('mediaGroupName', 'like', '%' . $search . '%')
-                        ->orWhereHas('parent', function($query) use ($search) {
-                                $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
-                            })->with('parent')
-                        ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                        ->get();
+                    ->orWhereHas('parent', function($query) use ($search) {
+                            $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
+                        })->with('parent')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
 
         $total = MediaGroup::where('mediaGroupName', 'like', '%' . $search . '%')
-                        ->orWhereHas('parent', function($query) use ($search) {
-                                $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
-                            })->with('parent')
-                        ->count();
+                    ->orWhereHas('parent', function($query) use ($search) {
+                            $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
+                        })->with('parent')
+                    ->count();
                 
         return response()->json([
             'current' => (int) $current,
@@ -80,19 +74,13 @@ class MediaGroupController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->ajax())
-        {
-            $validator = Validator::make($request->all(), MediaGroup::$rules);
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $create = MediaGroup::create($request->all());
-            return response()->json(['create' => $create], 200);
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $validator = Validator::make($request->all(), MediaGroup::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $create = MediaGroup::create($request->all());
+        return response()->json(['create' => $create], 200);
     }
 
     /**
@@ -116,22 +104,15 @@ class MediaGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->ajax())
-        {
-            $mediaGroup = MediaGroup::findOrFail($id);
-            MediaGroup::$rules['mediaGroupName'] = 'required|string|max:127|unique:mediaGroups,mediaGroupName,' . $mediaGroup->mediaGroupId . ',mediaGroupId';
-            $validator = Validator::make($request->all(), MediaGroup::$rules);
-            
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $update = $mediaGroup->update($request->all());
-            return response()->json(['update' => $update], 200);
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $mediaGroup = MediaGroup::findOrFail($id);
+        MediaGroup::$rules['mediaGroupName'] = 'required|string|max:127|unique:mediaGroups,mediaGroupName,' . $mediaGroup->mediaGroupId . ',mediaGroupId';
+        $validator = Validator::make($request->all(), MediaGroup::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $update = $mediaGroup->update($request->all());
+        return response()->json(['update' => $update], 200);
     }
 
     /**

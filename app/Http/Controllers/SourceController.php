@@ -21,11 +21,6 @@ class SourceController extends Controller
     
     public function bootgrid(Request $request) 
     {
-        if ($request->ajax() == false)
-        {
-            return response()->json(['message' => 'SEX!'], 404);
-        }
-        
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
@@ -33,13 +28,12 @@ class SourceController extends Controller
         $sortColumn = 'sourceId';
         $sortType = 'DESC';
         
-        if(is_array($request->input('sort')))
-        {
+        if(is_array($request->input('sort'))) :
             foreach($request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
-        }
+        endif;
         
         $rows = Source::where('sourceName', 'like', '%' . $search . '%')
                     ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
@@ -64,7 +58,6 @@ class SourceController extends Controller
     public function create() 
     {
         return view('masters.source.create');
-        
     }
 
     /**
@@ -75,19 +68,13 @@ class SourceController extends Controller
      */
     public function store(Request $request) 
     {
-        if ($request->ajax())
-        {
-            $validator = Validator::make($request->all(), Source::$rules);
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $create = Source::create($request->all());
-            return response()->json(['create' => $create], 200);
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $validator = Validator::make($request->all(), Source::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $create = Source::create($request->all());
+        return response()->json(['create' => $create], 200);
     }
 
     /**
@@ -111,22 +98,15 @@ class SourceController extends Controller
      */
     public function update(Request $request, $id) 
     {
-        if ($request->ajax())
-        {
-            $source = Source::findOrFail($id);
-            Source::$rules['sourceName'] = 'required|string|max:127|unique:sources,sourceName,' . $source->sourceId . ',sourceId';
-            $validator = Validator::make($request->all(), Source::$rules);
-            
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $update = $source->update($request->all());
-            return response()->json(['update' => $update], 200);
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $source = Source::findOrFail($id);
+        Source::$rules['sourceName'] = 'required|string|max:127|unique:sources,sourceName,' . $source->sourceId . ',sourceId';
+        $validator = Validator::make($request->all(), Source::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $update = $source->update($request->all());
+        return response()->json(['update' => $update], 200);
     }
 
     /**

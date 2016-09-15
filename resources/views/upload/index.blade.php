@@ -1,5 +1,11 @@
 @extends('layouts.materialAdmin')
 
+@section('styles')
+
+{{ Html::style('css/dropzone.css') }}
+
+@stop
+
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard/', 'GMC') }}</li>
@@ -16,29 +22,21 @@
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
-
+    <br />
     <div class="card-body card-padding">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <span class="btn btn-primary btn-file m-r-10">
-                        <span class="fileinput-new">Select file</span>
-                        <span class="fileinput-exists">Change</span>
-                        <input type="file" name="...">
-                    </span>
-                    <span class="fileinput-filename"></span>
-                    <a href="#" class="close fileinput-exists" data-dismiss="fileinput">&times;</a>
-                </div>
-            </div>
-        </div>
+        {{ Form::open(['route' => 'audience.upload.store', 'method' => 'PUT', 'class' => 'dropzone']) }}
+        {{ Form::close() }}
     </div>
 </div>
 @endsection
 
 @section('scripts')
+{{ Html::script('js/dropzone.min.js') }}
 <script type="text/javascript">
-    (function ($) {
-        
-    })(jQuery);
+(function ($) {
+
+    //$('#uploadAudience').dropzone();
+
+})(jQuery);
 </script>
 @stop

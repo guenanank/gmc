@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {!! Form::model($media, ['route' => ['master.media.update', $media], 'method' =>'patch', 'class' => 'ajaxForm']) !!}
+    {{ Form::model($media, ['route' => ['media.update', $media], 'method' =>'patch', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('mediaName', $media->mediaName, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('mediaName', 'Media Name', ['class' => 'fg-label']) !!}
+                        {{ Form::text('mediaName', $media->mediaName, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('mediaName', 'Media Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="mediaName" class="help-block"></small>
                 </div>
@@ -36,9 +36,9 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {!! Form::select('mediaTypeId', [''=>''] + App\MediaType::lists('mediaTypeName', 'mediaTypeId')->all(), $media->mediaTypeId, ['class' => 'form-control']) !!}
+                            {{ Form::select('mediaTypeId', [''=>''] + App\MediaType::lists('mediaTypeName', 'mediaTypeId')->all(), $media->mediaTypeId, ['class' => 'form-control']) }}
                         </div>
-                        {!! Form::label('mediaTypeId', 'Media Type', ['class' => 'fg-label']) !!}
+                        {{ Form::label('mediaTypeId', 'Media Type', ['class' => 'fg-label']) }}
                     </div>
                     <small id="mediaSubFrom" class="help-block"></small>
                 </div>
@@ -54,6 +54,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection

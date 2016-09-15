@@ -30,11 +30,6 @@ class LayerController extends Controller
     
     public function bootgrid(Request $request) 
     {
-        if ($request->ajax() == false) 
-        {
-            return response()->json(['message' => 'SEX!'], 404);
-        }
-
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
@@ -42,13 +37,12 @@ class LayerController extends Controller
         $sortColumn = 'layerId';
         $sortType = 'DESC';
 
-        if(is_array($request->input('sort')))
-        {
+        if(is_array($request->input('sort'))) :
             foreach ($request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
-        }
+        endif;
 
         $rows = Layer::where('layerName', 'LIKE', '%' . $search . '%')
                     ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
@@ -84,19 +78,13 @@ class LayerController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->ajax())
-        {
-            $validator = Validator::make($request->all(), Layer::$rules);
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $create = Layer::create($request->all());
-            return response()->json(['create' => $create], 200);
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $validator = Validator::make($request->all(), Layer::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $create = Layer::create($request->all());
+        return response()->json(['create' => $create], 200);
     }
 
     /**
@@ -120,23 +108,15 @@ class LayerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->ajax())
-        {
-            $layer = Layer::findOrFail($id);
-            Layer::$rules['layerName'] = 'required|string|max:127|unique:layers,layerName,' . $layer->layerId . ',layerId';
-            $validator = Validator::make($request->all(), Layer::$rules);
-            
-            if ($validator->fails())
-            {
-                return response()->json($validator->errors(), 422);
-            }
-            
-            $update = $layer->update($request->all());
-            return response()->json(['update' => $update], 200);
-            
-        }
-        
-        return response()->json(['message' => 'SEX!'], 404);
+        $layer = Layer::findOrFail($id);
+        Layer::$rules['layerName'] = 'required|string|max:127|unique:layers,layerName,' . $layer->layerId . ',layerId';
+        $validator = Validator::make($request->all(), Layer::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $update = $layer->update($request->all());
+        return response()->json(['update' => $update], 200);
     }
 
     /**

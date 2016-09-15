@@ -17,7 +17,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ url('master/expense/bootgrid') }}">
+        <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('expense.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="expenseMin" data-formatter="expenseMin" data-type="string" data-identifier="true">Minimum</th>
@@ -32,7 +32,7 @@
 
 @section('scripts')
 <script type="text/javascript">
-
+(function ($) {
     $('#bootgrid').bootgrid({
         caseSensitive: false,
         ajax: true,
@@ -57,7 +57,7 @@
                 return row.expenseMax.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
             },
             commands: function (column, row) {
-                return '<a href="{{ url("master/expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
+                return '<a href="{{ url("expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
                         '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.expenseId + '" title="Delete Expense"><span class="zmdi zmdi-delete"></span></button>';
             }
         }
@@ -67,5 +67,6 @@
             deletes('expense', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

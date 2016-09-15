@@ -16,15 +16,11 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        
+        return response()->json(['message' => 'SEX!'], 404);
     }
     
     public function bootgrid(Request $request)
     {
-        if ($request->ajax() == false) :
-            return response()->json(['message' => 'SEX!'], 404);
-        endif;
-        
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
@@ -80,19 +76,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->ajax()) :
-            Question::$rules['masterId'] = 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $request->layerId;
-            $validator = Validator::make($request->all(), Question::$rules);
-            
-            if ($validator->fails()) :
-                return response()->json($validator->errors(), 422);
-            endif;
-            
-            $create = Question::create($request->all());
-            return response()->json(['create' => $create], 200);
+        Question::$rules['masterId'] = 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $request->layerId;
+        $validator = Validator::make($request->all(), Question::$rules);
+
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
         endif;
-        
-        return response()->json(['message' => 'SEX!'], 404);
+
+        $create = Question::create($request->all());
+        return response()->json(['create' => $create], 200);
     }
     
     /**
@@ -104,7 +96,7 @@ class QuestionController extends Controller
     public function edit($id) 
     {
         $formType = Question::$questionFormType;
-        $question = Question::with('layer')->find($id);
+        $question = Question::with('layer')->findOrFail($id);
         return view('audiences.layerQuestion.question.edit', compact('question', 'formType'));
     }
     
@@ -117,24 +109,20 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id) 
     {
-        if ($request->ajax()) :
-            $question = Question::findOrFail($id);
-            Question::$rules['masterId'] = 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $question->layerId;
-            
-            if($request->has('questionIsMandatory') == false) :
-                $request->merge(['questionIsMandatory' => false]);
-            endif;
-            
-            $validator = Validator::make($request->all(), Question::$rules);
-            if ($validator->fails()) :
-                return response()->json($validator->errors(), 422);
-            endif;
-            
-            $question->update($request->all());
-            return response()->json($request->all(), 200);
+        $question = Question::findOrFail($id);
+        Question::$rules['masterId'] = 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $question->layerId;
+
+        if($request->has('questionIsMandatory') == false) :
+            $request->merge(['questionIsMandatory' => false]);
         endif;
-        
-        return response()->json(['message' => 'SEX!'], 404);
+
+        $validator = Validator::make($request->all(), Question::$rules);
+        if ($validator->fails()) :
+            return response()->json($validator->errors(), 422);
+        endif;
+
+        $question->update($request->all());
+        return response()->json($request->all(), 200);
     }
     
     /**
@@ -145,7 +133,7 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        $question = Question::find($id);
+        $question = Question::findOrFail($id);
         $delete = $question->delete();
         return response()->json($delete, 200);
     }

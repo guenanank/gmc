@@ -17,16 +17,16 @@
         </a>
     </div>
     <br />
-    {!! Form::open(['route' => 'master.activity.store', 'class' => 'ajaxForm'])!!}
+    {{ Form::open(['route' => 'activity.store', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {!! Form::select('sourceId', [''=>''] + App\Source::lists('sourceName', 'sourceId')->all(), null, ['class' => 'form-control']) !!}
+                            {{ Form::select('sourceId', [''=>''] + App\Source::lists('sourceName', 'sourceId')->all(), null, ['class' => 'form-control']) }}
                         </div>
-                        {!! Form::label('sourceId', 'Choose Source Data', ['class' => 'fg-label']) !!}
+                        {{ Form::label('sourceId', 'Choose Source Data', ['class' => 'fg-label']) }}
                     </div>
                     <small id="sourceId" class="help-block"></small>
                 </div>
@@ -38,9 +38,9 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {!! Form::select('mediaGroupId', [''=>''] + App\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all(), null, ['class' => 'form-control']) !!}
+                            {{ Form::select('mediaGroupId', [''=>''] + App\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all(), null, ['class' => 'form-control']) }}
                         </div>
-                        {!! Form::label('mediaGroupId', 'Choose Media Group', ['class' => 'fg-label']) !!}
+                        {{ Form::label('mediaGroupId', 'Choose Media Group', ['class' => 'fg-label']) }}
                     </div>
                     <small id="mediaGroupId" class="help-block"></small>
                 </div>
@@ -51,8 +51,8 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('activityName', null, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('activityName', 'Activity Name', ['class' => 'fg-label']) !!}
+                        {{ Form::text('activityName', null, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('activityName', 'Activity Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="activityName" class="help-block"></small>
                 </div>
@@ -63,8 +63,8 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('activityWhere', null, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('activityWhere', 'Activity Location', ['class' => 'fg-label']) !!}
+                        {{ Form::text('activityWhere', null, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('activityWhere', 'Activity Location', ['class' => 'fg-label']) }}
                     </div>
                     <small id="activityWhere" class="help-block"></small>
                 </div>
@@ -75,8 +75,8 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('activityWhen', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-00-00']) !!}
-                        {!! Form::label('activityWhen', 'Activity Date', ['class' => 'fg-label']) !!}
+                        {{ Form::text('activityWhen', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-00-00']) }}
+                        {{ Form::label('activityWhen', 'Activity Date', ['class' => 'fg-label']) }}
                     </div>
                     <small id="activityWhen" class="help-block"></small>
                 </div>
@@ -93,6 +93,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection

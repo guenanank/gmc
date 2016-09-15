@@ -17,7 +17,7 @@
         </a>
     </div>
     <br />
-    {{ Form::model($audience, ['route' => ['audience.audience.update', $audience], 'method' => 'patch', 'class' => 'ajaxForm']) }}
+    {{ Form::model($audience, ['route' => ['audience.update', $audience], 'method' => 'patch', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         {{ Form::hidden('audienceType', 'manual') }}
         <div class="row">
@@ -123,10 +123,12 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="{{ asset('js/validateAudience.js') }}"></script>
+{{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
-
 (function ($) {
+    
+    var target = '{{ url("audience/validate") }}';
+    
     $('.form-wizard-audience').bootstrapWizard({
         tabClass: 'fw-nav',
         nextSelector: '.next',
@@ -136,7 +138,7 @@
         },
         onNext: function (tab) {
             return $(tab.children('a').attr('href')).validateAudience({
-                target: '{{ url("audience/audience/validate") }}'
+                target: target
             });
         },
         onPrevious: function () {
@@ -146,7 +148,7 @@
         },
         onFinish: function (tab) {
             $(tab.children('a').attr('href')).validateAudience({
-                target: '{{ url("audience/audience/validate") }}',
+                target: target,
                 callback: function () {
                     if (this.status === 200) {
                         $('.btnSubmit').removeClass('hide');
@@ -159,6 +161,7 @@
     $(document).bind('ajaxComplete', function() {
         $('.btnSubmit').addClass('hide');
     });
+    
 })(jQuery);
     
 </script>

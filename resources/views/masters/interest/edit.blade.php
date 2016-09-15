@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {!! Form::model($interest, ['route' => ['master.interest.update', $interest], 'method' =>'patch', 'class' => 'ajaxForm']) !!}
+    {{ Form::model($interest, ['route' => ['interest.update', $interest], 'method' =>'patch', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('interestName', $interest->interestName, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('interestName', 'Interest Name', ['class' => 'fg-label']) !!}
+                        {{ Form::text('interestName', $interest->interestName, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('interestName', 'Interest Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="interestName" class="help-block"></small>
                 </div>
@@ -36,9 +36,9 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {!! Form::select('interestSubFrom', [''=>''] + App\Interest::lists('interestName', 'interestId')->all(), $interest->interestSubFrom, ['class' => 'form-control']) !!}
+                            {{ Form::select('interestSubFrom', [''=>''] + App\Interest::lists('interestName', 'interestId')->all(), $interest->interestSubFrom, ['class' => 'form-control']) }}
                         </div>
-                        {!! Form::label('interestSubFrom', 'Is Sub Interest From', ['class' => 'fg-label']) !!}
+                        {{ Form::label('interestSubFrom', 'Is Sub Interest From', ['class' => 'fg-label']) }}
                     </div>
                     <small id="interestSubFrom" class="help-block"></small>
                 </div>
@@ -54,6 +54,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection

@@ -17,7 +17,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="bootgrid" class="table table-striped table-condensed table-vmiddle" data-url="{{ url('audience/layerQuestion/bootgrid') }}">
+        <table id="bootgrid" class="table table-striped table-condensed table-vmiddle" data-url="{{ route('layerQuestion.bootgrid') }}">
             <thead>
                 <tr>
                     <th data-column-id="layerName" data-type="string" data-identifier="true">Layer Name</th>
@@ -32,6 +32,7 @@
 
 @section('scripts')
 <script type="text/javascript">
+(function ($) {
     $('#bootgrid').bootgrid({
         ajax: true,
         selection: true,
@@ -50,8 +51,8 @@
         },
         formatters: {
             commands: function (column, row) {
-                var questionList = '<a href="{{ url("audience/layerQuestion") }}/l/' + row.layerId + '" data-toggle="tooltip" class="btn btn-icon bgm-amber" title="' + row.layerName + ' Question List"><span class="zmdi zmdi-view-list-alt"></span></a>&nbsp;';
-                var edit = '<a href="{{ url("audience/layerQuestion") }}/' + row.layerId + '/edit" data-toggle="tooltip" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.layerName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp;';
+                var questionList = '<a href="{{ url("layerQuestion") }}/l/' + row.layerId + '" data-toggle="tooltip" class="btn btn-icon bgm-amber" title="' + row.layerName + ' Question List"><span class="zmdi zmdi-view-list-alt"></span></a>&nbsp;';
+                var edit = '<a href="{{ url("layerQuestion") }}/' + row.layerId + '/edit" data-toggle="tooltip" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.layerName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp;';
                 var del = '<button data-toggle="tooltip" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.layerId + '" title="Delete ' + row.layerName + '"><span class="zmdi zmdi-delete"></span></button>';
                 return  questionList + edit + del;
             }
@@ -62,5 +63,6 @@
             deletes('layerQuestion', $(this).data('row-id'));
         });
     });
+})(jQuery);
 </script>
 @stop

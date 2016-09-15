@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {!! Form::model($expense, ['route' => ['master.expense.update', $expense], 'method' =>'patch', 'class' => 'ajaxForm']) !!}
+    {{ Form::model($expense, ['route' => ['expense.update', $expense], 'method' =>'patch', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('expenseMin', $expense->expenseMin, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('expenseMin', 'Expense Min', ['class' => 'fg-label']) !!}
+                        {{ Form::text('expenseMin', $expense->expenseMin, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('expenseMin', 'Expense Min', ['class' => 'fg-label']) }}
                     </div>
                     <small id="expenseMin" class="help-block"></small>
                 </div>
@@ -35,8 +35,8 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {!! Form::text('expenseMax', $expense->expenseMax, ['class' => 'form-control fg-input']) !!}
-                        {!! Form::label('expenseMax', 'Expense Max', ['class' => 'fg-label']) !!}
+                        {{ Form::text('expenseMax', $expense->expenseMax, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('expenseMax', 'Expense Max', ['class' => 'fg-label']) }}
                     </div>
                     <small id="expenseMax" class="help-block"></small>
                 </div>
@@ -52,6 +52,6 @@
         </div>
         <br />
     </div>
-    {!! Form::close() !!}
+    {{ Form::close() }}
 </div>
 @endsection
