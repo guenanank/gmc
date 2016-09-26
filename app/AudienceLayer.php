@@ -35,11 +35,9 @@ class AudienceLayer extends Model
     public function getAudienceLayerResponseAttribute($value)
     {
         $audienceLayerResponse = [];
-        if(!empty($value))
-        {
+        if(!empty($value)) :
             $audienceLayerResponse = json_decode($value);
-        }
-        
+        endif;
         return collect($audienceLayerResponse);
     }
     

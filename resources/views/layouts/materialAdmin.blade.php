@@ -169,12 +169,10 @@
                     <div class="profile-pic">
                         <img src="{{ asset('images/profile-pics/1.jpg') }}" alt="">
                     </div>
-
                     <div class="profile-info">
                         Malinda Hollaway <i class="zmdi zmdi-caret-down"></i>
                     </div>
                 </a>
-
                 <ul class="main-menu">
                     <li>
                         <a href="profile-about.html"><i class="zmdi zmdi-account"></i> View Profile</a>
@@ -190,7 +188,6 @@
                     </li>
                 </ul>
             </div>
-
             <ul class="main-menu">
                 <li><a href="{{ url('dashboard/') }}"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
                 <li class="sub-menu">
@@ -361,7 +358,7 @@
 
     @show
     <script type="text/javascript">
-        console.info('Document length: ' + $(document).length);
+        console.info('Document length: ' + $('*').length);
     </script>
 </body>
 </html>

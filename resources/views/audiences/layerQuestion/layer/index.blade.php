@@ -14,6 +14,10 @@
         <a href="{{ action('LayerController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Layer Questions">
             <i class="zmdi zmdi-plus"></i>
         </a>
+        
+        <a href="{{ route('upload.download') }}" class="btn bgm-teal btn-icon pull-right m-r-10" data-toggle="tooltip" data-placement="top" title="Sample upload format">
+            <i class="zmdi zmdi-download"></i>
+        </a>
     </div>
 
     <div class="table-responsive">

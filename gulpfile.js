@@ -33,15 +33,15 @@ var paths = {
     bootgrid: bowerComponents + 'jquery.bootgrid/dist/',
     clipboard: bowerComponents + 'clipboard/dist/',
     bootstrapWizard: bowerComponents + 'twitter-bootstrap-wizard/',
-    dropzone: bowerComponents + 'dropzone/downloads/'
+    dropzone: bowerComponents + 'dropzone/dist/min/'
 };
 
 elixir(function (mix) {
     mix.copy('resources/assets/fonts/**', 'public/fonts');
     mix.copy('resources/assets/images/**', 'public/images');
     
-    mix.copy(paths.dropzone + 'images/**', 'public/images');
-    mix.styles(paths.dropzone + 'css/dropzone.css', null, bowerComponents);
+    //mix.copy(paths.dropzone + 'images/**', 'public/images');
+    //mix.styles(paths.dropzone + 'css/dropzone.css', null, bowerComponents);
     
     mix.styles([
         paths.animate + 'animate.css',
@@ -53,7 +53,7 @@ elixir(function (mix) {
         paths.bootstrapDatetimePicker + 'css/bootstrap-datetimepicker.css',
         paths.chosen + 'chosen.css',
         paths.summernote + 'summernote.css',
-        
+        paths.dropzone + 'dropzone.min.css',
         paths.bootgrid + 'jquery.bootgrid.css'
     ], null, bowerComponents);
     

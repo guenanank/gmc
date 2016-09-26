@@ -9,6 +9,7 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2.*",
         "intervention/image": "^2.3",
+        "maatwebsite/excel": "~2.1.0",
         "barryvdh/laravel-debugbar": "^2.2"
     },
     "require-dev": {

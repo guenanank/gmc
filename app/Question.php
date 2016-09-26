@@ -46,8 +46,8 @@ class Question extends Model
         '' => '',
         'essay' => 'Essay',
         'multipleChoice' => 'Multiple Choice',
-        'trueOrFalse' => 'True Or False (Choice)',
-        'useMaster' => 'Use Master Data'
+        'trueOrFalse' => 'True Or False',
+        'useMaster' => 'Use Master'
     ];
     
     public static $questionFormType = [
@@ -109,9 +109,8 @@ class Question extends Model
      */
     public function getQuestionTypeAttribute($value)
     {
-        $getOriginal = $this->getOriginal('questionType');
-        return Question::$questionType[$getOriginal];
-//        return Question::$questionType[$value];
+        $original = $this->getOriginal('questionType');
+        return Question::$questionType[$original];
     }
     
     public function getQuestionAnswerAttribute($value)

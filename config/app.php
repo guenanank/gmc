@@ -156,11 +156,18 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         
+        /*
+         * Composer Service Providers...
+         */
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         
-        App\Providers\AudienceServiceProvider::class
+        /*
+         * Defined Service Providers...
+         */
+        App\Services\Providers\AudienceRepository::class,
 
     ],
 
@@ -211,7 +218,10 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
+        'AudienceRepository' => App\Services\Containers\AudienceRepository::class,
+        
     ],
 
 ];

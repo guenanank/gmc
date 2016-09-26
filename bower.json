@@ -22,7 +22,7 @@
     "bootstrap-timepicker": "0.2.3",
     "ckeditor": "4.5.8",
     "jquery-colorbox": "colorbox#1.4.32",
-    "dropzone": "3.7.1",
+    "dropzone": "^4.3.0",
     "ExplorerCanvas": "excanvas#*",
     "fullcalendar": "1.6.1",
     "gritter": "1.7.5",

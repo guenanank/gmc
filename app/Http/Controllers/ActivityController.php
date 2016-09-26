@@ -91,7 +91,7 @@ class ActivityController extends Controller
             return response()->json($validator->errors(), 422);
         endif;
 
-        $request->merge(['activityToken' => Crypt::encrypt($request->activityName)]);
+        $request->merge(['activityToken' => substr(Crypt::encrypt($request->activityName), 15, -1)]);
         $create = Activity::create($request->all());
         return response()->json(['create' => $create], 200);
     }
@@ -124,7 +124,7 @@ class ActivityController extends Controller
             return response()->json($validator->errors(), 422);
         endif;
 
-        $request->merge(['activityToken' => Crypt::encrypt($request->activityName)]);
+        $request->merge(['activityToken' => substr(Crypt::encrypt($request->activityName), 15, -1)]);
         $update = $activity->update($request->all());
         return response()->json(['update' => $update], 200);
     }

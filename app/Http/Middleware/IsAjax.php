@@ -19,7 +19,8 @@ class IsAjax
             return $next($request);
         endif;
         
-        return response()->json(['message' => 'SEX!'], 404);
+//        return response()->json(['message' => 'SEX!'], 404);
+        return abort(404);
     }
 
 }

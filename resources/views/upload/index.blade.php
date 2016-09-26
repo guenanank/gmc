@@ -2,8 +2,6 @@
 
 @section('styles')
 
-{{ Html::style('css/dropzone.css') }}
-
 @stop
 
 @section('breadcrumb')
@@ -24,8 +22,9 @@
     </div>
     <br />
     <div class="card-body card-padding">
-        {{ Form::open(['route' => 'audience.upload.store', 'method' => 'PUT', 'class' => 'dropzone']) }}
+        {{ Form::open(['method' => 'PUT', 'url' => route('upload.store'), 'class' => 'dropzone', 'id' => 'uploadAudience']) }}
         {{ Form::close() }}
+
     </div>
 </div>
 @endsection
@@ -33,10 +32,20 @@
 @section('scripts')
 {{ Html::script('js/dropzone.min.js') }}
 <script type="text/javascript">
-(function ($) {
-
-    //$('#uploadAudience').dropzone();
-
-})(jQuery);
+    Dropzone.options.uploadAudience = {
+        maxFilesize: 2,
+        acceptedFiles: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv',
+        error: function (file, response) {
+            var message = typeof response === 'object' ? response[Object.keys(response)[0]].toString() : response;
+            swal({
+                type: 'warning',
+                title: 'Whops !!',
+                text: message,
+                timer: 3000,
+                showConfirmButton: false
+            });
+            this.removeFile(file);
+        }
+    };
 </script>
 @stop

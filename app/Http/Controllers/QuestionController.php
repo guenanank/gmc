@@ -57,7 +57,7 @@ class QuestionController extends Controller
                     $query->orWhereHas('master', function($query) use ($search) {
                         $query->where('masterName', 'LIKE', '%' . $search . '%');
                     });
-                })->with('master')
+                })
                 ->count();
 
         return response()->json([
@@ -121,6 +121,7 @@ class QuestionController extends Controller
             return response()->json($validator->errors(), 422);
         endif;
 
+        $request->merge(['questionType' => camel_case($request->questionType)]);
         $question->update($request->all());
         return response()->json($request->all(), 200);
     }

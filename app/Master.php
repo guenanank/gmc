@@ -11,11 +11,9 @@ class Master extends Model
     public function getMasterFormatAttribute($value)
     {
         $masterFormat = [];
-        if(!empty($value))
-        {
+        if(!empty($value)) :
             $masterFormat = json_decode($value);
-        }
-        
+        endif;
         return collect($masterFormat);
     }
     
