@@ -31,4 +31,14 @@ class AudienceActivity extends Model
         'activityId' => 'required|exists:activities,activityId',
         'audienceId' => 'exists:audiences,audienceId'
     ];
+    
+    public function audiences()
+    {
+        return $this->hasMany('App\Audience', 'audienceId', 'audienceId');
+    }
+    
+    public function activities()
+    {
+        return $this->hasMany('App\Activity', 'activityId', 'activityId');
+    }
 }

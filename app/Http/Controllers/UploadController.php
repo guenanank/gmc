@@ -2,46 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Services\Containers\AudienceContainer as AudienceRepository;
 use Validator;
 use App\Upload;
-use App\Question;
-use App\Activity;
 
 class UploadController extends Controller 
 {
     protected $path;
-    protected $audience;
+    protected $repo;
 
-
-    public function __construct(AudienceRepository $audienceRepository) 
+    public function __construct(AudienceRepository $repo) 
     {
-        $this->path = public_path('fileUpload');
-        $this->audience = $audienceRepository;
+        $this->repo = $repo;
+        $this->path = public_path('fileUploads');
     }
     
     public function download()
-    {
-        Excel::create('Activity Name', function($excel) {
+    {        
+        Excel::create(Carbon::now(), function($excel) {
             $excel->setTitle('Activity Name');
             $excel->setCreator('GMC')->setCompany('Gramedia Majalah');
             $excel->setDescription('Audience sample upload format');
             
             $excel->sheet('ActivityToken', function($sheet) {
-                $questions = Question::all();
-                $sheet->fromArray($questions->pluck('questionText')->map(function($item) {
-                    return camel_case($item);
+                
+                $sheet->fromArray(AudienceRepository::Question()->all()->pluck('questionId'));
+                $sheet->row(1, function($row) {
+                    $row->setBackground('#000000');
+                });
+                $sheet->row(2, AudienceRepository::Question()->all()->transform(function($item) {
+                    $isMandatory = $item->questionIsMandatory ? '(mandatory)' : null;
+                    return camel_case($item->questionText) . $isMandatory;
                 })->toArray());
                 
-                for($alpha = 'A', $i = 0; $i < $questions->count(); $i++, $alpha++) :
-                    $question = $questions->get($i);
-                    if($question->questionIsMandatory) :
-                        $sheet->cell($alpha . '1', function($cell) {
-                            $cell->setFontColor('#ff0000');
-                        });
-                    endif;
-                endfor;
+                $sheet->freezeFirstRow();
+                
             });
         })->export('xls');
     }
@@ -82,13 +80,12 @@ class UploadController extends Controller
 
     public function upload()
     {
-        dd($this->audience);
         foreach (Upload::where('uploadIsExecuted', false)->pluck('uploadFilename') as $uploadFilename) :
-            $reader = Excel::load($this->path . '/' . $uploadFilename)->get();
-            $activity = Activity::where('activityToken', $reader->getTitle())->firstOrFail();
-            dd($activity);
-            
+            $readers = Excel::load($this->path . '/' . $uploadFilename)->all();
+            AudienceRepository::executeUploadedFile($readers);
         endforeach;
+        
+        dd('upload');
     }
 
 
@@ -101,7 +98,9 @@ class UploadController extends Controller
      */
     public function update(Request $request, $id) 
     {
-        
+        $upload = Upload::findOrFail($id);
+        $update = $upload->update(['uploadIsExecuted' => true]);
+        return response()->json(['update' => $update], 200);
     }
 
     /**

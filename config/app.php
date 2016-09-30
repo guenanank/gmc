@@ -167,7 +167,7 @@ return [
         /*
          * Defined Service Providers...
          */
-        App\Services\Providers\AudienceRepository::class,
+        App\Services\Providers\AudienceProvider::class,
 
     ],
 
@@ -220,7 +220,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
-        'AudienceRepository' => App\Services\Containers\AudienceRepository::class,
+        'AudienceRepository' => App\Services\Containers\AudienceContainer::class,
         
     ],
 

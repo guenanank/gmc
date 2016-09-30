@@ -1,7 +1,12 @@
+/public/js/*
+/public/css/*
+/public/fonts/*
+/public/images/*
+/public/fileUpload/*
+
 /vendor
 /node_modules
 Homestead.yaml
 Homestead.json
 .env
 /nbproject/private/
-/primadona/nbproject/private/

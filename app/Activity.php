@@ -30,6 +30,5 @@ class Activity extends Model
     {
         return $this->hasOne('App\MediaGroup', 'mediaGroupId', 'mediaGroupId');
     }
-    
-    
+        
 }

@@ -11,15 +11,6 @@
   |
  */
 
-Route::get('tes', function() {
-    foreach(App\Master::select('masterName', 'masterUseAPI', 'masterFormat', 'masterRawQuery')->get() as $row) :
-        $array = collect($row);
-        dd($array);
-    endforeach;
-    
-    dd('here');
-});
-
 Route::get('/', 'DashboardController@index');
 Route::get('dashboard', 'DashboardController@index');
 

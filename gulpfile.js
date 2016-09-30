@@ -39,10 +39,7 @@ var paths = {
 elixir(function (mix) {
     mix.copy('resources/assets/fonts/**', 'public/fonts');
     mix.copy('resources/assets/images/**', 'public/images');
-    
-    //mix.copy(paths.dropzone + 'images/**', 'public/images');
-    //mix.styles(paths.dropzone + 'css/dropzone.css', null, bowerComponents);
-    
+        
     mix.styles([
         paths.animate + 'animate.css',
         paths.sweetAlert + 'sweet-alert.css',

@@ -4,10 +4,10 @@ namespace App\Services\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class AudienceRepository extends Facade
+class AudienceFacade extends Facade
 {
     protected static function getFacadeAccessor() 
     {
-        return 'AudienceRepository';
+        return 'AudienceContainer';
     }
 }

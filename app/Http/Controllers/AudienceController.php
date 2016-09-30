@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\Facades\AudienceRepository;
+use App\Services\Containers\AudienceContainer as AudienceRepository;
 use Validator;
 use App\Layer;
 use App\Audience;
@@ -39,7 +39,7 @@ class AudienceController extends Controller
             endforeach;
         endif;
 
-        $rows = Audience::where('audienceId', 'LIKE', '%' . $search . '%')
+        $rows = AudienceRepository::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('activities', function($query) use($search) {
                     $query->where('activityName', 'LIKE', '%' . $search . '%');
                 })
@@ -47,7 +47,7 @@ class AudienceController extends Controller
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Audience::where('audienceId', 'LIKE', '%' . $search . '%')
+        $total = AudienceRepository::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('activities', function($query) use($search) {
                     $query->where('activityName', 'LIKE', '%' . $search . '%');
                 })
@@ -64,9 +64,7 @@ class AudienceController extends Controller
         
     public function validateAudienceLayer(Request $request)
     {
-        $validator = Validator::make($request->all(), AudienceRepository::validationRules($request->layerId));
-        $response = $validator->fails() ? $validator->errors() : $request;
-        return response()->json($response, $validator->fails() ? 422 : 200);
+        return AudienceRepository::validateAudienceLayer($request);
     }
 
     /**
