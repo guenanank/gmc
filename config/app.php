@@ -151,10 +151,10 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        GMC\Providers\AppServiceProvider::class,
+        GMC\Providers\AuthServiceProvider::class,
+        GMC\Providers\EventServiceProvider::class,
+        GMC\Providers\RouteServiceProvider::class,
         
         /*
          * Composer Service Providers...

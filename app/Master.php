@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +19,7 @@ class Master extends Model
     
     public function question()
     {
-        return $this->belongsTo('App\Question', 'masterId');
+        return $this->belongsTo('GMC\Question', 'masterId');
     }
     
     

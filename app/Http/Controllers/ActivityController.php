@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Crypt;
 use Validator;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Activity;
+use GMC\Http\Requests;
+use GMC\Activity;
 
 class ActivityController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Providers;
+namespace GMC\Services\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -32,7 +32,7 @@ class AudienceProvider extends ServiceProvider
     {
         $this->app->singleton('AudienceContainer', function()
         {
-            return new \App\Services\Containers\AudienceContainer;
+            return new \GMC\Services\Containers\AudienceContainer;
         });
     }
     
@@ -43,7 +43,7 @@ class AudienceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [\App\Services\Containers\AudienceContainer::class];
+        return [\GMC\Services\Containers\AudienceContainer::class];
     }
 }
 

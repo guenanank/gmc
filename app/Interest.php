@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,11 +24,11 @@ class Interest extends Model
     
     public function child()
     {
-        return $this->hasMany('App\Interest', 'interestSubFrom');
+        return $this->hasMany('GMC\Interest', 'interestSubFrom');
     }
 
     public function parent()
     {
-        return $this->belongsTo('App\Interest', 'interestSubFrom');
+        return $this->belongsTo('GMC\Interest', 'interestSubFrom');
     }
 }

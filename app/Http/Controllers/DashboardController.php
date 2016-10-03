@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use GMC\Http\Requests;
 
 class DashboardController extends Controller
 {

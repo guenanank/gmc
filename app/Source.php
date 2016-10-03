@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class Source extends Model
     
     public function activity() 
     {
-        return $this->hasMany('App\Activity', 'activityId');
+        return $this->hasMany('GMC\Activity', 'activityId');
     }
     
 }

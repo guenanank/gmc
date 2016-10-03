@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 use Illuminate\Database\Eloquent\Model;
 
 class Hobby extends Model
@@ -23,12 +23,12 @@ class Hobby extends Model
     
     public function child()
     {
-        return $this->hasMany('App\Hobby', 'hobbySubFrom');
+        return $this->hasMany('GMC\Hobby', 'hobbySubFrom');
     }
 
     public function parent()
     {
-        return $this->belongsTo('App\Hobby', 'hobbySubFrom');
+        return $this->belongsTo('GMC\Hobby', 'hobbySubFrom');
     }
     
     

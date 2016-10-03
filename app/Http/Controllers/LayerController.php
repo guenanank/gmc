@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Layer;
-use App\Question;
+use GMC\Http\Requests;
+use GMC\Layer;
+use GMC\Question;
 
 class LayerController extends Controller
 {

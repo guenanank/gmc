@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,16 +18,16 @@ class MediaGroup extends Model
     
     public function child()
     {
-        return $this->hasMany('App\MediaGroup', 'mediaGroupSubFrom');
+        return $this->hasMany('GMC\MediaGroup', 'mediaGroupSubFrom');
     }
 
     public function parent()
     {
-        return $this->belongsTo('App\MediaGroup', 'mediaGroupSubFrom');
+        return $this->belongsTo('GMC\MediaGroup', 'mediaGroupSubFrom');
     }
     
     public function activity() 
     {
-        return $this->hasMany('App\Activity', 'activityId');
+        return $this->hasMany('GMC\Activity', 'activityId');
     }
 }

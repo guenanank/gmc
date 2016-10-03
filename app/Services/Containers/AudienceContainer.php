@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Services\Containers;
+namespace GMC\Services\Containers;
 
 use Illuminate\Http\Request;
 use Illuminate\Container\Container;
 use Validator;
 
-use App\Audience;
-use App\AudienceActivity;
-use App\Layer;
-use App\Question;
-use App\Activity;
+use GMC\Audience;
+use GMC\AudienceActivity;
+use GMC\Layer;
+use GMC\Question;
+use GMC\Activity;
 
 class AudienceContainer extends Container
 {

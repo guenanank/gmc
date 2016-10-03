@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\Containers\AudienceContainer as AudienceRepository;
+use GMC\Services\Containers\AudienceContainer as AudienceRepository;
 use Validator;
-use App\Layer;
-use App\Audience;
-use App\Question;
-use App\AudienceActivity;
-use App\AudienceLayer;
+use GMC\Layer;
+use GMC\Audience;
+use GMC\Question;
+use GMC\AudienceActivity;
+use GMC\AudienceLayer;
 
 class AudienceController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,12 +24,12 @@ class Profession extends Model
     
     public function child()
     {
-        return $this->hasMany('App\Profession', 'professionSubFrom');
+        return $this->hasMany('GMC\Profession', 'professionSubFrom');
     }
 
     public function parent()
     {
-        return $this->belongsTo('App\Profession', 'professionSubFrom');
+        return $this->belongsTo('GMC\Profession', 'professionSubFrom');
     }
     
 }

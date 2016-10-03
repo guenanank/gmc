@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Expense;
+use GMC\Http\Requests;
+use GMC\Expense;
 
 class ExpenseController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace GMC\Events;
 
 abstract class Event
 {

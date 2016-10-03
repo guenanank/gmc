@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,11 +34,11 @@ class AudienceActivity extends Model
     
     public function audiences()
     {
-        return $this->hasMany('App\Audience', 'audienceId', 'audienceId');
+        return $this->hasMany('GMC\Audience', 'audienceId', 'audienceId');
     }
     
     public function activities()
     {
-        return $this->hasMany('App\Activity', 'activityId', 'activityId');
+        return $this->hasMany('GMC\Activity', 'activityId', 'activityId');
     }
 }

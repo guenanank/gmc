@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -55,7 +55,7 @@ class Audience extends Model
      */
     public function activities()
     {
-        return $this->belongsToMany('App\Activity', 'audienceActivity', 'audienceId', 'activityId');
+        return $this->belongsToMany('GMC\Activity', 'audienceActivity', 'audienceId', 'activityId');
     }
     
     /**
@@ -63,7 +63,7 @@ class Audience extends Model
      */
     public function layers()
     {
-        return $this->belongsToMany('App\Layer', 'audienceLayer', 'audienceId', 'layerId')->withPivot('audienceLayerResponse');
+        return $this->belongsToMany('GMC\Layer', 'audienceLayer', 'audienceId', 'layerId')->withPivot('audienceLayerResponse');
     }
     
     public static $rules = [

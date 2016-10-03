@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +16,6 @@ class Media extends Model
     
     public function mediaType()
     {
-        return $this->hasOne('App\MediaType', 'mediaTypeId', 'mediaTypeId');
+        return $this->hasOne('GMC\MediaType', 'mediaTypeId', 'mediaTypeId');
     }
 }

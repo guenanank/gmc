@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Facades;
+namespace GMC\Services\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

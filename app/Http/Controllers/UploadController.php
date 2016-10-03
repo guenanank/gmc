@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Services\Containers\AudienceContainer as AudienceRepository;
+use GMC\Services\Containers\AudienceContainer as AudienceRepository;
 use Validator;
-use App\Upload;
+use GMC\Upload;
 
 class UploadController extends Controller 
 {

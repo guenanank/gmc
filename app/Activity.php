@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,12 +23,12 @@ class Activity extends Model
     
     public function source() 
     {
-        return $this->hasOne('App\Source', 'sourceId', 'sourceId');
+        return $this->hasOne('GMC\Source', 'sourceId', 'sourceId');
     }
     
     public function mediaGroup()
     {
-        return $this->hasOne('App\MediaGroup', 'mediaGroupId', 'mediaGroupId');
+        return $this->hasOne('GMC\MediaGroup', 'mediaGroupId', 'mediaGroupId');
     }
         
 }

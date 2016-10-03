@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -132,11 +132,11 @@ class Question extends Model
     
     public function master()
     {
-        return $this->hasOne('App\Master', 'masterId', 'masterId');
+        return $this->hasOne('GMC\Master', 'masterId', 'masterId');
     }
     
     public function layer()
     {
-        return $this->belongsTo('App\Layer', 'layerId');
+        return $this->belongsTo('GMC\Layer', 'layerId');
     }
 }

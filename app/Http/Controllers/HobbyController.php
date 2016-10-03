@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Hobby;
+use GMC\Http\Requests;
+use GMC\Hobby;
 
 class HobbyController extends Controller
 {

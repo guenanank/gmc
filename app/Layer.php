@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace GMC;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +16,7 @@ class Layer extends Model
 
     public function question()
     {
-        return $this->hasMany('App\Question', 'layerId');
+        return $this->hasMany('GMC\Question', 'layerId');
     }
 }
 
