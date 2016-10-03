@@ -167,7 +167,7 @@ return [
         /*
          * Defined Service Providers...
          */
-        App\Services\Providers\AudienceProvider::class,
+        GMC\Services\Providers\AudienceProvider::class,
 
     ],
 
@@ -220,7 +220,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
-        'AudienceRepository' => App\Services\Containers\AudienceContainer::class,
+        'AudienceRepository' => GMC\Services\Containers\AudienceContainer::class,
         
     ],
 
