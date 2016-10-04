@@ -36,7 +36,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('mediaTypeId', [''=>''] + $mediaType, null, ['class' => 'form-control']) }}
+                            {{ Form::select('mediaTypeId', [''=>''] + $mediaTypes, null, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('mediaTypeId', 'Media Type', ['class' => 'fg-label']) }}
                     </div>
