@@ -2,8 +2,8 @@
 
 @section('blockHeader')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('master/hobby/') }}">Hobby</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('hobby', 'Hobbies') }}</li>
     <li class="active">Edit</li>
 </ol>
 @stop
@@ -36,7 +36,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('hobbySubFrom', [''=>''] + App\Hobby::lists('hobbyName', 'hobbyId')->all(), $hobby->hobbySubFrom, ['class' => 'form-control']) }}
+                            {{ Form::select('hobbySubFrom', [''=>''] + $hobbies, $hobby->hobbySubFrom, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('hobbySubFrom', 'Is Sub Hobby From', ['class' => 'fg-label']) }}
                     </div>

@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('audience/layerQuestion') }}">Layer Question</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('layerQuestion', 'Layer Question') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop

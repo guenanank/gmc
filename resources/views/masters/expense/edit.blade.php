@@ -2,8 +2,8 @@
 
 @section('blockHeader')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('master/expense/') }}">Expense</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('expense', 'Expenses') }}</li>
     <li class="active">Edit</li>
 </ol>
 @stop

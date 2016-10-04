@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
     <li class="active">Layer Questions</li>
 </ol>
 @stop

@@ -33,7 +33,12 @@ var paths = {
     bootgrid: bowerComponents + 'jquery.bootgrid/dist/',
     clipboard: bowerComponents + 'clipboard/dist/',
     bootstrapWizard: bowerComponents + 'twitter-bootstrap-wizard/',
-    dropzone: bowerComponents + 'dropzone/dist/min/'
+    dropzone: bowerComponents + 'dropzone/dist/min/',
+    
+    flot: bowerComponents + 'flot/',
+    flotCurvedLines: bowerComponents + 'flot.curvedlines/',
+    sparkline: bowerComponents + 'sparkline/dist/',
+    easyPie: bowerComponents + 'jquery.easy-pie-chart/dist/'
 };
 
 elixir(function (mix) {
@@ -82,6 +87,10 @@ elixir(function (mix) {
     mix.browserify('resources/assets/js/fileinput.min.js', 'public/js');
     mix.browserify('resources/assets/js/input-mask.min.js', 'public/js');
     mix.browserify('resources/assets/js/jquery.bootgrid.updated.min.js', 'public/js');
+    
+    mix.browserify('resources/assets/js/flot-charts/curved-line-chart.js', 'public/js');
+    mix.browserify('resources/assets/js/flot-charts/line-chart.js', 'public/js');
+    mix.browserify('resources/assets/js/chart.js', 'public/js');
     
     mix.browserify('functions.js');
     mix.browserify('demo.js');

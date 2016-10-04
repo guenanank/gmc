@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li>{{ link_to('dashboard/', 'GMC') }}</li>
-    <li>{{ link_to('audience/audience', 'Audience') }}</li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('audience', 'Audience') }}</li>
     <li class="active">Edit</li>
 </ol>
 @stop
@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <p class="f-500 c-black">SELECT ACTIVITY SOURCE</p>
-                {{ Form::select('activityId[]', App\Activity::lists('activityName', 'activityId'), $audience->activities->pluck('activityId')->all(), ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true]) }}
+                {{ Form::select('activityId[]', $activities, $audience->activities->pluck('activityId')->all(), ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true]) }}
                 <small id="activityId" class="help-block"></small>
             </div>
         </div>
@@ -61,7 +61,7 @@
                     <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
                         {{--*/ $response = collect(json_decode($tabContent->pivot->audienceLayerResponse, true)) /*--}}
                         {{ Form::hidden('layerId', $tabContent->layerId) }}
-                        @foreach($tabContent->question as $q)
+                        @foreach($tabContent->questions as $q)
                             <div class="row">
                                 <div class="col-sm-offset-1 col-sm-10">
                                     <div class="form-group fg-line">
@@ -71,7 +71,7 @@
                                                 @if($q->master->masterUseAPI)
                                                     {{ Form::label($format->name, ucfirst($format->name) . ' (unset)') }}<br />
                                                 @else
-                                                    {{--*/ $model = 'App\\' . str_singular(ucfirst($format->name)) /*--}}
+                                                    {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
                                                     <select {{ $format->form->isMultiple ? 'multiple data-selected-text-format="count"' : null }} name="{{ $format->name }}" class="form-control fg-input input-sm selectpicker" data-live-search="true">
                                                         <option value=""></option>
                                                         @foreach($model::all() as $option)
@@ -123,6 +123,7 @@
 @endsection
 
 @section('scripts')
+{{ Html::script('js/jquery.bootstrap.wizard.js') }}
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
 (function ($) {

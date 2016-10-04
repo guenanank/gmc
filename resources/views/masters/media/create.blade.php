@@ -2,8 +2,8 @@
 
 @section('blockHeader')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('master/media/') }}">Media</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('media', 'Media') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -36,7 +36,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('mediaTypeId', [''=>''] + App\MediaType::lists('mediaTypeName', 'mediaTypeId')->all(), null, ['class' => 'form-control']) }}
+                            {{ Form::select('mediaTypeId', [''=>''] + $mediaType, null, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('mediaTypeId', 'Media Type', ['class' => 'fg-label']) }}
                     </div>

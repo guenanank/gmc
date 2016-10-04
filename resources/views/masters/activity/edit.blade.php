@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('master/activity') }}">Activity</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('activity', 'Activities') }}</li>
     <li class="active">Edit</li>
 </ol>
 @stop
@@ -24,7 +24,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('sourceId', [''=>''] + App\Source::lists('sourceName', 'sourceId')->all(), $activity->sourceId, ['class' => 'form-control']) }}
+                            {{ Form::select('sourceId', [''=>''] + $sources, $activity->sourceId, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('sourceId', 'Choose Source Data', ['class' => 'fg-label']) }}
                     </div>
@@ -38,7 +38,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('mediaGroupId', [''=>''] + App\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all(), $activity->mediaGroupId, ['class' => 'form-control']) }}
+                            {{ Form::select('mediaGroupId', [''=>''] + $mediaGroups, $activity->mediaGroupId, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('mediaGroupId', 'Choose Media Group', ['class' => 'fg-label']) }}
                     </div>

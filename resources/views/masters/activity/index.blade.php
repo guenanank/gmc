@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li class="active">Activity</li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li class="active">Activities</li>
 </ol>
 @stop
 
@@ -70,17 +70,15 @@
                 return (row.media_group) ? row.media_group.mediaGroupName : 'None';
             },
             commands: function (column, row) {
-                return '<button id="btn" type="button" class="btn btn-icon bgm-bluegray command-copy" data-toggle="tooltip" title="Copy token into clipboard\n' + row.activityToken + '" data-clipboard-text="' + row.activityToken + '"><span class="zmdi zmdi-copy"></span></button>&nbsp; ' +
-                        '<a href="{{ url("activity") }}/' + row.activityId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                        '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.activityId + '" data-toggle="tooltip" title="Delete ' + row.activityName + '"><span class="zmdi zmdi-delete"></span></button>';
+                var btnCopy = '<button id="btn" type="button" class="btn btn-icon bgm-bluegray command-copy" data-toggle="tooltip" title="Copy token into clipboard\n' + row.activityToken + '" data-clipboard-text="' + row.activityToken + '"><span class="zmdi zmdi-copy"></span></button>&nbsp; ';
+                var btnEdit = '<a href="{{ url("activity") }}/' + row.activityId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.activityId + '" data-toggle="tooltip" title="Delete ' + row.activityName + '"><span class="zmdi zmdi-delete"></span></button>';
+                return btnCopy + btnEdit + btnDelete;
             }
         }
     }).on('loaded.rs.jquery.bootgrid', function () {
-
-        $('#bootgrid').find('.command-copy').on('click', function (e) {
-            e.preventDefault();
-            var btn = document.querySelectorAll('button.command-copy');
-            var clipboard = new Clipboard(btn);
+        $('#bootgrid').find('.command-copy').on('click', function () {
+            var clipboard = new Clipboard(this);
             clipboard.on('success', function () {
                 swal({
                     title: 'Copied!',

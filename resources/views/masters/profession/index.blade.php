@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
     <li class="active">Professions</li>
 </ol>
 @stop
@@ -32,39 +32,40 @@
 
 @section('scripts')
 <script type="text/javascript">
-(function ($) {
-    $('#bootgrid').bootgrid({
-        ajax: true,
-        selection: true,
-        rowCount: [5, 10, 25, 50, -1],
-        multiSelect: true,
-        rowSelect: true,
-        keepSelection: true,
-        caseSensitive: false,
-        url: $('#bootgrid').data('url'),
-        css: {
-            icon: 'zmdi icon',
-            iconColumns: 'zmdi-view-module',
-            iconDown: 'zmdi-sort-desc',
-            iconUp: 'zmdi-sort-asc',
-            iconRefresh: 'zmdi-refresh'
-        },
-        formatters: {
-            professionSubFrom: function (column, row) {
-                if (row.parent)
-                    return row.parent.professionName;
+    (function ($) {
+        $('#bootgrid').bootgrid({
+            ajax: true,
+            selection: true,
+            rowCount: [5, 10, 25, 50, -1],
+            multiSelect: true,
+            rowSelect: true,
+            keepSelection: true,
+            caseSensitive: false,
+            url: $('#bootgrid').data('url'),
+            css: {
+                icon: 'zmdi icon',
+                iconColumns: 'zmdi-view-module',
+                iconDown: 'zmdi-sort-desc',
+                iconUp: 'zmdi-sort-asc',
+                iconRefresh: 'zmdi-refresh'
             },
-            commands: function (column, row) {
-                return '<a href="{{ url("profession") }}/' + row.professionId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.professionName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                        '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.professionId + '" title="Delete ' + row.professionName + '"><span class="zmdi zmdi-delete"></span></button>';
+            formatters: {
+                professionSubFrom: function (column, row) {
+                    if (row.parent)
+                        return row.parent.professionName;
+                },
+                commands: function (column, row) {
+                    var btnEdit = '<a href="{{ url("profession") }}/' + row.professionId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.professionName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.professionId + '" title="Delete ' + row.professionName + '"><span class="zmdi zmdi-delete"></span></button>';
+                    return btnEdit + btnDelete;
+                }
             }
-        }
-    }).on('loaded.rs.jquery.bootgrid', function () {
-        $('#bootgrid').find('.command-delete').on('click', function (e) {
-            e.preventDefault();
-            deletes('profession', $(this).data('row-id'));
+        }).on('loaded.rs.jquery.bootgrid', function () {
+            $('#bootgrid').find('.command-delete').on('click', function (e) {
+                e.preventDefault();
+                deletes('profession', $(this).data('row-id'));
+            });
         });
-    });
-})(jQuery);
+    })(jQuery);
 </script>
 @stop
