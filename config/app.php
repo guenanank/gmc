@@ -162,7 +162,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
         
         /*
          * Defined Service Providers...
@@ -229,3 +228,4 @@ return [
     ],
 
 ];
+

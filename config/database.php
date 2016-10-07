@@ -27,7 +27,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Database Connections
@@ -78,6 +78,7 @@ return [
             'prefix' => '',
             'schema' => 'public',
         ]
+
 
     ],
 
