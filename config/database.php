@@ -26,8 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
-//    'default' => 'gmc',
+    'default' => 'gmc',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,11 +81,11 @@ return [
         
         'gmc' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
+            'host' => '10.255.255.8',
             'port' => '3306',
             'database' => 'gmc',
             'username' => 'root',
-            'password' => null,
+            'password' => '%(&Mb0,B4v296WN',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

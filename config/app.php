@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'gmc.gramedia-majalah.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -162,7 +162,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
         
         /*
          * Defined Service Providers...
@@ -225,3 +224,4 @@ return [
     ],
 
 ];
+
