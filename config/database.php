@@ -27,7 +27,6 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
-//    'default' => 'gmc',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,11 +54,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '10.255.255.8'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'gmc'),
             'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'password' => env('DB_PASSWORD', 'Jeruk--4@U/7"'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
@@ -78,20 +77,6 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-        ],
-        
-        'gmc' => [
-            'driver' => 'mysql',
-            'host' => 'localhost',
-            'port' => '3306',
-            'database' => 'gmc',
-            'username' => 'root',
-            'password' => null,
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
-            'strict' => false,
-            'engine' => null,
         ]
 
     ],

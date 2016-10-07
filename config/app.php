@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://gmc.gramedia-majalah.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY', 'base64:XH0f06r1MTEE0LPbqX7NETNvZQSwublI/Fi1OLTF9Mk='),
 
     'cipher' => 'AES-256-CBC',
 
