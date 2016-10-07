@@ -57,8 +57,9 @@
                     return row.expenseMax.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
                 },
                 commands: function (column, row) {
-                    return '<a href="{{ url("expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                            '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.expenseId + '" title="Delete Expense"><span class="zmdi zmdi-delete"></span></button>';
+                    var btnEdit = '<a href="{{ url("expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.expenseId + '" title="Delete Expense"><span class="zmdi zmdi-delete"></span></button>';
+                    return btnEdit + btnDelete;
                 }
             }
         }).on('loaded.rs.jquery.bootgrid', function () {

@@ -166,24 +166,18 @@
                         <li class="sub-menu">
                             {{ link_to('#', 'Residence') }}
                             <ul>
-                                <li>{{ link_to('#', 'Countries') }}</li>
-                                <li>{{ link_to('#', 'Provinces') }}</li>
-                                <li>{{ link_to('#', 'Cities') }}</li>
-                                <li>{{ link_to('#', 'Districts') }}</li>
-                                <li>{{ link_to('#', 'Post Codes') }}</li>
-                                <li>{{ link_to('#', 'Dwellings') }}</li>
-                                <li>{{ link_to('#', 'Greater Areas') }}</li>
+                                <li>{{ link_to('province', 'Provinces') }}</li>
+                                <li>{{ link_to('city', 'Cities') }}</li>
+                                <li>{{ link_to('district', 'Districts') }}</li>
+                                <li>{{ link_to('dwelling', 'Dwellings') }}</li>
+                                <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
                             </ul>
                         </li>
                         <li>{{ link_to('source', 'Sources') }}</li>
                         <li class="sub-menu">
                             {{ link_to('#', 'Vehicles') }}
                             <ul>
-                                <li>{{ link_to('#', 'Brands') }}</li>
-                                <li>{{ link_to('#', 'Clasifications') }}</li>
-                                <li>{{ link_to('#', 'Series') }}</li>
-                                <li>{{ link_to('#', 'Types') }}</li>
-                                <li>{{ link_to('#', 'Vehicles') }}</li>
+                                <li>{{ link_to('brand', 'Brands') }}</li>
                             </ul>
                         </li>
                     </ul>

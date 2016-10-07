@@ -55,8 +55,9 @@
                         return row.parent.interestName;
                 },
                 commands: function (column, row) {
-                    return '<a href="{{ url("interest") }}/' + row.interestId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.interestName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                            '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.interestId + '" title="Delete ' + row.interestName + '"><span class="zmdi zmdi-delete"></span></button>';
+                    var btnEdit = '<a href="{{ url("interest") }}/' + row.interestId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.interestName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.interestId + '" title="Delete ' + row.interestName + '"><span class="zmdi zmdi-delete"></span></button>';
+                    return btnEdit + btnDelete;
                 }
             }
         }).on('loaded.rs.jquery.bootgrid', function () {

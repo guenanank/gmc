@@ -168,6 +168,8 @@ return [
          * Defined Service Providers...
          */
         GMC\Services\Providers\AudienceProvider::class,
+        GMC\Services\Providers\Residence::class,
+        GMC\Services\Providers\Vehicle::class,
 
     ],
 
@@ -221,6 +223,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
         'AudienceRepository' => GMC\Services\Containers\AudienceContainer::class,
+        'Residence' => GMC\Services\Facades\Residence::class,
+        'Vehicle' => GMC\Services\Facades\Vehicle::class,
         
     ],
 

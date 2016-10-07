@@ -139,6 +139,15 @@ Route::group(['prefix' => 'profession'], function() {
     Route::delete('{professionId}', ['uses' => 'ProfessionController@destroy', 'as' => 'profession.delete']);
 });
 
+Route::group(['namespaces' => 'Residence'], function() {
+    Route::resource('country', 'Residence\CountryController');
+    Route::resource('province', 'Residence\ProvinceController');
+    Route::resource('city', 'Residence\CityController');
+    Route::resource('district', 'Residence\DistrictController');
+    Route::resource('dwelling', 'Residence\DwellingController');
+    Route::resource('greaterArea', 'Residence\GreaterAreaController');
+});
+
 Route::group(['prefix' => 'source'], function() {
     Route::get('/', ['uses' => 'SourceController@index', 'as' => 'source.index']);
     Route::post('bootgrid', ['uses' => 'SourceController@bootgrid', 'as' => 'source.bootgrid', 'middleware' => 'ajax']);
@@ -147,4 +156,8 @@ Route::group(['prefix' => 'source'], function() {
     Route::get('{sourceId}/edit', ['uses' => 'SourceController@edit', 'as' => 'source.edit']);
     Route::match(['PUT', 'PATCH'], 'update/{sourceId}', ['uses' => 'SourceController@update', 'as' => 'source.update', 'middleware' => 'ajax']);
     Route::delete('{sourceId}', ['uses' => 'SourceController@destroy', 'as' => 'source.delete']);
+});
+
+Route::group(['namespaces' => 'Vehicle'], function() {
+    Route::resource('brand', 'Vehicle\BrandController');
 });

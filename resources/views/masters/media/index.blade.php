@@ -50,7 +50,7 @@
                 iconRefresh: 'zmdi-refresh'
             },
             formatters: {
-                mediaType: function(column, row) {
+                mediaType: function (column, row) {
                     return (row.media_type) ? row.media_type.mediaTypeName : 'Unknown';
                 },
                 commands: function (column, row) {

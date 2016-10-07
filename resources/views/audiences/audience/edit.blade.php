@@ -64,14 +64,22 @@
                         @foreach($tabContent->questions as $q)
                             <div class="row">
                                 <div class="col-sm-offset-1 col-sm-10">
-                                    <div class="form-group fg-line">
-                                        <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<br /><small class="c-gray">{{ $q->questionDesc }}</small></p>
-                                        @if(isset($q->master))
-                                            @foreach($q->master->masterFormat as $format)
-                                                @if($q->master->masterUseAPI)
-                                                    {{ Form::label($format->name, ucfirst($format->name) . ' (unset)') }}<br />
-                                                @else
-                                                    {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
+                                    @if(isset($q->master))
+                                        @foreach($q->master->masterFormat as $format)
+                                            @continue(empty($format->form))
+                                            @if($q->master->masterUseAPI)
+                                                <p class="f-500 c-black">{{ strtoupper($format->name) }}</p>
+                                                {{ Form::select(camel_case($format->name), [], null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => true, 'multiple' => $format->form->isMultiple]) }}
+                                                <small id="{{ camel_case($format->name) }}" class="help-block"></small>
+                                                <br />
+                                            @else
+                                                <div class="form-group fg-line">
+                                                    <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<small class="c-gray">{{ $q->questionDesc }}</small></p>
+                                                    @if($format->name == 'media')
+                                                        {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
+                                                    @else
+                                                        {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
+                                                    @endif
                                                     <select {{ $format->form->isMultiple ? 'multiple data-selected-text-format="count"' : null }} name="{{ $format->name }}" class="form-control fg-input input-sm selectpicker" data-live-search="true">
                                                         <option value=""></option>
                                                         @foreach($model::all() as $option)
@@ -86,10 +94,13 @@
                                                         @endforeach
                                                     </select>
                                                     <small id="{{ $format->name }}" class="help-block"></small>
-                                                @endif
-                                            @endforeach
-                                        @else
-                                            @if($q->questionType == 'True Or False (Choice)' OR $q->questionType == 'Multiple Choice')
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <div class="form-group fg-line">
+                                            <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<small class="c-gray">{{ $q->questionDesc }}</small></p>
+                                            @if($q->questionType == 'True Or False' OR $q->questionType == 'Multiple Choice')
                                                 {{ Form::select(camel_case($q->questionText), ['' => ''] + $q->questionAnswer, $response->get($q->questionId), ['class' => 'form-control fg-input input-sm selectpicker']) }}
                                             @else
                                                 @if($q->questionFormType == 'textarea')
@@ -97,12 +108,12 @@
                                                 @elseif($q->questionFormType == 'date')
                                                     {{ Form::date(camel_case($q->questionText), $response->get($q->questionId), ['class' => 'input-sm form-control fg-input input-mask', 'data-mask' => '0000-00-00', 'placeholder' => $q->questionText]) }}
                                                 @else
-                                                    <input name="{{ camel_case($q->questionText) }}" type="{{ $q->questionFormType }}" class="form-control input-sm" placeholder="{{ $q->questionText }}" value="{{ $response->get($q->questionId) }}">
+                                                    <input name="{{ camel_case($q->questionText) }}" type="{{ $q->questionFormType }}" class="form-control input-sm" placeholder="{{ $q->questionText }}" value="{{ $response->get($q->questionId) }}" />
                                                 @endif
                                             @endif
                                             <small id="{{ camel_case($q->questionText) }}" class="help-block"></small>
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

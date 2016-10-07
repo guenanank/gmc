@@ -57,8 +57,9 @@ class AudienceController extends Controller {
     }
 
     public function create() {
-        $layer = \GMC\Models\Layer::with('question.master')->get();
-        return view('audiences.audience.create', compact('layer'));
+        $activities = \GMC\Models\Activity::lists('activityName', 'activityId')->all();
+        $layers = \GMC\Models\Layer::with('questions.master')->get();
+        return view('audiences.audience.create', compact('activities', 'layers'));
     }
 
     public function store(Request $request) {
@@ -95,13 +96,14 @@ class AudienceController extends Controller {
     }
 
     public function show($id) {
-        $audience = Audience::with('layers.question.master', 'activities')->find($id);
+        $audience = Audience::with('layers.questions.master', 'activities')->find($id);
         return view('audiences.audience.show', compact('audience'));
     }
 
     public function edit($id) {
-        $audience = Audience::with('layers.question.master', 'activities')->find($id);
-        return view('audiences.audience.edit', compact('audience'));
+        $activities = \GMC\Models\Activity::lists('activityName', 'activityId')->all();
+        $audience = Audience::with('layers.questions.master', 'activities')->find($id);
+        return view('audiences.audience.edit', compact('activities', 'audience'));
     }
 
     public function update(Request $request, $id) {

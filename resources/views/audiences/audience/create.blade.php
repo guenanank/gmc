@@ -63,49 +63,61 @@
                     <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
                         {{ Form::hidden('layerId', $tabContent->layerId) }}
                         @foreach($tabContent->questions as $q)
-                        <div class="row">
-                            <div class="col-sm-offset-1 col-sm-10">
-                                <div class="form-group fg-line">
-                                    <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<br /><small class="c-gray">{{ $q->questionDesc }}</small></p>
+                            <div class="row">
+                                <div class="col-sm-offset-1 col-sm-10">
                                     @if(isset($q->master))
                                         @foreach($q->master->masterFormat as $format)
+                                            @continue(empty($format->form))
                                             @if($q->master->masterUseAPI)
-                                                {{ Form::label($format->name, ucfirst($format->name) . ' (unset)') }}<br />
+                                                <div class="form-group fg-line">
+                                                    <p class="f-500 c-black">{{ strtoupper($format->name) }}</p>
+                                                    {{ Form::select(camel_case($format->name), [], null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => true]) }}
+                                                    <small id="{{ camel_case($format->name) }}" class="help-block"></small>
+                                                </div>
                                             @else
-                                                {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
-                                                <select {{ $format->form->isMultiple ? 'multiple data-selected-text-format="count"' : null }} name="{{ $format->name }}" class="form-control fg-input input-sm selectpicker" data-live-search="true">
-                                                    <option value=""></option>
-                                                    @foreach($model::all() as $option)
-                                                        <option value="{{ $option->{$format->form->index} }}">
-                                                            @foreach($format->form->value as $key => $val)
-                                                                {{ is_numeric($option->{$val}) ? number_format($option->{$val}) : $option->{$val} }}
-                                                                @if(!empty($option->{$val}) && ($key + 1) < count($format->form->value))
-                                                                    &nbsp;&HorizontalLine;&nbsp;
-                                                                @endif
-                                                            @endforeach
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                <small id="{{ $format->name }}" class="help-block"></small>
+                                                <div class="form-group fg-line">
+                                                    <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<small class="c-gray">{{ $q->questionDesc }}</small></p>
+                                                    @if($format->name == 'media')
+                                                        {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
+                                                    @else
+                                                        {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
+                                                    @endif
+                                                    <select {{ $format->form->isMultiple ? 'multiple data-selected-text-format="count"' : null }} name="{{ $format->name }}" class="form-control fg-input input-sm selectpicker" data-live-search="true">
+                                                        <option value=""></option>
+                                                        @foreach($model::all() as $option)
+                                                            <option value="{{ $option->{$format->form->index} }}">
+                                                                @foreach($format->form->value as $key => $val)
+                                                                    {{ is_numeric($option->{$val}) ? number_format($option->{$val}) : $option->{$val} }}
+                                                                    @if(!empty($option->{$val}) && ($key + 1) < count($format->form->value))
+                                                                        &nbsp;&HorizontalLine;&nbsp;
+                                                                    @endif
+                                                                @endforeach
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <small id="{{ $format->name }}" class="help-block"></small>
+                                                </div>
                                             @endif
                                         @endforeach
                                     @else
-                                        @if($q->questionType == 'True Or False (Choice)' OR $q->questionType == 'Multiple Choice')
-                                            {{ Form::select(camel_case($q->questionText), ['' => ''] + $q->questionAnswer, null, ['class' => 'form-control fg-input input-sm selectpicker']) }}
-                                        @else
-                                            @if($q->questionFormType == 'textarea')
-                                                {{ Form::textarea(camel_case($q->questionText), null, ['class' => 'input-sm form-control fg-input auto-size', 'cols' => '', 'rows' => '', 'placeholder' => $q->questionText]) }}
-                                            @elseif($q->questionFormType == 'date')
-                                                {{ Form::date(camel_case($q->questionText), null, ['class' => 'input-sm form-control fg-input input-mask', 'data-mask' => '0000-00-00', 'placeholder' => $q->questionText]) }}
+                                        <div class="form-group fg-line">
+                                            <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<small class="c-gray">{{ $q->questionDesc }}</small></p>
+                                            @if($q->questionType == 'True Or False' OR $q->questionType == 'Multiple Choice')
+                                                {{ Form::select(camel_case($q->questionText), ['' => ''] + $q->questionAnswer, null, ['class' => 'form-control fg-input input-sm selectpicker']) }}
                                             @else
-                                                <input name="{{ camel_case($q->questionText) }}" type="{{ $q->questionFormType }}" class="form-control input-sm" placeholder="{{ $q->questionText }}" />
+                                                @if($q->questionFormType == 'textarea')
+                                                    {{ Form::textarea(camel_case($q->questionText), null, ['class' => 'input-sm form-control fg-input auto-size', 'cols' => '', 'rows' => '', 'placeholder' => $q->questionText]) }}
+                                                @elseif($q->questionFormType == 'date')
+                                                    {{ Form::date(camel_case($q->questionText), null, ['class' => 'input-sm form-control fg-input input-mask', 'data-mask' => '0000-00-00', 'placeholder' => $q->questionText]) }}
+                                                @else
+                                                    <input name="{{ camel_case($q->questionText) }}" type="{{ $q->questionFormType }}" class="form-control input-sm" placeholder="{{ $q->questionText }}" />
+                                                @endif
                                             @endif
-                                        @endif
-                                        <small id="{{ camel_case($q->questionText) }}" class="help-block"></small>
+                                            <small id="{{ camel_case($q->questionText) }}" class="help-block"></small>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                     @endforeach
@@ -130,6 +142,12 @@
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
 (function ($) {
+    
+    $('select[name="provinces"]').on('change', function() {
+        var provinceId = $(this).val();
+        console.log(provinceId);
+    });
+    
     $('.form-wizard-audience').bootstrapWizard({
         tabClass: 'fw-nav',
         nextSelector: '.next',
