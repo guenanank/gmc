@@ -151,10 +151,10 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        GMC\Providers\AppServiceProvider::class,
+        GMC\Providers\AuthServiceProvider::class,
+        GMC\Providers\EventServiceProvider::class,
+        GMC\Providers\RouteServiceProvider::class,
         
         /*
          * Composer Service Providers...
@@ -166,7 +166,9 @@ return [
         /*
          * Defined Service Providers...
          */
-        App\Services\Providers\AudienceProvider::class,
+        GMC\Services\Providers\AudienceProvider::class,
+        GMC\Services\Providers\Residence::class,
+        GMC\Services\Providers\Vehicle::class,
 
     ],
 
@@ -219,7 +221,9 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
-        'AudienceRepository' => App\Services\Containers\AudienceContainer::class,
+        'AudienceRepository' => GMC\Services\Containers\AudienceContainer::class,
+        'Residence' => GMC\Services\Facades\Residence::class,
+        'Vehicle' => GMC\Services\Facades\Vehicle::class,
         
     ],
 

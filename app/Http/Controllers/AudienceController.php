@@ -1,30 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\Containers\AudienceContainer as AudienceRepository;
+use GMC\Services\Containers\AudienceContainer as AudienceRepository;
 use Validator;
-use App\Layer;
-use App\Audience;
-use App\Question;
-use App\AudienceActivity;
-use App\AudienceLayer;
+use GMC\Layer;
+use GMC\Models\Audience;
 
-class AudienceController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+class AudienceController extends Controller {
+
+    public function index() {
         return view('audiences.audience.index');
     }
-    
-    public function bootgrid(Request $request)
-    {
+
+    public function bootgrid(Request $request) {
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
@@ -32,8 +22,8 @@ class AudienceController extends Controller
         $sortColumn = 'audienceId';
         $sortType = 'DESC';
 
-        if(is_array($request->input('sort'))) :
-            foreach($request->input('sort') as $key => $value):
+        if (is_array($request->input('sort'))) :
+            foreach ($request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
@@ -55,61 +45,48 @@ class AudienceController extends Controller
                 ->count();
 
         return response()->json([
-            'current' => (int) $current,
-            'rowCount' => (int) $rowCount,
-            'rows' => $rows,
-            'total' => $total
-        ], 200);
+                    'current' => (int) $current,
+                    'rowCount' => (int) $rowCount,
+                    'rows' => $rows,
+                    'total' => $total
+                        ], 200);
     }
-        
-    public function validateAudienceLayer(Request $request)
-    {
+
+    public function validateAudienceLayer(Request $request) {
         return AudienceRepository::validateAudienceLayer($request);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $layer = Layer::with('question.master')->get();
-        return view('audiences.audience.create', compact('layer'));
+    public function create() {
+        $activities = \GMC\Models\Activity::lists('activityName', 'activityId')->all();
+        $layers = \GMC\Models\Layer::with('questions.master')->get();
+        return view('audiences.audience.create', compact('activities', 'layers'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validator = Validator::make($request->all(), Audience::$rules + AudienceActivity::$rules);
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
         $create = Audience::create($request->all());
-        foreach(Layer::all() as $l) :
+        foreach (\GMC\Models\Layer::all() as $l) :
             $audienceLayerResponse = [];
-            foreach(Question::where('layerId', $l->layerId)->get() as $q) :
+            foreach (\GMC\Models\Question::where('layerId', $l->layerId)->get() as $q) :
                 $questionText = camel_case($q->questionText);
-                if(array_key_exists($questionText, $request->all())) :
+                if (array_key_exists($questionText, $request->all())) :
                     $audienceLayerResponse[$q->questionId] = $request->input($questionText);
                 endif;
             endforeach;
 
-            AudienceLayer::create([
+            \GMC\Models\AudienceLayer::create([
                 'audienceId' => $create->audienceId,
                 'layerId' => $l->layerId,
                 'audienceLayerResponse' => collect($audienceLayerResponse)->toJson()
             ]);
         endforeach;
 
-        foreach($request->activityId as $activityId) :
-            AudienceActivity::create([
+        foreach ($request->activityId as $activityId) :
+            \GMC\Models\AudienceActivity::create([
                 'activityId' => $activityId,
                 'audienceId' => $create->audienceId
             ]);
@@ -117,40 +94,19 @@ class AudienceController extends Controller
 
         return response()->json(['create' => $create], 200);
     }
-    
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $audience = Audience::with('layers.question.master', 'activities')->find($id);
+
+    public function show($id) {
+        $audience = Audience::with('layers.questions.master', 'activities')->find($id);
         return view('audiences.audience.show', compact('audience'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $audience = Audience::with('layers.question.master', 'activities')->find($id);
-        return view('audiences.audience.edit', compact('audience'));
+    public function edit($id) {
+        $activities = \GMC\Models\Activity::lists('activityName', 'activityId')->all();
+        $audience = Audience::with('layers.questions.master', 'activities')->find($id);
+        return view('audiences.audience.edit', compact('activities', 'audience'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $audience = Audience::find($id);
         $validator = Validator::make($request->all(), Audience::$rules + AudienceActivity::$rules);
 
@@ -159,27 +115,27 @@ class AudienceController extends Controller
         endif;
 
         $update = $audience->update($request->all());
-        AudienceLayer::where('audienceId', $audience->audienceId)->delete();
-        AudienceActivity::where('audienceId', $audience->audienceId)->delete();
+        \GMC\Models\AudienceLayer::where('audienceId', $audience->audienceId)->delete();
+        \GMC\Models\AudienceActivity::where('audienceId', $audience->audienceId)->delete();
 
-        foreach(Layer::all() as $l) :
+        foreach (\GMC\Models\Layer::all() as $l) :
             $audienceLayerResponse = [];
-            foreach(Question::where('layerId', $l->layerId)->get() as $q) :
+            foreach (\GMC\Models\Question::where('layerId', $l->layerId)->get() as $q) :
                 $questionText = camel_case($q->questionText);
-                if(array_key_exists($questionText, $request->all())) :
+                if (array_key_exists($questionText, $request->all())) :
                     $audienceLayerResponse[$q->questionId] = $request->input($questionText);
                 endif;
             endforeach;
 
-            AudienceLayer::create([
+            \GMC\Models\AudienceLayer::create([
                 'audienceId' => $audience->audienceId,
                 'layerId' => $l->layerId,
                 'audienceLayerResponse' => collect($audienceLayerResponse)->toJson()
             ]);
         endforeach;
 
-        foreach($request->activityId as $activityId) :
-            AudienceActivity::create([
+        foreach ($request->activityId as $activityId) :
+            \GMC\Models\AudienceActivity::create([
                 'activityId' => $activityId,
                 'audienceId' => $audience->audienceId
             ]);
@@ -188,14 +144,8 @@ class AudienceController extends Controller
         return response()->json(['update' => $update], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
 }

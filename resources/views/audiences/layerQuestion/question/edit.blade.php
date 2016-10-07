@@ -24,7 +24,7 @@
                         <div class="form-group fg-float">
                             <div class="fg-line">
                                 <div class="select">
-                                    {{ Form::select('masterId', ['' => ''] + App\Master::lists('masterName', 'masterId')->all(), $question->masterId, ['class' => 'form-control', ($question->masterId > 0) ? 'autofocus' : false]) }}
+                                    {{ Form::select('masterId', ['' => ''] + $masters, $question->masterId, ['class' => 'form-control', ($question->masterId > 0) ? 'autofocus' : false]) }}
                                 </div>
                                 {{ Form::label('masterId', 'Master', ['class' => 'fg-label']) }}
                             </div>

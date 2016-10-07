@@ -11,29 +11,29 @@
   "dependencies": {
     "jquery": "2.1.4",
     "bootstrap": "3.3.6",
-    "font-awesome": "fontawesome#^4.0.3",
+    
     "autosize": "^3.0.15",
-    "mjolnic-bootstrap-colorpicker": "bootstrap-colorpicker#2.3.3",
+    
     "bootstrap-datepicker": "1.1.1",
     "bootstrap-daterangepicker": "1.3.1",
     "bootstrap-hover-dropdown": "2.0.1",
     "bootstrap-modal": "2.1.0",
     "bootstrap-switch": "1.8.0",
     "bootstrap-timepicker": "0.2.3",
-    "ckeditor": "4.5.8",
-    "jquery-colorbox": "colorbox#1.4.32",
+    
+    
     "dropzone": "^4.3.0",
     "ExplorerCanvas": "excanvas#*",
     "fullcalendar": "1.6.1",
-    "gritter": "1.7.5",
+    
     "iCheck": "icheck#1.0.1",
-    "Jcrop": "jcrop#0.9.12",
-    "jqGrid": "jqgrid#4.4.3",
-    "blueimp-file-upload": "jquery-file-upload#8.8.5",
-    "x-editable": "1.5.0",
+    
+    
+    
+    
     "perfect-scrollbar": "0.4.6",
-    "select2": "3.4.3",
-    "typeahead.js": "typehead.js#0.11.1",
+    
+    
     "jquery-address": "*",
     "bootstrap3-wysihtml5-bower": "0.3.3",
     "eonasdan-bootstrap-datetimepicker": "4.7.14",
@@ -43,37 +43,40 @@
     "jquery.cookie": "jquery-cookie#1.4.0",
     "summernote": "^0.2.1",
     "jquery.tagsinput": "jquery-tags-input#1.3.3",
-    "datatables.net": "1.10.9",
-    "datatables.net-bs": "1.10.9",
+    
+    
     "ladda": "0.8.0",
     "jquery-inputlimiter": "*",
     "jquery-maskmoney": "2.1.2",
     "jquery.maskedinput": "jquery-maskedinputs#1.3.1",
     "less": "1.5.0",
     "jquery-mousewheel": "3.1.13",
-    "jquery.fancytree": "fancytree#^2.17.0",
-    "blockUI": "blockui#*",
-    "jquery-ui": "jquery-ui#1.10.2",
-    "jquery-validation": "1.11.1",
-    "jQuery-Smart-Wizard": "^3.3.1",
+    
+    
+    
+    
     "jquery.bootgrid": "jquery-bootgrid#^1.3.1",
     "remarkable-bootstrap-notify": "remarkable-bootstrap-growl#2.0.1",
     "twitter-bootstrap-wizard": "^1.3.2",
-    "farbtastic": "^2.0.0-alpha.1",
+    
     "Waves": "waves#^0.7.5",
     "animate.css": "^3.5.1",
     "bootstrap-select": "^1.10.0",
     "bootstrap-sweetalert": "^0.4.5",
-    "chosen": "^1.5.1",
-    "lightgallery": "^1.2.18",
-    "malihu-custom-scrollbar-plugin": "^3.1.3",
+    
+    
+    
     "material-design-iconic-font": "^2.2.0",
-    "mediaelement": "^2.21.1",
+    
     "nouislider": "7.0.10",
-    "simpleWeather": "^3.1.0",
-    "bootstrap-fileinput": "^4.3.1",
+    
+    
     "jquery.inputmask": "^3.3.1",
-    "clipboard": "^1.5.12"
+    "clipboard": "^1.5.12",
+    "Flot": "flot#^0.8.3",
+    "flot.curvedlines": "^1.1.1",
+    "sparkline": "^2.1.2",
+    "jquery.easy-pie-chart": "easypie#^2.1.6"
   },
   "resolutions": {
     "jquery": "2.1.4",

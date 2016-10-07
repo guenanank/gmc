@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li class="active">Expense</li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li class="active">Expenses</li>
 </ol>
 @stop
 
@@ -32,41 +32,42 @@
 
 @section('scripts')
 <script type="text/javascript">
-(function ($) {
-    $('#bootgrid').bootgrid({
-        caseSensitive: false,
-        ajax: true,
-        selection: true,
-        rowCount: [5, 10, 25, 50, -1],
-        multiSelect: true,
-        rowSelect: true,
-        keepSelection: true,
-        url: $('#bootgrid').data('url'),
-        css: {
-            icon: 'zmdi icon',
-            iconColumns: 'zmdi-view-module',
-            iconDown: 'zmdi-sort-desc',
-            iconUp: 'zmdi-sort-asc',
-            iconRefresh: 'zmdi-refresh'
-        },
-        formatters: {
-            expenseMin: function (column, row) {
-                return row.expenseMin.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    (function ($) {
+        $('#bootgrid').bootgrid({
+            caseSensitive: false,
+            ajax: true,
+            selection: true,
+            rowCount: [5, 10, 25, 50, -1],
+            multiSelect: true,
+            rowSelect: true,
+            keepSelection: true,
+            url: $('#bootgrid').data('url'),
+            css: {
+                icon: 'zmdi icon',
+                iconColumns: 'zmdi-view-module',
+                iconDown: 'zmdi-sort-desc',
+                iconUp: 'zmdi-sort-asc',
+                iconRefresh: 'zmdi-refresh'
             },
-            expenseMax: function (column, row) {
-                return row.expenseMax.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-            },
-            commands: function (column, row) {
-                return '<a href="{{ url("expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                        '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.expenseId + '" title="Delete Expense"><span class="zmdi zmdi-delete"></span></button>';
+            formatters: {
+                expenseMin: function (column, row) {
+                    return row.expenseMin.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                },
+                expenseMax: function (column, row) {
+                    return row.expenseMax.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                },
+                commands: function (column, row) {
+                    var btnEdit = '<a href="{{ url("expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.expenseId + '" title="Delete Expense"><span class="zmdi zmdi-delete"></span></button>';
+                    return btnEdit + btnDelete;
+                }
             }
-        }
-    }).on('loaded.rs.jquery.bootgrid', function () {
-        $('#bootgrid').find('.command-delete').on('click', function (e) {
-            e.preventDefault();
-            deletes('expense', $(this).data('row-id'));
+        }).on('loaded.rs.jquery.bootgrid', function () {
+            $('#bootgrid').find('.command-delete').on('click', function (e) {
+                e.preventDefault();
+                deletes('expense', $(this).data('row-id'));
+            });
         });
-    });
-})(jQuery);
+    })(jQuery);
 </script>
 @stop

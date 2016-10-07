@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('master/education') }}">Education</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('education', 'Education') }}</li>
     <li class="active">Edit</li>
 </ol>
 @stop
@@ -17,8 +17,8 @@
         </a>
     </div>
     <br />
-    {{ Form::model($education, ['route' => ['education.update', $education], 'method' =>'patch', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
+        {{ Form::model($education, ['route' => ['education.update', $education], 'method' =>'patch', 'class' => 'ajaxForm']) }}
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <br />
+        {{ Form::close() }}
     </div>
-    {{ Form::close() }}
 </div>
 @endsection

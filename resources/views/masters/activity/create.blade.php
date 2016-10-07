@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('master/activity') }}">Activity</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('activity', 'Activities') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -17,14 +17,14 @@
         </a>
     </div>
     <br />
-    {{ Form::open(['route' => 'activity.store', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
+        {{ Form::open(['route' => 'activity.store', 'class' => 'ajaxForm']) }}
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('sourceId', [''=>''] + App\Source::lists('sourceName', 'sourceId')->all(), null, ['class' => 'form-control']) }}
+                            {{ Form::select('sourceId', [''=>''] + $sources, null, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('sourceId', 'Choose Source Data', ['class' => 'fg-label']) }}
                     </div>
@@ -38,7 +38,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('mediaGroupId', [''=>''] + App\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all(), null, ['class' => 'form-control']) }}
+                            {{ Form::select('mediaGroupId', [''=>''] + $mediaGroups, null, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('mediaGroupId', 'Choose Media Group', ['class' => 'fg-label']) }}
                     </div>
@@ -83,7 +83,7 @@
             </div>
         </div>
         <br />
-        
+
         <div class="form-group">
             <div class="col-sm-offset-1 col-sm-10">
                 <button class="btn btn-primary btn-icon-text btn-sm waves-effect" type="submit">
@@ -92,7 +92,7 @@
             </div>
         </div>
         <br />
+        {{ Form::close() }}
     </div>
-    {{ Form::close() }}
 </div>
 @endsection

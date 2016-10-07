@@ -27,7 +27,7 @@
                         <div class="form-group fg-float">
                             <div class="fg-line">
                                 <div class="select">
-                                    {{ Form::select('masterId', [''=>''] + App\Master::lists('masterName', 'masterId')->all(), null, ['class' => 'form-control']) }}
+                                    {{ Form::select('masterId', [''=>''] + $masters, null, ['class' => 'form-control']) }}
                                 </div>
                                 {{ Form::label('masterId', 'Master', ['class' => 'fg-label']) }}
                             </div>

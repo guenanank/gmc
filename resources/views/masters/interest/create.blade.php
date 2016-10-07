@@ -2,8 +2,8 @@
 
 @section('blockHeader')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
-    <li><a href="{{ url('master/interest/') }}">Interest</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
+    <li>{{ link_to('interest', 'Interests') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -17,8 +17,8 @@
         </a>
     </div>
     <br />
-    {{ Form::open(['route' => 'interest.store', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
+        {{ Form::open(['route' => 'interest.store', 'class' => 'ajaxForm']) }}
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
@@ -36,7 +36,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('interestSubFrom', [''=>''] + App\Interest::lists('interestName', 'interestId')->all(), null, ['class' => 'form-control']) }}
+                            {{ Form::select('interestSubFrom', [''=>''] + $interests, null, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('interestSubFrom', 'Is Sub Interest From', ['class' => 'fg-label']) }}
                     </div>
@@ -53,7 +53,7 @@
             </div>
         </div>
         <br />
+        {{ Form::close() }}
     </div>
-    {{ Form::close() }}
 </div>
 @endsection

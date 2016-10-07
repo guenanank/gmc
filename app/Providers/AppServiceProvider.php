@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace GMC\Providers;
 
 use Validator;
 use Illuminate\Support\Facades\Input;

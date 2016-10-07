@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-    <li><a href="{{ url('dashboard/') }}">GMC</a></li>
+    <li>{{ link_to('dashboard', 'GMC') }}</li>
     <li class="active">Audiences</li>
 </ol>
 @stop
@@ -14,7 +14,7 @@
         <a href="{{ action('AudienceController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Audiences">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
-        
+
         <a href="{{ action('UploadController@index') }}" class="btn bgm-teal btn-icon pull-right m-r-10" data-toggle="tooltip" data-placement="top" title="Upload Audiences">
             <i class="zmdi zmdi-upload"></i>
         </a>
@@ -39,58 +39,58 @@
 
 @section('scripts')
 <script type="text/javascript">
-(function ($) {
-    $('#bootgrid').bootgrid({
-        ajax: true,
-        selection: true,
-        rowCount: [5, 10, 25, 50, -1],
-        multiSelect: true,
-        rowSelect: true,
-        keepSelection: true,
-        caseSensitive: false,
-        url: $('#bootgrid').data('url'),
-        css: {
-            icon: 'zmdi icon',
-            iconColumns: 'zmdi-view-module',
-            iconDown: 'zmdi-caret-down',
-            iconUp: 'zmdi-caret-up',
-            iconRefresh: 'zmdi-refresh'
-        },
-        formatters: {
-            pk: function(column, row) {
-                return $.strPad(row.audienceId, 8);
+    (function ($) {
+        $('#bootgrid').bootgrid({
+            ajax: true,
+            selection: true,
+            rowCount: [5, 10, 25, 50, -1],
+            multiSelect: true,
+            rowSelect: true,
+            keepSelection: true,
+            caseSensitive: false,
+            url: $('#bootgrid').data('url'),
+            css: {
+                icon: 'zmdi icon',
+                iconColumns: 'zmdi-view-module',
+                iconDown: 'zmdi-caret-down',
+                iconUp: 'zmdi-caret-up',
+                iconRefresh: 'zmdi-refresh'
             },
-            type: function(column, row) {
-                return row.audienceType.substr(0,1).toUpperCase() + row.audienceType.substr(1);
-            },
-            activity: function(column, row) {
-                var activities = [];
-                $.each(row.activities, function(k, v) {
-                    activities.push(v.activityName);
-                });
-                
-                return activities.join(', ');
-            },
-            commands: function (column, row) {
-                var detail = '<a data-href="{{ url("audience/") }}/' + row.audienceId + '" class="bgm-orange command-detail btn btn-default btn-icon waves-effect waves-circle"><i class="zmdi zmdi-format-list-numbered"></i></a>&nbsp; ';
-                var edit = '<a href="{{ url("audience") }}/' + row.audienceId + '/edit" class="bgm-blue command-edit btn btn-default btn-icon waves-effect waves-circle" title="Edit ' + row.audienceFullname + '"><i class="zmdi zmdi-edit"></i></a>&nbsp; ';
-                var del = '<button type="button" class="bgm-red command-delete btn btn-default btn-icon waves-effect waves-circle" data-row-id="' + row.audienceId + '" title="Delete ' + row.audienceFullname + '"><i class="zmdi zmdi-delete"></i></button>';
-                return detail + edit + del;
+            formatters: {
+                pk: function (column, row) {
+                    return $.strPad(row.audienceId, 8);
+                },
+                type: function (column, row) {
+                    return row.audienceType.substr(0, 1).toUpperCase() + row.audienceType.substr(1);
+                },
+                activity: function (column, row) {
+                    var activities = [];
+                    $.each(row.activities, function (k, v) {
+                        activities.push(v.activityName);
+                    });
+
+                    return activities.join(', ');
+                },
+                commands: function (column, row) {
+                    var detail = '<a data-href="{{ url("audience/") }}/' + row.audienceId + '" class="bgm-orange command-detail btn btn-default btn-icon waves-effect waves-circle"><i class="zmdi zmdi-search-in-file"></i></a>&nbsp; ';
+                    var edit = '<a href="{{ url("audience") }}/' + row.audienceId + '/edit" class="bgm-blue command-edit btn btn-default btn-icon waves-effect waves-circle" title="Edit ' + row.audienceFullname + '"><i class="zmdi zmdi-edit"></i></a>&nbsp; ';
+                    var del = '<button type="button" class="bgm-red command-delete btn btn-default btn-icon waves-effect waves-circle" data-row-id="' + row.audienceId + '" title="Delete ' + row.audienceFullname + '"><i class="zmdi zmdi-delete"></i></button>';
+                    return detail + edit + del;
+                }
             }
-        }
-    }).on('loaded.rs.jquery.bootgrid', function () {
-        $('#bootgrid').find('.command-detail').on('click', function (e) {
-            e.preventDefault();
-            $.get($(this).data('href'), function (data) {
-                $(data).modal();
+        }).on('loaded.rs.jquery.bootgrid', function () {
+            $('#bootgrid').find('.command-detail').on('click', function (e) {
+                e.preventDefault();
+                $.get($(this).data('href'), function (data) {
+                    $(data).modal();
+                });
+
             });
-            
+            $('#bootgrid').find('.command-delete').on('click', function (e) {
+                e.preventDefault();
+                deletes('audience', $(this).data('row-id'));
+            });
         });
-        $('#bootgrid').find('.command-delete').on('click', function (e) {
-            e.preventDefault();
-            deletes('audience', $(this).data('row-id'));
-        });
-    });
-})(jQuery);
+    })(jQuery);
 </script>
 @stop

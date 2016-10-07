@@ -35,23 +35,25 @@
                         <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
                             <div class="form-horizontal">
                                 {{--*/ $response = collect(json_decode($tabContent->pivot->audienceLayerResponse, true)) /*--}}
-                                @foreach($tabContent->question as $q)
+                                @foreach($tabContent->questions as $q)
                                     <label class="col-sm-4 control-label f-500">{{ $q->questionText }}</label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static">
                                             @if($q->masterId)
                                                 @foreach(collect(json_decode($q->master->masterFormat)) as $format)
-                                                    @unless($q->master->masterUseAPI == 1)
-                                                        {{--*/ $model = 'App\\' . str_singular(ucfirst($format->name)) /*--}}
+                                                    @if($q->master->masterUseAPI)
+                                                        {{ $response->get($q->questionId) }}
+                                                    @else
+                                                        {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
                                                         @continue(empty($response->get($q->questionId)))
-                                                        {{--*/ $master = $model::find($response->get($q->questionId)) /*--}}
+                                                        {{--*/ $master = $model::findOrFail($response->get($q->questionId)) /*--}}
                                                         @foreach($format->form->value as $key => $val)
                                                             {{ is_numeric($master->{$val}) ? number_format($master->{$val}) : $master->{$val} }}
                                                             @if(!empty($master->{$val}) && ($key + 1) < count($format->form->value))
                                                                 &nbsp;&HorizontalLine;&nbsp;
                                                             @endif
                                                         @endforeach
-                                                    @endunless
+                                                    @endif
                                                 @endforeach
                                             @else
                                                 {{ strtoupper($response->get($q->questionId)) }}

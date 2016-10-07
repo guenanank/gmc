@@ -7,7 +7,7 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard/', 'GMC') }}</li>
-    <li>{{ link_to('audience/audience', 'Audience') }}</li>
+    <li>{{ link_to('audience', 'Audience') }}</li>
     <li class="active">Upload</li>
 </ol>
 @stop
@@ -24,7 +24,6 @@
     <div class="card-body card-padding">
         {{ Form::open(['method' => 'PUT', 'url' => route('upload.store'), 'class' => 'dropzone', 'id' => 'uploadAudience']) }}
         {{ Form::close() }}
-
     </div>
 </div>
 @endsection

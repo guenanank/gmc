@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Services\Containers\AudienceContainer as AudienceRepository;
+use GMC\Services\Containers\AudienceContainer as AudienceRepository;
 use Validator;
-use App\Upload;
+use GMC\Models\Upload;
 
 class UploadController extends Controller 
 {
@@ -22,7 +21,7 @@ class UploadController extends Controller
     
     public function download()
     {        
-        Excel::create(Carbon::now(), function($excel) {
+        Excel::create(\Carbon\Carbon::now(), function($excel) {
             $excel->setTitle('Activity Name');
             $excel->setCreator('GMC')->setCompany('Gramedia Majalah');
             $excel->setDescription('Audience sample upload format');

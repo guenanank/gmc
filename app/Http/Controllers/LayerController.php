@@ -1,35 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace GMC\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Layer;
-use App\Question;
+use GMC\Http\Requests;
+use GMC\Models\Layer;
 
-class LayerController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+class LayerController extends Controller {
+
+    public function index() {
         return view('audiences.layerQuestion.layer.index');
     }
-    
-    public function layer($layerId)
-    {
+
+    public function layer($layerId) {
         $layer = Layer::findOrFail($layerId);
-        $questionType = Question::$questionType;
-        $formType = Question::$questionFormType;
-        return view('audiences.layerQuestion.question.index', compact('layer', 'questionType', 'formType'));
+        $questionType = \GMC\Models\Question::$questionType;
+        $formType = \GMC\Models\Question::$questionFormType;
+        $masters = \GMC\Models\Master::lists('masterName', 'masterId')->all();
+        return view('audiences.layerQuestion.question.index', compact('layer', 'masters', 'questionType', 'formType'));
     }
-    
-    public function bootgrid(Request $request) 
-    {
+
+    public function bootgrid(Request $request) {
         $current = $request->input('current', 1);
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
@@ -37,7 +29,7 @@ class LayerController extends Controller
         $sortColumn = 'layerId';
         $sortType = 'DESC';
 
-        if(is_array($request->input('sort'))) :
+        if (is_array($request->input('sort'))) :
             foreach ($request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
@@ -45,39 +37,26 @@ class LayerController extends Controller
         endif;
 
         $rows = Layer::where('layerName', 'LIKE', '%' . $search . '%')
-                    ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
-                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+                        ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
+                        ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
 
         $total = Layer::where('layerName', 'LIKE', '%' . $search . '%')
-                    ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
-                    ->count();
+                ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
+                ->count();
 
         return response()->json([
-            'current' => (int) $current,
-            'rowCount' => (int) $rowCount,
-            'rows' => $rows,
-            'total' => $total
-        ], 200);
+                    'current' => (int) $current,
+                    'rowCount' => (int) $rowCount,
+                    'rows' => $rows,
+                    'total' => $total
+                        ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    public function create() {
         return view('audiences.layerQuestion.layer.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validator = Validator::make($request->all(), Layer::$rules);
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
@@ -87,27 +66,12 @@ class LayerController extends Controller
         return response()->json(['create' => $create], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
+    public function edit($id) {
         $layer = Layer::findOrFail($id);
         return view('audiences.layerQuestion.layer.edit', compact('layer'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $layer = Layer::findOrFail($id);
         Layer::$rules['layerName'] = 'required|string|max:127|unique:layers,layerName,' . $layer->layerId . ',layerId';
         $validator = Validator::make($request->all(), Layer::$rules);
@@ -119,17 +83,10 @@ class LayerController extends Controller
         return response()->json(['update' => $update], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $layer = Layer::findOrFail($id);
         $delete = $layer->delete();
         return response()->json($delete, 200);
     }
-    
+
 }

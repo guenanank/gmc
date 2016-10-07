@@ -45,7 +45,7 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" href="#">
                             <i class="tm-icon zmdi zmdi-notifications"></i>
-                            <i class="tmn-counts">9</i>
+                            <i class="tmn-counts">1</i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg pull-right">
                             <div class="listview" id="notifications">
@@ -63,51 +63,7 @@
                                     <a class="lv-item" href="#">
                                         <div class="media">
                                             <div class="pull-left">
-                                                <img class="lv-img-sm" src="img/profile-pics/1.jpg" alt="">
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="lv-title">David Belle</div>
-                                                <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="lv-item" href="#">
-                                        <div class="media">
-                                            <div class="pull-left">
-                                                <img class="lv-img-sm" src="img/profile-pics/2.jpg" alt="">
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="lv-title">Jonathan Morris</div>
-                                                <small class="lv-small">Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="lv-item" href="#">
-                                        <div class="media">
-                                            <div class="pull-left">
-                                                <img class="lv-img-sm" src="img/profile-pics/3.jpg" alt="">
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="lv-title">Fredric Mitchell Jr.</div>
-                                                <small class="lv-small">Phasellus a ante et est ornare accumsan at vel magnauis blandit turpis at augue ultricies</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="lv-item" href="#">
-                                        <div class="media">
-                                            <div class="pull-left">
-                                                <img class="lv-img-sm" src="img/profile-pics/4.jpg" alt="">
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="lv-title">Glenn Jecobs</div>
-                                                <small class="lv-small">Ut vitae lacus sem ellentesque maximus, nunc sit amet varius dignissim, dui est consectetur neque</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="lv-item" href="#">
-                                        <div class="media">
-                                            <div class="pull-left">
-                                                <img class="lv-img-sm" src="img/profile-pics/4.jpg" alt="">
+                                                <img class="lv-img-sm" src="{{ asset('images/profile-pics/2.jpg') }}" alt="">
                                             </div>
                                             <div class="media-body">
                                                 <div class="lv-title">Bill Phillips</div>
@@ -153,7 +109,6 @@
             </li>
         </ul>
 
-
         <!-- Top Search Content -->
         <div id="top-search-wrap">
             <div class="tsw-inner">
@@ -162,7 +117,7 @@
             </div>
         </div>
     </header>
-    <section id="main">
+    <section id="main" data-layout="layout-1">
         <aside id="sidebar" class="sidebar c-overflow">
             <div class="profile-menu">
                 <a href="#">
@@ -189,7 +144,7 @@
                 </ul>
             </div>
             <ul class="main-menu">
-                <li><a href="{{ url('dashboard/') }}"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
+                <li><a href="{{ url('dashboard/') }}"><i class="zmdi zmdi-view-dashboard"></i> Dashboard</a></li>
                 <li class="sub-menu">
                     <a href="{{ url('#') }}"><i class="zmdi zmdi-accounts-list"></i> Audiences</a>
                     <ul>
@@ -211,29 +166,22 @@
                         <li class="sub-menu">
                             {{ link_to('#', 'Residence') }}
                             <ul>
-                                <li>{{ link_to('#', 'Countries') }}</li>
-                                <li>{{ link_to('#', 'Provinces') }}</li>
-                                <li>{{ link_to('#', 'Cities') }}</li>
-                                <li>{{ link_to('#', 'Districts') }}</li>
-                                <li>{{ link_to('#', 'Post Codes') }}</li>
-                                <li>{{ link_to('#', 'Dwellings') }}</li>
-                                <li>{{ link_to('#', 'Greater Areas') }}</li>
+                                <li>{{ link_to('province', 'Provinces') }}</li>
+                                <li>{{ link_to('city', 'Cities') }}</li>
+                                <li>{{ link_to('district', 'Districts') }}</li>
+                                <li>{{ link_to('dwelling', 'Dwellings') }}</li>
+                                <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
                             </ul>
                         </li>
-                        <li>{{ link_to('master/source', 'Sources') }}</li>
+                        <li>{{ link_to('source', 'Sources') }}</li>
                         <li class="sub-menu">
                             {{ link_to('#', 'Vehicles') }}
                             <ul>
-                                <li>{{ link_to('#', 'Brands') }}</li>
-                                <li>{{ link_to('#', 'Clasifications') }}</li>
-                                <li>{{ link_to('#', 'Series') }}</li>
-                                <li>{{ link_to('#', 'Types') }}</li>
-                                <li>{{ link_to('#', 'Vehicles') }}</li>
+                                <li>{{ link_to('brand', 'Brands') }}</li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-
             </ul>
         </aside>
 
@@ -272,15 +220,12 @@
     {{ Html::script('js/waves.js') }}
     {{ Html::script('js/bootstrap-growl.js') }}
     {{ Html::script('js/sweet-alert.min.js') }}
-    {{ Html::script('js/jquery.bootstrap.wizard.js') }}
+    
     {{ Html::script('js/moment.js') }}
     {{ Html::script('js/bootstrap-select.js') }}
     {{ Html::script('js/jquery.nouislider.all.js') }}
     {{ Html::script('js/bootstrap-datetimepicker.min.js') }}
-    {{ Html::script('js/typeahead.bundle.js') }}
-    {{ Html::script('js/summernote.min.js') }}
     {{ Html::script('js/clipboard.min.js') }}
-    {{ Html::script('js/chosen.jquery.js') }}
     {{ Html::script('js/input-mask.min.js') }}
     {{ Html::script('js/fileinput.min.js') }}
     {{ Html::script('js/jquery.bootgrid.updated.min.js') }}
