@@ -3,10 +3,9 @@
 namespace GMC\Http\Controllers;
 
 use Illuminate\Http\Request;
-use GMC\Services\Containers\AudienceContainer as AudienceRepository;
+use GMC\Http\Controllers\Controller;
+use GMC\Services\Facades\Audiences;
 use Validator;
-use GMC\Layer;
-use GMC\Models\Audience;
 
 class AudienceController extends Controller {
 
@@ -28,8 +27,10 @@ class AudienceController extends Controller {
                 $sortType = $value;
             endforeach;
         endif;
+        
+        
 
-        $rows = AudienceRepository::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
+        $rows = Audiences::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('activities', function($query) use($search) {
                     $query->where('activityName', 'LIKE', '%' . $search . '%');
                 })
@@ -37,7 +38,7 @@ class AudienceController extends Controller {
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = AudienceRepository::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
+        $total = Audiences::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('activities', function($query) use($search) {
                     $query->where('activityName', 'LIKE', '%' . $search . '%');
                 })
@@ -53,32 +54,33 @@ class AudienceController extends Controller {
     }
 
     public function validateAudienceLayer(Request $request) {
-        return AudienceRepository::validateAudienceLayer($request);
+        return Audiences::validateAudienceLayer($request);
     }
 
     public function create() {
-        $activities = \GMC\Models\Activity::lists('activityName', 'activityId')->all();
-        $layers = \GMC\Models\Layer::with('questions.master')->get();
+        $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
+        $layers = Audiences::Layer()->with('questions.master')->get();
         return view('audiences.audience.create', compact('activities', 'layers'));
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Audience::$rules + AudienceActivity::$rules);
+        $validator = Validator::make($request->all(), Audiences::Audience()->rules + Audiences::AudienceActivity()->rules);
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Audience::create($request->all());
-        foreach (\GMC\Models\Layer::all() as $l) :
+        
+        $create = Audiences::Audience()->create($request->all());
+        foreach (Audiences::Layer()->select('layerId')->get() as $l) :
             $audienceLayerResponse = [];
-            foreach (\GMC\Models\Question::where('layerId', $l->layerId)->get() as $q) :
+            foreach (Audiences::Question()->where('layerId', $l->layerId)->get() as $q) :
                 $questionText = camel_case($q->questionText);
                 if (array_key_exists($questionText, $request->all())) :
                     $audienceLayerResponse[$q->questionId] = $request->input($questionText);
                 endif;
             endforeach;
 
-            \GMC\Models\AudienceLayer::create([
+            Audiences::Layer()->create([
                 'audienceId' => $create->audienceId,
                 'layerId' => $l->layerId,
                 'audienceLayerResponse' => collect($audienceLayerResponse)->toJson()
@@ -86,7 +88,7 @@ class AudienceController extends Controller {
         endforeach;
 
         foreach ($request->activityId as $activityId) :
-            \GMC\Models\AudienceActivity::create([
+            Audiences::AudienceActivity()->create([
                 'activityId' => $activityId,
                 'audienceId' => $create->audienceId
             ]);
@@ -96,18 +98,18 @@ class AudienceController extends Controller {
     }
 
     public function show($id) {
-        $audience = Audience::with('layers.questions.master', 'activities')->find($id);
+        $audience = Audiences::Audience()->with('layers.questions.master', 'activities')->find($id);
         return view('audiences.audience.show', compact('audience'));
     }
 
     public function edit($id) {
-        $activities = \GMC\Models\Activity::lists('activityName', 'activityId')->all();
-        $audience = Audience::with('layers.questions.master', 'activities')->find($id);
+        $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
+        $audience = Audiences::Audience()->with('layers.questions.master', 'activities')->find($id);
         return view('audiences.audience.edit', compact('activities', 'audience'));
     }
 
     public function update(Request $request, $id) {
-        $audience = Audience::find($id);
+        $audience = Audiences::Audience()->find($id);
         $validator = Validator::make($request->all(), Audience::$rules + AudienceActivity::$rules);
 
         if ($validator->fails()) :
@@ -115,12 +117,12 @@ class AudienceController extends Controller {
         endif;
 
         $update = $audience->update($request->all());
-        \GMC\Models\AudienceLayer::where('audienceId', $audience->audienceId)->delete();
-        \GMC\Models\AudienceActivity::where('audienceId', $audience->audienceId)->delete();
+        Audiences::AudienceLayer()->where('audienceId', $audience->audienceId)->delete();
+        Audiences::Activity()->where('audienceId', $audience->audienceId)->delete();
 
-        foreach (\GMC\Models\Layer::all() as $l) :
+        foreach (Audiences::Layer()->select('layerId')->all() as $l) :
             $audienceLayerResponse = [];
-            foreach (\GMC\Models\Question::where('layerId', $l->layerId)->get() as $q) :
+            foreach (Audiences::Question()->where('layerId', $l->layerId)->get() as $q) :
                 $questionText = camel_case($q->questionText);
                 if (array_key_exists($questionText, $request->all())) :
                     $audienceLayerResponse[$q->questionId] = $request->input($questionText);
@@ -135,7 +137,7 @@ class AudienceController extends Controller {
         endforeach;
 
         foreach ($request->activityId as $activityId) :
-            \GMC\Models\AudienceActivity::create([
+            Audiences::AudienceLayer()->create([
                 'activityId' => $activityId,
                 'audienceId' => $audience->audienceId
             ]);

@@ -174,12 +174,6 @@
             </div>
 
             <div class="col-md-3 col-sm-6">
-                <div class="dash-widget-item bgm-lime">
-                    <div id="weather-widget"></div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
                 <div id="best-selling" class="dash-widget-item">
                     <div class="dash-widget-header">
                         <div class="dash-widget-title">Best Sellings</div>

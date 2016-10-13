@@ -16,12 +16,12 @@ class DwellingController extends Controller {
     }
 
     public function index() {
-        $bootgrid = $this->dwelling->target . '/bootgrid';
+        $bootgrid = $this->dwelling->target . 'bootgrid';
         return view('masters.residence.dwelling.index', compact('bootgrid'));
     }
 
     public function create() {
-        $route = $this->dwelling->target . '/store';
+        $route = $this->dwelling->target . 'store';
         return view('masters.residence.dwelling.create', compact('route'));
     }
 

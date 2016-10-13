@@ -16,12 +16,12 @@ class ProvinceController extends Controller {
     }
 
     public function index() {
-        $bootgrid = $this->province->target . '/bootgrid';
+        $bootgrid = $this->province->target . 'bootgrid';
         return view('masters.residence.province.index', compact('bootgrid'));
     }
 
     public function create() {
-        $route = $this->province->target . '/store';
+        $route = $this->province->target . 'store';
         return view('masters.residence.province.create', compact('route'));
     }
     

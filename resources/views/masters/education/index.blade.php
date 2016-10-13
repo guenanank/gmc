@@ -50,8 +50,9 @@
             },
             formatters: {
                 commands: function (column, row) {
-                    return '<a href="{{ url("education") }}/' + row.educationId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.educationName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ' +
-                            '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.educationId + '" title="Delete ' + row.educationName + '"><span class="zmdi zmdi-delete"></span></button>';
+                    var btnEdit = '<a href="{{ url("education") }}/' + row.educationId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.educationName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnDel = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.educationId + '" title="Delete ' + row.educationName + '"><span class="zmdi zmdi-delete"></span></button>';
+                    return btnEdit + btnDel;
                 }
             }
         }).on('loaded.rs.jquery.bootgrid', function () {

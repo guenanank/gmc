@@ -22,7 +22,7 @@
         {{ Form::hidden('audienceType', 'manual') }}
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                <p class="f-500 c-black">SELECT ACTIVITY SOURCE</p>
+                {{ Form::label('activityId', 'ACTIVITY', ['class' => 'f-500 c-black']) }}
                 {{ Form::select('activityId[]', $activities, $audience->activities->pluck('activityId')->all(), ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true]) }}
                 <small id="activityId" class="help-block"></small>
             </div>
@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-line">
-                    <p class="f-500 c-black">CLUB ID</p>
+                    {{ Form::label('clubId', 'CLUB ID', ['class' => 'f-500 c-black']) }}
                     {{ Form::text('clubId', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-000000']) }}
                     <small id="clubId" class="help-block"></small>
                 </div>
@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-line">
-                    <p class="f-500 c-black">MEMBER ID</p>
+                    {{ Form::label('memberId', 'MEMBER ID', ['class' => 'f-500 c-black']) }}
                     {{ Form::text('memberId', null, ['class' => 'form-control fg-input']) }}
                     <small id="memberId" class="help-block"></small>
                 </div>

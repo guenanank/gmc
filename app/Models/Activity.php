@@ -12,7 +12,7 @@ class Activity extends Model {
     public $primaryKey = 'activityId';
     protected $fillable = ['sourceId', 'mediaGroupId', 'activityName', 'activityWhere', 'activityWhen', 'activityToken'];
     protected $dates = ['deleted_at'];
-    public static $rules = [
+    public $rules = [
         'sourceId' => 'required|exists:sources,sourceId',
         'mediaGroupId' => 'required|exists:mediaGroups,mediaGroupId',
         'activityName' => 'required|string|max:127|unique:activities,activityName,NULL,activityId,deleted_at,NULL',

@@ -16,12 +16,12 @@ class DistrictController extends Controller {
     }
 
     public function index() {
-        $bootgrid = $this->district->target . '/bootgrid';
+        $bootgrid = $this->district->target . 'bootgrid';
         return view('masters.residence.district.index', compact('bootgrid'));
     }
 
     public function create() {
-        $route = $this->district->target . '/store';
+        $route = $this->district->target . 'store';
         return view('masters.residence.district.create', compact('route'));
     }
 

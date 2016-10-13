@@ -16,12 +16,12 @@ class CountryController extends Controller {
     }
 
     public function index() {
-        $bootgrid = $this->country->target . '/bootgrid';
+        $bootgrid = $this->country->target . 'bootgrid';
         return view('masters.residence.country.index', compact('bootgrid'));
     }
 
     public function create() {
-        $route = $this->country->target . '/store';
+        $route = $this->country->target . 'store';
         return view('masters.residence.country.create', compact('route'));
     }
     

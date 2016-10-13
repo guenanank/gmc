@@ -21,7 +21,7 @@
             <thead>
                 <tr>
                     <th data-column-id="districtName" data-type="string" data-sortable="true" data-identifier="true">Name</th>
-                    <th data-column-id="city" data-type="string" data-sortable="true">City</th>
+                    <th data-column-id="cityId" data-type="string" data-formatter="city" data-sortable="true">City</th>
                     <th data-column-id="districtPostCode" data-type="string" data-sortable="true">Postcode</th>
                 </tr>
             </thead>
@@ -49,6 +49,9 @@
                 iconRefresh: 'zmdi-refresh'
             },
             formatters: {
+                city: function(column, row) {
+                    return (row.city) ? row.city.cityName : null;
+                },
                 commands: function (column, row) {
 
                 }

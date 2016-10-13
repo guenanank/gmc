@@ -16,12 +16,12 @@ class CityController extends Controller {
     }
 
     public function index() {
-        $bootgrid = $this->city->target . '/bootgrid';
+        $bootgrid = $this->city->target . 'bootgrid';
         return view('masters.residence.city.index', compact('bootgrid'));
     }
 
     public function create() {
-        $route = $this->city->target . '/store';
+        $route = $this->city->target . 'store';
         return view('masters.residence.city.create', compact('route'));
     }
 

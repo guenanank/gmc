@@ -7,13 +7,13 @@
             <div class="modal-body">
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label"><strong>Audience ID</strong></label>
+                        {{ Form::label('audienceId', 'Audience ID', ['class' => 'col-sm-2 control-label c-black']) }}
                         <div class="col-sm-10">
                             <p class="form-control-static f-500 c-blue">{{ str_pad($audience->audienceId, 8, '0', STR_PAD_LEFT) }}</p>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label"><strong>Activities</strong></label>
+                        {{ Form::label('activityId', 'Activities', ['class' => 'col-sm-2 control-label c-black']) }}
                         <div class="col-sm-10">
                             <p class="form-control-static">
                                 @foreach($audience->activities as $index => $activity)
@@ -36,7 +36,7 @@
                             <div class="form-horizontal">
                                 {{--*/ $response = collect(json_decode($tabContent->pivot->audienceLayerResponse, true)) /*--}}
                                 @foreach($tabContent->questions as $q)
-                                    <label class="col-sm-4 control-label f-500">{{ $q->questionText }}</label>
+                                    {{ Form::label(camel_case($q->questionText), $q->questionText, ['class' => 'col-sm-4 control-label f-500']) }}
                                     <div class="col-sm-8">
                                         <p class="form-control-static">
                                             @if($q->masterId)

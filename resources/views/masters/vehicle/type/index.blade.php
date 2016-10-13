@@ -3,15 +3,15 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard/', 'GMC') }}</li>
-    <li class="active">Cities</li>
+    <li class="active">Types</li>
 </ol>
 @stop
 
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2>Cities <small>Master data of city.</small></h2>
-        <a href="{{ action('Residence\CityController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Cities">
+        <h2>Types <small>Master data of type.</small></h2>
+        <a href="{{ action('Vehicle\Type@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -20,16 +20,15 @@
         <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ $bootgrid }}">
             <thead>
                 <tr>
-                    <th data-column-id="cityName" data-type="string" data-sortable="true" data-identifier="true">Name</th>
-                    <th data-column-id="province" data-type="string" data-formatter="province" data-sortable="true">Province</th>
-                    <th data-column-id="greaterArea" data-type="string" data-sortable="true">Greater Area</th>
-                    <th data-column-id="cityCode" data-type="string" data-sortable="true">Code</th>
+                    <th data-column-id="typeName" data-type="string" data-sortable="true" data-identifier="true">Name</th>
+                    <th data-column-id="seriesId" data-type="string" data-sortable="true" data-formatter="series">Series</th>
                 </tr>
             </thead>
         </table>
     </div>
 </div>
 @endsection
+
 @section('scripts')
 <script type="text/javascript">
     (function ($) {
@@ -50,8 +49,11 @@
                 iconRefresh: 'zmdi-refresh'
             },
             formatters: {
-                province: function (column, row) {
-                    return (row.province) ? row.province.provinceName : null;
+                series: function(column, row) {
+                    return (row.series) ? row.series.seriesName : null;
+                },
+                commands: function (column, row) {
+                
                 }
             }
         });

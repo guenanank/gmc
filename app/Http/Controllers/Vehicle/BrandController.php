@@ -16,12 +16,12 @@ class BrandController extends Controller {
     }
 
     public function index() {
-        $bootgrid = $this->brand->target . '/bootgrid';
+        $bootgrid = $this->brand->target . 'bootgrid';
         return view('masters.vehicle.brand.index', compact('bootgrid'));
     }
 
     public function create() {
-        $route = $this->brand->target . '/store';
+        $route = $this->brand->target . 'store';
         return view('masters.vehicle.brand.create', compact('route'));
     }
     

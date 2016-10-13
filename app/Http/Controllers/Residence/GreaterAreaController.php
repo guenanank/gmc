@@ -16,12 +16,12 @@ class GreaterAreaController extends Controller {
     }
 
     public function index() {
-        $bootgrid = $this->greaterArea->target . '/bootgrid';
+        $bootgrid = $this->greaterArea->target . 'bootgrid';
         return view('masters.residence.greaterArea.index', compact('bootgrid'));
     }
 
     public function create() {
-        $route = $this->greaterArea->target . '/store';
+        $route = $this->greaterArea->target . 'store';
         return view('masters.residence.greaterArea.create', compact('route'));
     }
 

@@ -19,8 +19,8 @@ Route::group(['prefix' => 'audience'], function() {
     Route::post('bootgrid', ['uses' => 'AudienceController@bootgrid', 'as' => 'audience.bootgrid', 'middleware' => 'ajax']);
     Route::get('create', ['uses' => 'AudienceController@create', 'as' => 'audience.create']);
     Route::post('store', ['uses' => 'AudienceController@store', 'as' => 'audience.store', 'middleware' => 'ajax']);
-    Route::get('{audienceId}/edit', ['uses' => 'AudienceController@edit','as' => 'audience.edit']);
-    Route::get('{audienceId}', ['uses' => 'AudienceController@show','as' => 'audience.show', 'middleware' => 'ajax']);
+    Route::get('{audienceId}/edit', ['uses' => 'AudienceController@edit', 'as' => 'audience.edit']);
+    Route::get('{audienceId}', ['uses' => 'AudienceController@show', 'as' => 'audience.show', 'middleware' => 'ajax']);
     Route::match(['PUT', 'PATCH'], 'update/{audienceId}', ['uses' => 'AudienceController@update', 'as' => 'audience.update', 'middleware' => 'ajax']);
     Route::delete('{audienceId}', ['uses' => 'AudienceController@destroy', 'as' => 'audience.delete']);
     Route::post('validate', ['uses' => 'AudienceController@validateAudienceLayer', 'as' => 'audience.validate', 'middleware' => 'ajax']);
@@ -159,5 +159,5 @@ Route::group(['prefix' => 'source'], function() {
 });
 
 Route::group(['namespaces' => 'Vehicle'], function() {
-    Route::resource('brand', 'Vehicle\BrandController');
+    Route::resource('type', 'Vehicle\Type');
 });

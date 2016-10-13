@@ -177,7 +177,7 @@
                         <li class="sub-menu">
                             {{ link_to('#', 'Vehicles') }}
                             <ul>
-                                <li>{{ link_to('brand', 'Brands') }}</li>
+                                <li>{{ link_to('type', 'Types') }}</li>
                             </ul>
                         </li>
                     </ul>

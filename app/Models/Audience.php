@@ -9,7 +9,7 @@ class Audience extends Model {
     public $primaryKey = 'audienceId';
     protected $fillable = ['audienceType', 'clubId', 'memberId', 'customerId'];
     protected $nullable = ['clubId', 'memberId'];
-    public static $rules = ['audienceType' => 'required'];
+    public $rules = ['audienceType' => 'required'];
 
     protected static function boot() {
         parent::boot();

@@ -162,11 +162,12 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         
         /*
          * Defined Service Providers...
          */
-        GMC\Services\Providers\AudienceProvider::class,
+        GMC\Services\Providers\Audiences::class,
         GMC\Services\Providers\Residence::class,
         GMC\Services\Providers\Vehicle::class,
 
@@ -221,7 +222,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
-        'AudienceRepository' => GMC\Services\Containers\AudienceContainer::class,
+        'Audiences' => GMC\Services\Facades\Audiences::class,
         'Residence' => GMC\Services\Facades\Residence::class,
         'Vehicle' => GMC\Services\Facades\Vehicle::class,
         
