@@ -3,15 +3,15 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard/', 'GMC') }}</li>
-    <li class="active">Countries</li>
+    <li class="active">Series</li>
 </ol>
 @stop
 
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2>Countries <small>Master data of country.</small></h2>
-<!--        <a href="{{ action('Residence\Country@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
+        <h2>Series <small>Master data of series.</small></h2>
+<!--        <a href="{{ action('Vehicle\Series@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Series">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>-->
     </div>
@@ -20,10 +20,9 @@
         <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ $bootgrid }}">
             <thead>
                 <tr>
-                    <th data-column-id="countryCode" data-sortable="true" data-identifier="true">Code</th>
-                    <th data-column-id="countryName" data-type="string" data-sortable="true">Name</th>
-                    <th data-column-id="countryISO3Code" data-type="string" data-sortable="true">ISO 3</th>
-                    <th data-column-id="countryNumCode" data-type="string" data-sortable="true">Num Code</th>
+                    <th data-column-id="seriesName" data-series="string" data-sortable="true" data-identifier="true">Name</th>
+                    <th data-column-id="brandId" data-series="string" data-sortable="true" data-formatter="brand">Brand</th>
+                    <th data-column-id="classificationId" data-series="string" data-sortable="true" data-formatter="classification">Classification</th>
                 </tr>
             </thead>
         </table>
@@ -32,7 +31,7 @@
 @endsection
 
 @push('scripts')
-<script type="text/javascript">
+<script series="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
             ajax: true,
@@ -51,6 +50,12 @@
                 iconRefresh: 'zmdi-refresh'
             },
             formatters: {
+                brand: function(column, row) {
+                    return (row.brand) ? row.brand.brandName : null;
+                },
+                classification: function(column, row) {
+                    return (row.classification) ? row.classification.classificationName : null;
+                },
                 commands: function (column, row) {
                 
                 }

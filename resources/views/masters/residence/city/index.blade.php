@@ -11,9 +11,9 @@
 <div class="card">
     <div class="card-header">
         <h2>Cities <small>Master data of city.</small></h2>
-        <a href="{{ action('Residence\City@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Cities">
+<!--        <a href="{{ action('Residence\City@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Cities">
             <i class="add-new-item zmdi zmdi-plus"></i>
-        </a>
+        </a>-->
     </div>
 
     <div class="table-responsive">
@@ -30,7 +30,7 @@
     </div>
 </div>
 @endsection
-@section('scripts')
+@push('scripts')
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
@@ -57,4 +57,4 @@
         });
     })(jQuery);
 </script>
-@stop
+@endpush

@@ -159,5 +159,8 @@ Route::group(['prefix' => 'source'], function() {
 });
 
 Route::group(['namespaces' => 'Vehicle'], function() {
+    Route::resource('brand', 'Vehicle\Brand');
+    Route::resource('classification', 'Vehicle\Classification');
+    Route::resource('series', 'Vehicle\Series');
     Route::resource('type', 'Vehicle\Type');
 });
