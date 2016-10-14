@@ -8,10 +8,13 @@ class Layer extends Model {
 
     public $primaryKey = 'layerId';
     protected $fillable = ['layerName', 'layerDesc'];
-    public static $rules = [
-        'layerName' => 'required|string|max:127|unique:layers',
-        'layerDesc' => 'string'
-    ];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'layerName' => 'required|string|max:127|unique:layers',
+            'layerDesc' => 'string'
+        ]);
+    }
 
     public function questions() {
         return $this->hasMany('\GMC\Models\Question', 'layerId');

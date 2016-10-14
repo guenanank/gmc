@@ -8,11 +8,14 @@ class Hobby extends Model {
 
     public $primaryKey = 'hobbyId';
     protected $fillable = ['hobbySubFrom', 'hobbyName'];
-    public static $rules = [
-        'hobbySubFrom' => 'exists:hobbies,hobbyId',
-        'hobbyName' => 'required|string|max:127|unique:hobbies'
-    ];
     protected $appends = ['hobbyParent'];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'hobbySubFrom' => 'exists:hobbies,hobbyId',
+            'hobbyName' => 'required|string|max:127|unique:hobbies'
+        ]);
+    }
 
     public function getHobbyParentAttribute() {
         $parent = self::find($this->hobbySubFrom);

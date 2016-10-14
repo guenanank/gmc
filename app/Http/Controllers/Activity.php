@@ -6,9 +6,9 @@ use Crypt;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\Activity;
+use GMC\Models\Activity as Activities;
 
-class ActivityController extends Controller {
+class Activity extends Controller {
 
     public function index() {
         return view('masters.activity.index');
@@ -29,7 +29,7 @@ class ActivityController extends Controller {
             endforeach;
         endif;
 
-        $rows = Activity::where('activityName', 'LIKE', '%' . $search . '%')
+        $rows = Activities::where('activityName', 'LIKE', '%' . $search . '%')
                 ->orWhere('activityWhere', 'LIKE', '%' . $search . '%')
                 ->orWhere('activityWhen', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('source', function($query) use ($search) {
@@ -42,7 +42,7 @@ class ActivityController extends Controller {
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Activity::where('activityName', 'LIKE', '%' . $search . '%')
+        $total = Activities::where('activityName', 'LIKE', '%' . $search . '%')
                 ->orWhere('activityWhere', 'LIKE', '%' . $search . '%')
                 ->orWhere('activityWhen', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('source', function($query) use ($search) {
@@ -68,27 +68,27 @@ class ActivityController extends Controller {
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Activity::$rules);
+        $validator = Validator::make($request->all(), Activities::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
         $request->merge(['activityToken' => substr(Crypt::encrypt($request->activityName), 15, -1)]);
-        $create = Activity::create($request->all());
+        $create = Activities::create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $activity = Activity::findOrFail($id);
+        $activity = Activities::findOrFail($id);
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
         $mediaGroups = \GMC\Models\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all();
         return view('masters.activity.edit', compact('activity', 'sources', 'mediaGroups'));
     }
 
     public function update(Request $request, $id) {
-        $activity = Activity::findOrFail($id);
-        Activity::$rules['activityName'] = 'required|string|max:127|unique:activities,activityName,' . $activity->activityId . ',activityId';
-        $validator = Validator::make($request->all(), Activity::$rules);
+        $activity = Activities::findOrFail($id);
+        Activities::rules(['activityName' => 'required|string|max:127|unique:activities,activityName,' . $activity->activityId . ',activityId']);
+        $validator = Validator::make($request->all(), Activities::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
@@ -99,7 +99,7 @@ class ActivityController extends Controller {
     }
 
     public function destroy($id) {
-        $activity = Activity::findOrFail($id);
+        $activity = Activities::findOrFail($id);
         $delete = $activity->delete();
         return response()->json($delete, 200);
     }

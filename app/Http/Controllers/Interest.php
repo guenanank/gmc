@@ -5,12 +5,12 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\Profession;
+use GMC\Models\Interest as Interests;
 
-class ProfessionController extends Controller {
+class Interest extends Controller {
 
     public function index() {
-        return view('masters.profession.index');
+        return view('masters.interest.index');
     }
 
     public function bootgrid(Request $request) {
@@ -18,7 +18,7 @@ class ProfessionController extends Controller {
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'professionId';
+        $sortColumn = 'interestId';
         $sortType = 'DESC';
 
         if (is_array($request->input('sort'))) :
@@ -28,16 +28,16 @@ class ProfessionController extends Controller {
             endforeach;
         endif;
 
-        $rows = Profession::where('professionName', 'like', '%' . $search . '%')
+        $rows = Interests::where('interestName', 'like', '%' . $search . '%')
                 ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('professionName', 'LIKE', '%' . $search . '%');
+                    $query->where('interestName', 'LIKE', '%' . $search . '%');
                 })->with('parent')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Profession::where('professionName', 'like', '%' . $search . '%')
+        $total = Interests::where('interestName', 'like', '%' . $search . '%')
                 ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('professionName', 'LIKE', '%' . $search . '%');
+                    $query->where('interestName', 'LIKE', '%' . $search . '%');
                 })->with('parent')
                 ->count();
 
@@ -50,41 +50,41 @@ class ProfessionController extends Controller {
     }
 
     public function create() {
-        $professions = Profession::lists('professionName', 'professionId')->all();
-        return view('masters.profession.create', compact('professions'));
+        $interests = Interests::lists('interestName', 'interestId')->all();
+        return view('masters.interest.create', compact('interests'));
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Profession::$rules);
+        $validator = Validator::make($request->all(), Interests::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Profession::create($request->all());
+        $create = Interests::create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $profession = Profession::findOrFail($id);
-        $professions = Profession::lists('professionName', 'professionId')->all();
-        return view('masters.profession.edit', compact('profession', 'professions'));
+        $interest = Interests::findOrFail($id);
+        $interests = Interests::lists('interestName', 'interestId')->all();
+        return view('masters.interest.edit', compact('interest', 'interests'));
     }
 
     public function update(Request $request, $id) {
-        $profession = Profession::findOrFail($id);
-        Profession::$rules['professionName'] = 'required|string|max:127|unique:professions,professionName,' . $profession->professionId . ',professionId';
-        $validator = Validator::make($request->all(), Profession::$rules);
+        $interest = Interests::findOrFail($id);
+        Interests::rules(['interestName' => 'required|string|max:127|unique:interests,interestName,' . $interest->interestId . ',interestId']);
+        $validator = Validator::make($request->all(), Interests::$rules);
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $update = $profession->update($request->all());
+        $update = $interest->update($request->all());
         return response()->json(['update' => $update], 200);
     }
 
     public function destroy($id) {
-        $profession = Profession::findOrFail($id);
-        $delete = $profession->delete();
+        $interest = Interests::findOrFail($id);
+        $delete = $interest->delete();
         return response()->json($delete, 200);
     }
 

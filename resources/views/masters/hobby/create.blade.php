@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Hobby <small>Master data of hobby.</small></h2>
-        <a href="{{ action('HobbyController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Hobby@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Media Group <small>Master data of mediaGroups.</small></h2>
-        <a href="{{ action('MediaGroupController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Media Group">
+        <a href="{{ action('MediaGroup@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Media Group">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>

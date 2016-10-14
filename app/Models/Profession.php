@@ -8,11 +8,14 @@ class Profession extends Model {
 
     public $primaryKey = 'professionId';
     protected $fillable = ['professionSubFrom', 'professionName'];
-    public static $rules = [
-        'professionSubFrom' => 'exists:professions,professionId',
-        'professionName' => 'required|string|max:127|unique:professions'
-    ];
     protected $appends = ['professionParent'];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'professionSubFrom' => 'exists:professions,professionId',
+            'professionName' => 'required|string|max:127|unique:professions'
+        ]);
+    }
 
     public function getProfessionParentAttribute() {
         $parent = self::find($this->professionSubFrom);

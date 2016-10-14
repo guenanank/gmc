@@ -8,11 +8,14 @@ class Interest extends Model {
 
     public $primaryKey = 'interestId';
     protected $fillable = ['interestSubFrom', 'interestName'];
-    public static $rules = [
-        'interestSubFrom' => 'exists:interests,interestId',
-        'interestName' => 'required|string|max:127|unique:interests'
-    ];
     protected $appends = ['interestParent'];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'interestSubFrom' => 'exists:interests,interestId',
+            'interestName' => 'required|string|max:127|unique:interests'
+        ]);
+    }
 
     public function getInterestParentAttribute() {
         $parent = self::find($this->interestSubFrom);

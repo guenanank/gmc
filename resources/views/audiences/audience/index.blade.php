@@ -11,11 +11,11 @@
 <div class="card">
     <div class="card-header">
         <h2>Audiences <small>Master data of audience.</small></h2>
-        <a href="{{ action('AudienceController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Audiences">
+        <a href="{{ action('Audience@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Audiences">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
 
-        <a href="{{ action('UploadController@index') }}" class="btn bgm-teal btn-icon pull-right m-r-10" data-toggle="tooltip" data-placement="top" title="Upload Audiences">
+        <a href="{{ action('Upload@index') }}" class="btn bgm-teal btn-icon pull-right m-r-10" data-toggle="tooltip" data-placement="top" title="Upload Audiences">
             <i class="zmdi zmdi-upload"></i>
         </a>
     </div>
@@ -37,7 +37,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
@@ -93,4 +93,4 @@
         });
     })(jQuery);
 </script>
-@stop
+@endpush

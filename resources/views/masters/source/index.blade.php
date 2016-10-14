@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Source <small>Master data of source.</small></h2>
-        <a href="{{ action('SourceController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Sources">
+        <a href="{{ action('Source@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Sources">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>

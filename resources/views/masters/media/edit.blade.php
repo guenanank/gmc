@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Edit Media <small>Master data of media.</small></h2>
-        <a href="{{ action('MediaController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Media@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

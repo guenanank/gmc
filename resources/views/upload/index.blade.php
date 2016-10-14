@@ -16,7 +16,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Upload New Audiences <small>Master data of audience.</small></h2>
-        <a href="{{ action('AudienceController@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Audience@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

@@ -9,10 +9,13 @@ class AudienceActivity extends Model {
     protected $table = 'audienceActivity';
     protected $fillable = ['audienceId', 'activityId'];
     public $timestamps = false;
-    public static $rules = [
-        'activityId' => 'required|exists:activities,activityId',
-        'audienceId' => 'exists:audiences,audienceId'
-    ];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'activityId' => 'required|exists:activities,activityId',
+            'audienceId' => 'exists:audiences,audienceId'
+        ]);
+    }
 
     public function audiences() {
         return $this->hasMany('\GMC\Models\Audience', 'audienceId', 'audienceId');

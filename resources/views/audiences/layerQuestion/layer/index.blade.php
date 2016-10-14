@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Layer Questions <small>Master data of layer question.</small></h2>
-        <a href="{{ action('LayerController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Layer Questions">
+        <a href="{{ action('Layer@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Layer Questions">
             <i class="zmdi zmdi-plus"></i>
         </a>
 
@@ -34,7 +34,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
@@ -69,4 +69,4 @@
         });
     })(jQuery);
 </script>
-@stop
+@endpush

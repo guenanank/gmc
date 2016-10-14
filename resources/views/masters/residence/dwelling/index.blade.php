@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Dwellings <small>Master data of dwelling.</small></h2>
-        <a href="{{ action('Residence\DwellingController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Dwellings">
+        <a href="{{ action('Residence\Dwelling@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Dwellings">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>

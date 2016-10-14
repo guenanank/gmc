@@ -7,7 +7,7 @@ use GMC\Http\Controllers\Controller;
 use GMC\Services\Facades\Audiences;
 use Validator;
 
-class AudienceController extends Controller {
+class Audience extends Controller {
 
     public function index() {
         return view('audiences.audience.index');
@@ -27,8 +27,8 @@ class AudienceController extends Controller {
                 $sortType = $value;
             endforeach;
         endif;
-        
-        
+
+
 
         $rows = Audiences::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('activities', function($query) use($search) {
@@ -64,12 +64,11 @@ class AudienceController extends Controller {
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Audiences::Audience()->rules + Audiences::AudienceActivity()->rules);
+        $validator = Validator::make($request->all(), Audiences::Audience()->rules() + Audiences::AudienceActivity()->rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        
         $create = Audiences::Audience()->create($request->all());
         foreach (Audiences::Layer()->select('layerId')->get() as $l) :
             $audienceLayerResponse = [];
@@ -110,7 +109,7 @@ class AudienceController extends Controller {
 
     public function update(Request $request, $id) {
         $audience = Audiences::Audience()->find($id);
-        $validator = Validator::make($request->all(), Audience::$rules + AudienceActivity::$rules);
+        $validator = Validator::make($request->all(), Audiences::Audience()->rules() + Audiences::AudienceActivity()->rules());
 
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
@@ -129,7 +128,7 @@ class AudienceController extends Controller {
                 endif;
             endforeach;
 
-            \GMC\Models\AudienceLayer::create([
+            Audiences::AudienceLayer()->create([
                 'audienceId' => $audience->audienceId,
                 'layerId' => $l->layerId,
                 'audienceLayerResponse' => collect($audienceLayerResponse)->toJson()
@@ -137,7 +136,7 @@ class AudienceController extends Controller {
         endforeach;
 
         foreach ($request->activityId as $activityId) :
-            Audiences::AudienceLayer()->create([
+            Audiences::AudienceActivity()->create([
                 'activityId' => $activityId,
                 'audienceId' => $audience->audienceId
             ]);

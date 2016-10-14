@@ -10,8 +10,11 @@ class Upload extends Model {
 
     public $primaryKey = 'uploadId';
     protected $fillable = ['uploadFilename', 'uploadIsExecuted'];
-    public static $rules = ['uploadFilename' => 'string|max:127|unique:uploads', 'file' => 'file|max:2048'];
     protected $casts = ['uploadIsExecuted' => 'boolean'];
     protected $dates = ['deleted_at'];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, ['uploadFilename' => 'string|max:127|unique:uploads', 'file' => 'file|max:2048']);
+    }
 
 }

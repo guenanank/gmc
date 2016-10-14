@@ -5,12 +5,11 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\Source;
 
-class SourceController extends Controller {
+class Media extends Controller {
 
     public function index() {
-        return view('masters.source.index');
+        return view('masters.media.index');
     }
 
     public function bootgrid(Request $request) {
@@ -18,7 +17,7 @@ class SourceController extends Controller {
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'sourceId';
+        $sortColumn = 'mediaId';
         $sortType = 'DESC';
 
         if (is_array($request->input('sort'))) :
@@ -28,11 +27,17 @@ class SourceController extends Controller {
             endforeach;
         endif;
 
-        $rows = Source::where('sourceName', 'like', '%' . $search . '%')
+        $rows = \GMC\Models\Media::where('mediaName', 'like', '%' . $search . '%')
+                ->orWhereHas('mediaType', function($query) use ($search) {
+                    $query->where('mediaTypeName', 'LIKE', '%' . $search . '%');
+                })->with('mediaType')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Source::where('sourceName', 'like', '%' . $search . '%')
+        $total = \GMC\Models\Media::where('mediaName', 'like', '%' . $search . '%')
+                ->orWhereHas('mediaType', function($query) use ($search) {
+                    $query->where('mediaTypeName', 'LIKE', '%' . $search . '%');
+                })->with('mediaType')
                 ->count();
 
         return response()->json([
@@ -44,39 +49,41 @@ class SourceController extends Controller {
     }
 
     public function create() {
-        return view('masters.source.create');
+        $mediaTypes = \GMC\Models\MediaType::lists('mediaTypeName', 'mediaTypeId')->all();
+        return view('masters.media.create', compact('mediaTypes'));
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Source::$rules);
+        $validator = Validator::make($request->all(), \GMC\Models\Media::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Source::create($request->all());
+        $create = \GMC\Models\Media::create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $source = Source::findOrFail($id);
-        return view('masters.source.edit', compact('source'));
+        $media = \GMC\Models\Media::findOrFail($id);
+        $mediaTypes = \GMC\Models\MediaType::lists('mediaTypeName', 'mediaTypeId')->all();
+        return view('masters.media.edit', compact('media', 'mediaTypes'));
     }
 
     public function update(Request $request, $id) {
-        $source = Source::findOrFail($id);
-        Source::$rules['sourceName'] = 'required|string|max:127|unique:sources,sourceName,' . $source->sourceId . ',sourceId';
-        $validator = Validator::make($request->all(), Source::$rules);
+        $media = \GMC\Models\Media::findOrFail($id);
+        \GMC\Models\Media::rules(['mediaName' => 'required|string|max:127|unique:media,mediaName,' . $media->mediaId . ',mediaId']);
+        $validator = Validator::make($request->all(), \GMC\Models\Media::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $update = $source->update($request->all());
+        $update = $media->update($request->all());
         return response()->json(['update' => $update], 200);
     }
 
     public function destroy($id) {
-        $source = Source::findOrFail($id);
-        $delete = $source->delete();
+        $media = \GMC\Models\Media::findOrFail($id);
+        $delete = $media->delete();
         return response()->json($delete, 200);
     }
 

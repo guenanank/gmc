@@ -12,13 +12,16 @@ class Activity extends Model {
     public $primaryKey = 'activityId';
     protected $fillable = ['sourceId', 'mediaGroupId', 'activityName', 'activityWhere', 'activityWhen', 'activityToken'];
     protected $dates = ['deleted_at'];
-    public $rules = [
-        'sourceId' => 'required|exists:sources,sourceId',
-        'mediaGroupId' => 'required|exists:mediaGroups,mediaGroupId',
-        'activityName' => 'required|string|max:127|unique:activities,activityName,NULL,activityId,deleted_at,NULL',
-        'activityWhere' => 'string',
-        'activityWhen' => 'date_format:Y-m-d'
-    ];
+    
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'sourceId' => 'required|exists:sources,sourceId',
+            'mediaGroupId' => 'required|exists:mediaGroups,mediaGroupId',
+            'activityName' => 'required|string|max:127|unique:activities,activityName,NULL,activityId,deleted_at,NULL',
+            'activityWhere' => 'string',
+            'activityWhen' => 'date_format:Y-m-d'
+        ]);
+    }
 
     public function source() {
         return $this->hasOne('\GMC\Models\Source', 'sourceId', 'sourceId');

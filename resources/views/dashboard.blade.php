@@ -229,7 +229,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 {{ Html::script('js/jquery.flot.js') }}
 {{ Html::script('js/curvedLines.js') }}
 {{ Html::script('js/easypiechart.min.js') }}
@@ -242,4 +242,4 @@
 
     })(jQuery);
 </script>
-@stop
+@endpush

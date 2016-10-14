@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Provinces <small>Master data of province.</small></h2>
-        <a href="{{ action('Residence\ProvinceController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Residence\Province@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Greater Areas <small>Master data of greater area.</small></h2>
-        <a href="{{ action('Residence\GreaterAreaController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Residence\GreaterArea@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

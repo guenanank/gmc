@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Professions <small>Master data of professions.</small></h2>
-        <a href="{{ action('ProfessionController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Profession">
+        <a href="{{ action('Profession@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Profession">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>

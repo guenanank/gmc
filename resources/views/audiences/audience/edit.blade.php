@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Edit Audience <small>Master data of audience.</small></h2>
-        <a href="{{ action('AudienceController@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Audience@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
@@ -133,7 +133,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 {{ Html::script('js/jquery.bootstrap.wizard.js') }}
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
@@ -177,4 +177,4 @@
 })(jQuery);
     
 </script>
-@stop
+@endpush

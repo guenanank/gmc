@@ -5,12 +5,12 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\Education;
+use GMC\Models\Profession as Professions;
 
-class EducationController extends Controller {
+class Profession extends Controller {
 
     public function index() {
-        return view('masters.education.index');
+        return view('masters.profession.index');
     }
 
     public function bootgrid(Request $request) {
@@ -18,7 +18,7 @@ class EducationController extends Controller {
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'educationId';
+        $sortColumn = 'professionId';
         $sortType = 'DESC';
 
         if (is_array($request->input('sort'))) :
@@ -28,11 +28,17 @@ class EducationController extends Controller {
             endforeach;
         endif;
 
-        $rows = Education::where('educationName', 'like', '%' . $search . '%')
+        $rows = Professions::where('professionName', 'like', '%' . $search . '%')
+                ->orWhereHas('parent', function($query) use ($search) {
+                    $query->where('professionName', 'LIKE', '%' . $search . '%');
+                })->with('parent')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Education::where('educationName', 'like', '%' . $search . '%')
+        $total = Professions::where('professionName', 'like', '%' . $search . '%')
+                ->orWhereHas('parent', function($query) use ($search) {
+                    $query->where('professionName', 'LIKE', '%' . $search . '%');
+                })->with('parent')
                 ->count();
 
         return response()->json([
@@ -44,39 +50,41 @@ class EducationController extends Controller {
     }
 
     public function create() {
-        return view('masters.education.create');
+        $professions = Professions::lists('professionName', 'professionId')->all();
+        return view('masters.profession.create', compact('professions'));
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Education::$rules);
+        $validator = Validator::make($request->all(), Professions::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Education::create($request->all());
+        $create = Professions::create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $education = Education::findOrFail($id);
-        return view('masters.education.edit', compact('education'));
+        $profession = Professions::findOrFail($id);
+        $professions = Professions::lists('professionName', 'professionId')->all();
+        return view('masters.profession.edit', compact('profession', 'professions'));
     }
 
     public function update(Request $request, $id) {
-        $education = Education::findOrFail($id);
-        Education::$rules['educationName'] = 'required|string|max:127|unique:education,educationName,' . $education->educationId . ',educationId';
-        $validator = Validator::make($request->all(), Education::$rules);
+        $profession = Professions::findOrFail($id);
+        Professions::rules(['professionName' => 'required|string|max:127|unique:professions,professionName,' . $profession->professionId . ',professionId']);
+        $validator = Validator::make($request->all(), Professions::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $update = $education->update($request->all());
+        $update = $profession->update($request->all());
         return response()->json(['update' => $update], 200);
     }
 
     public function destroy($id) {
-        $education = Education::findOrFail($id);
-        $delete = $education->delete();
+        $profession = Professions::findOrFail($id);
+        $delete = $profession->delete();
         return response()->json($delete, 200);
     }
 

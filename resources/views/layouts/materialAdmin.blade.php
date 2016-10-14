@@ -10,9 +10,7 @@
     {{ Html::style('css/all.css') }}
     {{ Html::style('css/app.1.css') }}
     {{ Html::style('css/app.2.css') }}
-    @section('styles')
-
-    @show
+    @stack('styles')
 </head>
 <body>
     <header id="header" class="clearfix" data-current-skin="blue">
@@ -299,9 +297,7 @@
 
     </script>
     {{ Html::script('js/ajaxForm.js') }}
-    @section('scripts')
-
-    @show
+    @stack('scripts')
     <script type="text/javascript">
         console.info('Document length: ' + $('*').length);
     </script>

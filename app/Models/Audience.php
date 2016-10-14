@@ -9,7 +9,10 @@ class Audience extends Model {
     public $primaryKey = 'audienceId';
     protected $fillable = ['audienceType', 'clubId', 'memberId', 'customerId'];
     protected $nullable = ['clubId', 'memberId'];
-    public $rules = ['audienceType' => 'required'];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, ['audienceType' => 'required']);
+    }
 
     protected static function boot() {
         parent::boot();

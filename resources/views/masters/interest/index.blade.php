@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Interests <small>Master data of interests.</small></h2>
-        <a href="{{ action('InterestController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Interest">
+        <a href="{{ action('Interest@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Interest">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>

@@ -8,6 +8,10 @@ class Education extends Model {
 
     public $primaryKey = 'educationId';
     protected $fillable = ['educationName'];
-    public static $rules = ['educationName' => 'required|string|max:127|unique:education'];
+    
+    public static function rules($rules = []) {
+        return array_merge($rules, ['educationName' => 'required|string|max:127|unique:education']);
+    }
 
+    
 }

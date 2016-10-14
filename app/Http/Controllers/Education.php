@@ -5,12 +5,12 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\MediaGroup;
+use GMC\Models\Education as Educations;
 
-class MediaGroupController extends Controller {
+class Education extends Controller {
 
     public function index() {
-        return view('masters.mediaGroup.index');
+        return view('masters.education.index');
     }
 
     public function bootgrid(Request $request) {
@@ -18,7 +18,7 @@ class MediaGroupController extends Controller {
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'mediaGroupId';
+        $sortColumn = 'educationId';
         $sortType = 'DESC';
 
         if (is_array($request->input('sort'))) :
@@ -28,17 +28,11 @@ class MediaGroupController extends Controller {
             endforeach;
         endif;
 
-        $rows = MediaGroup::where('mediaGroupName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
+        $rows = Educations::where('educationName', 'like', '%' . $search . '%')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = MediaGroup::where('mediaGroupName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
+        $total = Educations::where('educationName', 'like', '%' . $search . '%')
                 ->count();
 
         return response()->json([
@@ -50,41 +44,39 @@ class MediaGroupController extends Controller {
     }
 
     public function create() {
-        $mediaGroups = MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all();
-        return view('masters.mediaGroup.create', compact('mediaGroups'));
+        return view('masters.education.create');
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), MediaGroup::$rules);
+        $validator = Validator::make($request->all(), Educations::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = MediaGroup::create($request->all());
+        $create = Educations::create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $mediaGroup = MediaGroup::findOrFail($id);
-        $mediaGroups = MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all();
-        return view('masters.mediaGroup.edit', compact('mediaGroup', 'mediaGroups'));
+        $education = Educations::findOrFail($id);
+        return view('masters.education.edit', compact('education'));
     }
 
     public function update(Request $request, $id) {
-        $mediaGroup = MediaGroup::findOrFail($id);
-        MediaGroup::$rules['mediaGroupName'] = 'required|string|max:127|unique:mediaGroups,mediaGroupName,' . $mediaGroup->mediaGroupId . ',mediaGroupId';
-        $validator = Validator::make($request->all(), MediaGroup::$rules);
+        $education = Educations::findOrFail($id);
+        Educations::rules(['educationName' => 'required|string|max:127|unique:education,educationName,' . $education->educationId . ',educationId']);
+        $validator = Validator::make($request->all(), Educations::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $update = $mediaGroup->update($request->all());
+        $update = $education->update($request->all());
         return response()->json(['update' => $update], 200);
     }
 
     public function destroy($id) {
-        $mediaGroup = MediaGroup::findOrFail($id);
-        $delete = $mediaGroup->delete();
+        $education = Educations::findOrFail($id);
+        $delete = $education->delete();
         return response()->json($delete, 200);
     }
 

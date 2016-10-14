@@ -3,10 +3,9 @@
 namespace GMC\Services\Containers;
 
 use Illuminate\Http\Request;
-use Illuminate\Container\Container;
 use Validator;
 
-class Audiences extends Container {
+class Audiences extends \Illuminate\Container\Container {
 
     public function Audience() {
         return new \GMC\Models\Audience;
@@ -23,15 +22,15 @@ class Audiences extends Container {
     public function Activity() {
         return new \GMC\Models\Activity;
     }
-    
+
     public function AudienceActivity() {
         return new \GMC\Models\AudienceActivity;
     }
-    
+
     public function AudienceLayer() {
         return new \GMC\Models\AudienceLayer;
     }
-    
+
     public function validateAudienceLayer($request) {
         $validator = Validator::make($request->all(), self::validationRules($request->layerId));
         $response = $validator->fails() ? $validator->errors() : $request;
@@ -76,11 +75,9 @@ class Audiences extends Container {
 //
 //        dd('execute');
 //    }
-
 //    private function findActivity($token) {
 //        return Activity::select('activityId')->where('activityToken', $token)->firstOrFail();
 //    }
-
 //    private function createAudience($readers, $activity) {
 //        foreach ($readers as $reader) :
 //            foreach ($reader as $key => $val) :
@@ -94,7 +91,6 @@ class Audiences extends Container {
 //
 //        endforeach;
 //    }
-
 //    private function findAudience($parameter) {
 //        $audienceIsExists = Audience::whereHas('activities', function($a) use($parameter) {
 //                    $a->where('activities.activityId', $parameter['aId']);
@@ -110,5 +106,4 @@ class Audiences extends Container {
 //
 //        return $audienceIsExists->isEmpty();
 //    }
-
 }

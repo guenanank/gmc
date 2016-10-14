@@ -3,7 +3,7 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard', 'GMC') }}</li>
-    <li>{{ link_to('brand', 'Brands') }}</li>
+    <li>{{ link_to('type', 'Types') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -11,8 +11,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2>Create New Brands <small>Master data of brand.</small></h2>
-        <a href="{{ action('Vehicle\BrandController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <h2>Create New Types <small>Master data of type.</small></h2>
+        <a href="{{ action('Vehicle\Type@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
@@ -23,10 +23,10 @@
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
                     <div class="fg-line">
-                        {{ Form::text('brandName', null, ['class' => 'form-control fg-input']) }}
-                        {{ Form::label('brandName', 'Brand Name', ['class' => 'fg-label']) }}
+                        {{ Form::text('typeName', null, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('typeName', 'Type Name', ['class' => 'fg-label']) }}
                     </div>
-                    <small id="brandName" class="help-block"></small>
+                    <small id="typeName" class="help-block"></small>
                 </div>
             </div>
         </div>

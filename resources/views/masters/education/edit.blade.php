@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Edit Education <small>Master data of education.</small></h2>
-        <a href="{{ action('EducationController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Education@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

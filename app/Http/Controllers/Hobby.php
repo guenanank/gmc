@@ -5,9 +5,9 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\Hobby;
+use GMC\Models\Hobby as Hobbies;
 
-class HobbyController extends Controller {
+class Hobby extends Controller {
 
     public function index() {
         return view('masters.hobby.index');
@@ -28,14 +28,14 @@ class HobbyController extends Controller {
             endforeach;
         endif;
 
-        $rows = Hobby::where('hobbyName', 'like', '%' . $search . '%')
+        $rows = Hobbies::where('hobbyName', 'like', '%' . $search . '%')
                 ->orWhereHas('parent', function($query) use ($search) {
                     $query->where('hobbyName', 'LIKE', '%' . $search . '%');
                 })->with('parent')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Hobby::where('hobbyName', 'like', '%' . $search . '%')
+        $total = Hobbies::where('hobbyName', 'like', '%' . $search . '%')
                 ->orWhereHas('parent', function($query) use ($search) {
                     $query->where('hobbyName', 'LIKE', '%' . $search . '%');
                 })->with('parent')
@@ -50,30 +50,30 @@ class HobbyController extends Controller {
     }
 
     public function create() {
-        $hobbies = Hobby::lists('hobbyName', 'hobbyId')->all();
+        $hobbies = Hobbies::lists('hobbyName', 'hobbyId')->all();
         return view('masters.hobby.create', compact('hobbies'));
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Hobby::$rules);
+        $validator = Validator::make($request->all(), Hobbies::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Hobby::create($request->all());
+        $create = Hobbies::create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $hobby = Hobby::findOrFail($id);
-        $hobbies = Hobby::lists('hobbyName', 'hobbyId')->all();
+        $hobby = Hobbies::findOrFail($id);
+        $hobbies = Hobbies::lists('hobbyName', 'hobbyId')->all();
         return view('masters.hobby.edit', compact('hobby', 'hobbies'));
     }
 
     public function update(Request $request, $id) {
-        $hobby = Hobby::findOrFail($id);
-        Hobby::$rules['hobbyName'] = 'required|string|max:127|unique:hobbies,hobbyName,' . $hobby->hobbyId . ',hobbyId';
-        $validator = Validator::make($request->all(), Hobby::$rules);
+        $hobby = Hobbies::findOrFail($id);
+        Hobbies::rules(['hobbyName' => 'required|string|max:127|unique:hobbies,hobbyName,' . $hobby->hobbyId . ',hobbyId']);
+        $validator = Validator::make($request->all(), Hobbies::$rules);
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
@@ -83,7 +83,7 @@ class HobbyController extends Controller {
     }
 
     public function destroy($id) {
-        $hobby = Hobby::findOrFail($id);
+        $hobby = Hobbies::findOrFail($id);
         $delete = $hobby->delete();
         return response()->json($delete, 200);
     }

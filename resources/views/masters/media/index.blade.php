@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Media <small>Master data of media.</small></h2>
-        <a href="{{ action('MediaController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Media">
+        <a href="{{ action('Media@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Media">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>

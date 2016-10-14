@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Activity <small>Master data of activity.</small></h2>
-        <a href="{{ action('ActivityController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Activities">
+        <a href="{{ action('Activity@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Activities">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -33,7 +33,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
@@ -97,4 +97,4 @@
         });
     })(jQuery);
 </script>
-@stop
+@endpush

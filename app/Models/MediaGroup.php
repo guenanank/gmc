@@ -9,11 +9,14 @@ class MediaGroup extends Model {
     protected $table = 'mediaGroups';
     public $primaryKey = 'mediaGroupId';
     protected $fillable = ['mediaGroupSubFrom', 'mediaGroupName', 'mediaGroupMap'];
-    public static $rules = [
-        'mediaGroupSubFrom' => 'exists:mediaGroups,mediaGroupId',
-        'mediaGroupName' => 'required|string|max:127|unique:mediaGroups',
-        'mediaGroupMap' => 'string|max:15'
-    ];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'mediaGroupSubFrom' => 'exists:mediaGroups,mediaGroupId',
+            'mediaGroupName' => 'required|string|max:127|unique:mediaGroups',
+            'mediaGroupMap' => 'string|max:15'
+        ]);
+    }
 
     public function childs() {
         return $this->hasMany('\GMC\Models\MediaGroup', 'mediaGroupSubFrom');

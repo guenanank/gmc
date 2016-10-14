@@ -5,9 +5,9 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\Expense;
+use GMC\Models\Expense as Expenses;
 
-class ExpenseController extends Controller {
+class Expense extends Controller {
 
     public function index(Request $request) {
         return view('masters.expense.index');
@@ -18,8 +18,8 @@ class ExpenseController extends Controller {
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'expenseId';
-        $sortType = 'DESC';
+        $sortColumn = 'expenseMin';
+        $sortType = 'ASC';
 
         if (is_array($request->input('sort'))) :
             foreach ($request->input('sort') as $key => $value) :
@@ -28,12 +28,12 @@ class ExpenseController extends Controller {
             endforeach;
         endif;
 
-        $rows = Expense::where('expenseMin', 'like', '%' . $search . '%')
+        $rows = Expenses::where('expenseMin', 'like', '%' . $search . '%')
                 ->orWhere('expenseMax', 'like', '%' . $search . '%')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Expense::where('expenseMin', 'like', '%' . $search . '%')
+        $total = Expenses::where('expenseMin', 'like', '%' . $search . '%')
                 ->orWhere('expenseMax', 'like', '%' . $search . '%')
                 ->count();
 
@@ -50,23 +50,23 @@ class ExpenseController extends Controller {
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Expense::$rules);
+        $validator = Validator::make($request->all(), Expenses::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Expense::create($request->all());
+        $create = Expenses::create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $expense = Expense::findOrFail($id);
+        $expense = Expenses::findOrFail($id);
         return view('masters.expense.edit', compact('expense'));
     }
 
     public function update(Request $request, $id) {
-        $expense = Expense::findOrFail($id);
-        $validator = Validator::make($request->all(), Expense::$rules);
+        $expense = Expenses::findOrFail($id);
+        $validator = Validator::make($request->all(), Expenses::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
@@ -76,7 +76,7 @@ class ExpenseController extends Controller {
     }
 
     public function destroy($id) {
-        $expense = Expense::findOrFail($id);
+        $expense = Expenses::findOrFail($id);
         $delete = $expense->delete();
         return response()->json($delete, 200);
     }

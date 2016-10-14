@@ -8,10 +8,13 @@ class Media extends Model {
 
     public $primaryKey = 'mediaId';
     protected $fillable = ['mediaTypeId', 'mediaName'];
-    public static $rules = [
-        'mediaName' => 'required|string|max:127|unique:media',
-        'mediaTypeId' => 'required|exists:mediaTypes,mediaTypeId'
-    ];
+
+    public static function rules($rules = []) {
+        return array_merge($rules, [
+            'mediaName' => 'required|string|max:127|unique:media',
+            'mediaTypeId' => 'required|exists:mediaTypes,mediaTypeId'
+        ]);
+    }
 
     public function mediaType() {
         return $this->hasOne('\GMC\Models\MediaType', 'mediaTypeId', 'mediaTypeId');

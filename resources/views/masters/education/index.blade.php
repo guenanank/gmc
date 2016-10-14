@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Education <small>Master data of education.</small></h2>
-        <a href="{{ action('EducationController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
+        <a href="{{ action('Education@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -29,7 +29,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
@@ -63,4 +63,4 @@
         });
     })(jQuery);
 </script>
-@stop
+@endpush

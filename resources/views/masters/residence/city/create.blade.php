@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Cities <small>Master data of city.</small></h2>
-        <a href="{{ action('Residence\CityController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Residence\City@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
