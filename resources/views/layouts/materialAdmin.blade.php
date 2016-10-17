@@ -161,7 +161,8 @@
                         <li>{{ link_to('media', 'Media') }}</li>
                         <li>{{ link_to('mediaGroup', 'Media Groups') }}</li>
                         <li>{{ link_to('profession', 'Professions') }}</li>
-                        <li class="sub-menu">
+                        <li>{{ link_to('region', 'Regions') }}</li>
+<!--                        <li class="sub-menu">
                             {{ link_to('#', 'Residence') }}
                             <ul>
                                 <li>{{ link_to('province', 'Provinces') }}</li>
@@ -170,14 +171,15 @@
                                 <li>{{ link_to('dwelling', 'Dwellings') }}</li>
                                 <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li>{{ link_to('source', 'Sources') }}</li>
-                        <li class="sub-menu">
+                        <li>{{ link_to('vehicle', 'Vehicle') }}</li>
+<!--                        <li class="sub-menu">
                             {{ link_to('#', 'Vehicles') }}
                             <ul>
                                 <li>{{ link_to('type', 'Types') }}</li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                 </li>
             </ul>

@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Countries <small>Master data of country.</small></h2>
-<!--        <a href="{{ action('Residence\Country@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
+<!--        <a href="{{ '#' }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>-->
     </div>
@@ -37,7 +37,7 @@
         $('#bootgrid').bootgrid({
             ajax: true,
             selection: true,
-            rowCount: [5, 10, 25, 50, -1],
+            rowCount: [10, 25, 50, -1],
             multiSelect: true,
             rowSelect: true,
             keepSelection: true,

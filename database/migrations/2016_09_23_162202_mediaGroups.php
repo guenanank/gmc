@@ -3,15 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MediaGroups extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class MediaGroups extends Migration {
+
+    public function up() {
         Schema::dropIfExists('mediaGroups');
         Schema::create('mediaGroups', function (Blueprint $table) {
             $table->increments('mediaGroupId');
@@ -22,13 +16,8 @@ class MediaGroups extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::drop('mediaGroups');
     }
+
 }

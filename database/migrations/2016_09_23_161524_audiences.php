@@ -3,15 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Audiences extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class Audiences extends Migration {
+
+    public function up() {
         Schema::dropIfExists('audiences');
         Schema::create('audiences', function (Blueprint $table) {
             $table->bigIncrements('audienceId');
@@ -23,13 +17,8 @@ class Audiences extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::drop('audiences');
     }
+
 }

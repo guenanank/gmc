@@ -11,11 +11,10 @@
 <div class="card">
     <div class="card-header">
         <h2>Provinces <small>Master data of province.</small></h2>
-        <!--        <a href="{{ action('Residence\Province@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
+        <!--        <a href="{{ '#' }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Province">
                     <i class="add-new-item zmdi zmdi-plus"></i>
                 </a>-->
     </div>
-
     <div class="table-responsive">
         <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ $bootgrid }}">
             <thead>
@@ -28,13 +27,14 @@
     </div>
 </div>
 @endsection
+
 @push('scripts')
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
             ajax: true,
             selection: true,
-            rowCount: [5, 10, 25, 50, -1],
+            rowCount: [10, 25, 50, -1],
             multiSelect: true,
             rowSelect: true,
             keepSelection: true,

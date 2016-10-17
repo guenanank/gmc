@@ -5,7 +5,7 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use \GMC\Models\Layer;
+use GMC\Services\Facades\Audiences;
 
 class Layer extends Controller {
 
@@ -14,9 +14,9 @@ class Layer extends Controller {
     }
 
     public function layer($layerId) {
-        $layer = \GMC\Models\Layer::findOrFail($layerId);
-        $questionType = \GMC\Models\Question::questionType();
-        $formType = \GMC\Models\Question::questionFormType();
+        $layer = Audiences::Layer()->findOrFail($layerId);
+        $questionType = Audiences::Question()->questionType();
+        $formType = Audiences::Question()->questionFormType();
         $masters = \GMC\Models\Master::lists('masterName', 'masterId')->all();
         return view('audiences.layerQuestion.question.index', compact('layer', 'masters', 'questionType', 'formType'));
     }
@@ -36,11 +36,11 @@ class Layer extends Controller {
             endforeach;
         endif;
 
-        $rows = \GMC\Models\Layer::where('layerName', 'LIKE', '%' . $search . '%')
+        $rows = Audiences::Layer()->where('layerName', 'LIKE', '%' . $search . '%')
                         ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
                         ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
 
-        $total = \GMC\Models\Layer::where('layerName', 'LIKE', '%' . $search . '%')
+        $total = Audiences::Layer()->where('layerName', 'LIKE', '%' . $search . '%')
                 ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
                 ->count();
 
@@ -57,24 +57,24 @@ class Layer extends Controller {
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), \GMC\Models\Layer::$rules);
+        $validator = Validator::make($request->all(), Audiences::Layer()->rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = \GMC\Models\Layer::create($request->all());
+        $create = Audiences::Layer()->create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $layer = \GMC\Models\Layer::findOrFail($id);
+        $layer = Audiences::Layer()->findOrFail($id);
         return view('audiences.layerQuestion.layer.edit', compact('layer'));
     }
 
     public function update(Request $request, $id) {
-        $layer = \GMC\Models\Layer::findOrFail($id);
-        \GMC\Models\Layer::$rules['layerName'] = 'required|string|max:127|unique:layers,layerName,' . $layer->layerId . ',layerId';
-        $validator = Validator::make($request->all(), \GMC\Models\Layer::$rules);
+        $layer = Audiences::Layer()->findOrFail($id);
+        Audiences::Layer()->rules(['layerName' => 'required|string|max:127|unique:layers,layerName,' . $layer->layerId . ',layerId']);
+        $validator = Validator::make($request->all(), Audiences::Layer()->rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
@@ -84,7 +84,7 @@ class Layer extends Controller {
     }
 
     public function destroy($id) {
-        $layer = \GMC\Models\Layer::findOrFail($id);
+        $layer = Audiences::Layer()->findOrFail($id);
         $delete = $layer->delete();
         return response()->json($delete, 200);
     }

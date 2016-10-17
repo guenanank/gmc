@@ -3,15 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Hobbies extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class Hobbies extends Migration {
+
+    public function up() {
         Schema::dropIfExists('hobbies');
         Schema::create('hobbies', function (Blueprint $table) {
             $table->increments('hobbyId');
@@ -21,13 +15,8 @@ class Hobbies extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::drop('hobbies');
     }
+
 }

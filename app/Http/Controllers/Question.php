@@ -5,7 +5,7 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Models\Question as Questions;
+use GMC\Services\Facades\Audiences;
 
 class Question extends Controller {
 
@@ -24,7 +24,7 @@ class Question extends Controller {
             endforeach;
         endif;
 
-        $rows = Questions::where('layerId', $request->input('layer'))
+        $rows = Audiences::Question()->where('layerId', $request->input('layer'))
                 ->where(function($query) use($search) {
                     $query->orWhere('questionType', 'LIKE', '%' . $search . '%');
                     $query->orWhere('questionText', 'LIKE', '%' . $search . '%');
@@ -37,7 +37,7 @@ class Question extends Controller {
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
-        $total = Questions::where('layerId', $request->input('layer'))
+        $total = Audiences::Question()->where('layerId', $request->input('layer'))
                 ->where(function($query) use($search) {
                     $query->orWhere('questionType', 'LIKE', '%' . $search . '%');
                     $query->orWhere('questionText', 'LIKE', '%' . $search . '%');
@@ -58,33 +58,33 @@ class Question extends Controller {
     }
 
     public function store(Request $request) {
-        Questions::rules(['masterId' => 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $request->layerId]);
-        $validator = Validator::make($request->all(), Questions::rules());
+        Audiences::Question()->rules(['masterId' => 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $request->layerId]);
+        $validator = Validator::make($request->all(), Audiences::Question()->rules());
 
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Questions::create($request->all());
+        $create = Audiences::Question()->create($request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
-        $formType = Questions::questionFormType();
-        $question = Questions::with('layer')->findOrFail($id);
+        $formType = Audiences::Question()->questionFormType();
+        $question = Audiences::Question()->with('layer')->findOrFail($id);
         $masters = \GMC\Models\Master::lists('masterName', 'masterId')->all();
         return view('audiences.layerQuestion.question.edit', compact('question', 'formType', 'masters'));
     }
 
     public function update(Request $request, $id) {
-        $question = Questions::findOrFail($id);
-        Questions::rules(['masterId' => 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $question->layerId]);
+        $question = Audiences::Question()->findOrFail($id);
+        Audiences::Question()->rules(['masterId' => 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $question->layerId]);
 
         if ($request->has('questionIsMandatory') == false) :
             $request->merge(['questionIsMandatory' => false]);
         endif;
 
-        $validator = Validator::make($request->all(), Questions::rules());
+        $validator = Validator::make($request->all(), Audiences::Question()->rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
@@ -95,7 +95,7 @@ class Question extends Controller {
     }
 
     public function destroy($id) {
-        $question = Questions::findOrFail($id);
+        $question = Audiences::Question()->findOrFail($id);
         $delete = $question->delete();
         return response()->json($delete, 200);
     }

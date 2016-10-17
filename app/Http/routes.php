@@ -139,14 +139,18 @@ Route::group(['prefix' => 'profession'], function() {
     Route::delete('{professionId}', ['uses' => 'Profession@destroy', 'as' => 'profession.delete']);
 });
 
-Route::group(['namespaces' => 'Residence'], function() {
-    Route::resource('country', 'Residence\Country');
-    Route::resource('province', 'Residence\Province');
-    Route::resource('city', 'Residence\City');
-    Route::resource('district', 'Residence\District');
-    Route::resource('dwelling', 'Residence\Dwelling');
-    Route::resource('greaterArea', 'Residence\GreaterArea');
+Route::group(['prefix' => 'region'], function() {
+    Route::get('/', ['uses' => 'Region@index', 'as' => 'region.index']);
 });
+
+//Route::group(['namespaces' => 'Residence'], function() {
+//    Route::resource('country', 'Residence\Country');
+//    Route::resource('province', 'Residence\Province');
+//    Route::resource('city', 'Residence\City');
+//    Route::resource('district', 'Residence\District');
+//    Route::resource('dwelling', 'Residence\Dwelling');
+//    Route::resource('greaterArea', 'Residence\GreaterArea');
+//});
 
 Route::group(['prefix' => 'source'], function() {
     Route::get('/', ['uses' => 'Source@index', 'as' => 'source.index']);
@@ -158,9 +162,13 @@ Route::group(['prefix' => 'source'], function() {
     Route::delete('{sourceId}', ['uses' => 'Source@destroy', 'as' => 'source.delete']);
 });
 
-Route::group(['namespaces' => 'Vehicle'], function() {
-    Route::resource('brand', 'Vehicle\Brand');
-    Route::resource('classification', 'Vehicle\Classification');
-    Route::resource('series', 'Vehicle\Series');
-    Route::resource('type', 'Vehicle\Type');
+Route::group(['prefix' => 'vehicle'], function() {
+    Route::get('/', ['uses' => 'Vehicle@index', 'as' => 'region.index']);
 });
+
+//Route::group(['namespaces' => 'Vehicle'], function() {
+//    Route::resource('brand', 'Vehicle\Brand');
+//    Route::resource('classification', 'Vehicle\Classification');
+//    Route::resource('series', 'Vehicle\Series');
+//    Route::resource('type', 'Vehicle\Type');
+//});

@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Districts <small>Master data of district.</small></h2>
-        <!--        <a href="{{ action('Residence\District@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
+        <!--        <a href="{{ '#' }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
                     <i class="add-new-item zmdi zmdi-plus"></i>
                 </a>-->
     </div>
@@ -22,6 +22,7 @@
                 <tr>
                     <th data-column-id="districtName" data-type="string" data-sortable="true" data-identifier="true">Name</th>
                     <th data-column-id="cityId" data-type="string" data-formatter="city" data-sortable="true">City</th>
+                    <th data-column-id="provinceId" data-type="string" data-formatter="province" data-sortable="true">Province</th>
                     <th data-column-id="districtPostCode" data-type="string" data-sortable="true">Postcode</th>
                 </tr>
             </thead>
@@ -35,7 +36,7 @@
         $('#bootgrid').bootgrid({
             ajax: true,
             selection: true,
-            rowCount: [5, 10, 25, 50, -1],
+            rowCount: [10, 25, 50, -1],
             multiSelect: true,
             rowSelect: true,
             keepSelection: true,
@@ -51,6 +52,9 @@
             formatters: {
                 city: function (column, row) {
                     return (row.city) ? row.city.cityName : null;
+                },
+                province: function(column, row) {
+                    return row.city.province ? row.city.province.provinceName : null;
                 },
                 commands: function (column, row) {
 

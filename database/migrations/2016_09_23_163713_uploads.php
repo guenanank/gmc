@@ -3,15 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Uploads extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class Uploads extends Migration {
+
+    public function up() {
         Schema::dropIfExists('uploads');
         Schema::create('uploads', function (Blueprint $table) {
             $table->increments('uploadId');
@@ -22,13 +16,8 @@ class Uploads extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::drop('uploads');
     }
+
 }

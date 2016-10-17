@@ -3,15 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Educations extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class Educations extends Migration {
+
+    public function up() {
         Schema::dropIfExists('education');
         Schema::create('education', function (Blueprint $table) {
             $table->increments('educationId');
@@ -20,13 +14,8 @@ class Educations extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::drop('education');
     }
+
 }

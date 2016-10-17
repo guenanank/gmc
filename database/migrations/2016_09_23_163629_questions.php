@@ -3,15 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Questions extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class Questions extends Migration {
+
+    public function up() {
         Schema::dropIfExists('questions');
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('questionId');
@@ -25,21 +19,16 @@ class Questions extends Migration
             $table->boolean('questionIsMandatory');
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('masterId')->references('masterId')->on('masters')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('layerId')->references('layerId')->on('layers')->onDelete('cascade')->onUpdate('cascade');
         });
-        
+
         Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::drop('questions');
     }
+
 }

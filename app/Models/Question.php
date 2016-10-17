@@ -41,13 +41,15 @@ class Question extends Model {
     }
 
     public static function questionType($type = null) {
-        return [
+        $questionType = [
             null => null,
             'essay' => 'Essay',
             'multipleChoice' => 'Multiple Choice',
             'trueOrFalse' => 'True Or False',
             'useMaster' => 'Use Master'
         ];
+        
+        return $type != null ? $questionType[$type] : $questionType;
     }
 
     public static function questionFormType() {

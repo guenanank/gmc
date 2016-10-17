@@ -3,15 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Masters extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class Masters extends Migration {
+
+    public function up() {
         Schema::dropIfExists('masters');
         Schema::create('masters', function (Blueprint $table) {
             $table->increments('masterId');
@@ -24,13 +18,8 @@ class Masters extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::drop('masters');
     }
+
 }
