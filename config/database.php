@@ -66,7 +66,6 @@ return [
             'engine' => null,
         ],
         
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),
