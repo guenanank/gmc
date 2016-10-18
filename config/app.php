@@ -221,6 +221,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
         'Audiences' => GMC\Services\Facades\Audiences::class,
         'Residence' => GMC\Services\Facades\Residence::class,
