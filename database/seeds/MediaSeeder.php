@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Media;
+use GMC\Models\Media;
 
 class MediaSeeder extends Seeder {
 

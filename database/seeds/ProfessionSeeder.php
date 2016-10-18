@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Profession;
+use GMC\Models\Profession;
 
 class ProfessionSeeder extends Seeder {
 

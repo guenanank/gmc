@@ -5,7 +5,7 @@ namespace GMC\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
-use GMC\Services\Facades\Audiences;
+use GMC\Services\Facades\Audience as Audiences;
 
 class Question extends Controller {
 

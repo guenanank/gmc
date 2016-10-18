@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Master;
+use GMC\Models\Master;
 
 class MasterSeeder extends Seeder {
 

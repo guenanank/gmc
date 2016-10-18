@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Source;
+use GMC\Models\Source;
 
 class SourceSeeder extends Seeder {
 

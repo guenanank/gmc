@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 class Professions extends Migration {
 
     public function up() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('professions');
         Schema::create('professions', function (Blueprint $table) {
             $table->increments('professionId');
@@ -13,10 +14,13 @@ class Professions extends Migration {
             $table->integer('professionSubFrom')->nullable();
             $table->timestamps();
         });
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     public function down() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::drop('professions');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
 }

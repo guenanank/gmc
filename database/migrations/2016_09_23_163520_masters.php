@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 class Masters extends Migration {
 
     public function up() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('masters');
         Schema::create('masters', function (Blueprint $table) {
             $table->increments('masterId');
@@ -16,10 +17,13 @@ class Masters extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     public function down() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::drop('masters');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
 }

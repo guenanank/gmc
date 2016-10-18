@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Hobby;
+use GMC\Models\Hobby;
 
 class HobbySeeder extends Seeder {
 

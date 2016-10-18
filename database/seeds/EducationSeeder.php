@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Education;
+use GMC\Models\Education;
 
 class EducationSeeder extends Seeder {
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 class AudienceActivity extends Migration {
 
     public function up() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('audienceActivity');
         Schema::create('audienceActivity', function (Blueprint $table) {
             $table->bigInteger('audienceId')->unsigned()->index();
@@ -16,10 +17,13 @@ class AudienceActivity extends Migration {
         });
 
         Schema::enableForeignKeyConstraints();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     public function down() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::drop('audienceActivity');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 class Media extends Migration {
 
     public function up() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('media');
         Schema::create('media', function (Blueprint $table) {
             $table->increments('mediaId');
@@ -17,10 +18,13 @@ class Media extends Migration {
         });
 
         Schema::enableForeignKeyConstraints();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     public function down() {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::drop('media');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
 }

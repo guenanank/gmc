@@ -5,7 +5,7 @@ namespace GMC\Services\Containers;
 use Illuminate\Http\Request;
 use Validator;
 
-class Audiences extends \Illuminate\Container\Container {
+class Audience extends \Illuminate\Container\Container {
 
     public function Audience() {
         return new \GMC\Models\Audience;

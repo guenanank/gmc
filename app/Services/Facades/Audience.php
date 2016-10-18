@@ -4,10 +4,10 @@ namespace GMC\Services\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Audiences extends Facade {
+class Audience extends Facade {
 
     protected static function getFacadeAccessor() {
-        return '\GMC\Services\Containers\Audiences';
+        return '\GMC\Services\Containers\Audience';
     }
 
 }

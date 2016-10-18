@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Expense;
+use GMC\Models\Expense;
 
 class ExpenseSeeder extends Seeder {
 

@@ -167,7 +167,7 @@ return [
         /*
          * Defined Service Providers...
          */
-        GMC\Services\Providers\Audiences::class,
+        GMC\Services\Providers\Audience::class,
         GMC\Services\Providers\Residence::class,
         GMC\Services\Providers\Vehicle::class,
 
@@ -223,7 +223,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
-        'Audiences' => GMC\Services\Facades\Audiences::class,
+        'Audience' => GMC\Services\Facades\Audience::class,
         'Residence' => GMC\Services\Facades\Residence::class,
         'Vehicle' => GMC\Services\Facades\Vehicle::class,
         

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Interest;
+use GMC\Models\Interest;
 
 class InterestSeeder extends Seeder {
 

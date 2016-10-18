@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\MediaType;
+use GMC\Models\MediaType;
 
 class MediaTypeSeeder extends Seeder {
 
