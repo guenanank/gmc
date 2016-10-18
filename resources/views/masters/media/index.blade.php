@@ -30,7 +30,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
@@ -67,4 +67,4 @@
         });
     })(jQuery);
 </script>
-@stop
+@endpush
