@@ -12,7 +12,7 @@
  */
 
 Route::get('/', 'Dashboard@index');
-Route::get('dashboard/', 'Dashboard@index');
+Route::get('dashboard/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
 
 Route::group(['prefix' => 'audience'], function() {
     Route::get('/', ['uses' => 'Audience@index', 'as' => 'audience.index']);

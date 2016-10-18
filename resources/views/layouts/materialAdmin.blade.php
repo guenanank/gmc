@@ -24,7 +24,7 @@
             </li>
 
             <li class="logo hidden-xs">
-                {{ link_to('#', 'Gramedia Majalah Community') }}
+                {{ link_to('dashboard', 'Gramedia Majalah Community') }}
             </li>
 
             <li class="pull-right">
