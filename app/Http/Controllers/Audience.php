@@ -28,8 +28,6 @@ class Audience extends Controller {
             endforeach;
         endif;
 
-
-
         $rows = Audiences::Audience()->where('audienceId', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('activities', function($query) use($search) {
                     $query->where('activityName', 'LIKE', '%' . $search . '%');

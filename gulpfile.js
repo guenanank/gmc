@@ -11,87 +11,93 @@ var elixir = require('laravel-elixir');
  | file for our application, as well as publishing vendor resources.
  |
  */
-var bowerComponents = 'vendor/bower_components/';
+var bower = 'vendor/bower_dl/';
 var paths = {
-    jquery: bowerComponents + 'jquery/dist/',
-    bootstrap: bowerComponents + 'bootstrap/dist/',
-    fullcalendar: bowerComponents + 'fullcalendar/',
-    animate: bowerComponents + 'animate.css/',
-    sweetAlert: bowerComponents + 'bootstrap-sweetalert/lib/',
-    growl: bowerComponents + 'remarkable-bootstrap-notify/dist/',
-    materialDesignIconicFont: bowerComponents + 'material-design-iconic-font/dist/',
-    
-    waves: bowerComponents + 'Waves/dist/',
-    autosize: bowerComponents + 'autosize/dist/',
-    bootstrapSelect: bowerComponents + 'bootstrap-select/dist/',
-    
-    bootstrapDatetimePicker: bowerComponents + 'eonasdan-bootstrap-datetimepicker/build/',
-    summernote: bowerComponents + 'summernote/build/',
-    moment: bowerComponents + 'moment/',
-    bootgrid: bowerComponents + 'jquery.bootgrid/dist/',
-    clipboard: bowerComponents + 'clipboard/dist/',
-    bootstrapWizard: bowerComponents + 'twitter-bootstrap-wizard/',
-    dropzone: bowerComponents + 'dropzone/dist/min/',
-    flot: bowerComponents + 'Flot/',
-    flotCurvedLines: bowerComponents + 'flot.curvedlines/',
-    //sparkline: bowerComponents + 'sparkline/dist/',
-    easyPie: bowerComponents + 'jquery.easy-pie-chart/dist/'
+    // Default
+    jQuery: bower + 'jquery/dist/',
+    bootstrap: bower + 'bootstrap/dist/',
+    moment: bower + 'moment/min/',
+    waves: bower + 'Waves/dist/',
+    growl: bower + 'remarkable-bootstrap-notify/dist/',
+    sweetAlert: bower + 'sweetalert/dist/',
+    mouseWheel: bower + 'jquery-mousewheel/',
+    customScrollbar: 'malihu-custom-scrollbar-plugin/',
+    iconicFont: bower + 'material-design-iconic-font/dist/',
+    animateCss: bower + 'animate.css/',
+    bootgrid: bower + 'jquery.bootgrid/dist/',
+    // Chart
+    flot: bower + 'flot/',
+    curvedLines: bower + 'flot.curvedlines/',
+    requireJs: bower + 'requirejs/',
+    easyPie: bower + 'jquery.easy-pie-chart/dist/',
+    sparkLine: bower + 'sparkline/src/',
+    // Form
+    select: bower + 'bootstrap-select/dist/',
+    nouislider: bower + 'nouislider/distribute/',
+    dateTimePicker: bower + 'eonasdan-bootstrap-datetimepicker/build/',
+    placeHolder: bower + 'jquery-placeholder/',
+    autoSize: bower + 'autosize/dist/',
+    dropZone: bower + 'dropzone/dist/min/',
+    wizard: bower + 'twitter-bootstrap-wizard/'
 };
 
 elixir(function (mix) {
+
     mix.copy('resources/assets/fonts/**', 'public/fonts');
     mix.copy('resources/assets/images/**', 'public/images');
 
     mix.styles([
-        paths.animate + 'animate.css',
-        paths.sweetAlert + 'sweet-alert.css',
-        paths.materialDesignIconicFont + 'css/material-design-iconic-font.css',
-        
-        paths.bootstrapSelect + 'css/bootstrap-select.css',
-        
-        paths.bootstrapDatetimePicker + 'css/bootstrap-datetimepicker.css',
-        paths.summernote + 'summernote.css',
-        paths.dropzone + 'dropzone.min.css',
-        paths.bootgrid + 'jquery.bootgrid.css'
-    ], null, bowerComponents);
+        // Default
+        paths.animateCss + 'animate.css',
+        paths.sweetAlert + 'sweetalert.css',
+        paths.iconicFont + 'css/material-design-iconic-font.css',
+        paths.dateTimePicker + 'css/bootstrap-datetimepicker.min.css',
+        paths.bootgrid + 'jquery.bootgrid.min.css',
+        paths.customScrollbar + 'jquery.mCustomScrollbar.min.css',
+        //Form
+        paths.select + 'css/bootstrap-select.min.css',
+        paths.dropZone + 'dropzone.min.css',
+        paths.nouislider + 'nouislider.min.css'
+    ], null, bower);
 
-    mix.copy(paths.materialDesignIconicFont + 'fonts/**', 'public/fonts');
+    mix.copy(paths.iconicFont + 'fonts/**', 'public/fonts');
 
     mix.styles('app.1.css');
     mix.styles('app.2.css');
 
-    mix.scripts(paths.jquery + 'jquery.js', null, bowerComponents);
-    mix.scripts(paths.bootstrap + 'js/bootstrap.js', null, bowerComponents);
-    
-    mix.scripts(paths.waves + 'waves.js', null, bowerComponents);
-    mix.scripts(paths.growl + 'bootstrap-growl.js', null, bowerComponents);
-    mix.scripts(paths.sweetAlert + 'sweet-alert.min.js', null, bowerComponents);
-    mix.scripts(paths.autosize + 'autosize.js', null, bowerComponents);
-    mix.scripts(paths.bootstrapSelect + 'js/bootstrap-select.js', null, bowerComponents);
-    
-    mix.scripts(paths.bootstrapDatetimePicker + 'js/bootstrap-datetimepicker.min.js', null, bowerComponents);
-    mix.scripts(paths.summernote + 'summernote.min.js', null, bowerComponents);
-    mix.scripts(paths.moment + 'moment.js', null, bowerComponents);
-    mix.scripts(paths.bootgrid + 'jquery.bootgrid.js', null, bowerComponents);
-    mix.scripts(paths.clipboard + 'clipboard.min.js', null, bowerComponents);
-    mix.scripts(paths.bootstrapWizard + 'jquery.bootstrap.wizard.js', null, bowerComponents);
-    mix.scripts(paths.dropzone + 'dropzone.min.js', null, bowerComponents);
-    
-    mix.scripts(paths.flot + 'jquery.flot.js', null, bowerComponents);
-    mix.scripts(paths.flotCurvedLines + 'curvedLines.js', null, bowerComponents);
-    
-    mix.scripts(paths.easyPie + 'easypiechart.min.js', null, bowerComponents);
+    // Default
+    mix.scripts(paths.jQuery + 'jquery.min.js', null, bower);
+    mix.scripts(paths.bootstrap + 'js/bootstrap.min.js', null, bower);
+    //mix.scripts(paths.bootgrid + 'jquery.bootgrid.min.js', null, bower);
+    mix.scripts('resources/assets/js/jquery.bootgrid.updated.min.js', 'public/js/jquery.bootgrid.min.js');
+    mix.scripts(paths.moment + 'moment-with-locales.min.js', null, bower);
+    mix.scripts(paths.waves + 'waves.min.js', null, bower);
+    mix.scripts(paths.growl + 'bootstrap-notify.min.js', null, bower);
+    mix.scripts(paths.sweetAlert + 'sweetalert.min.js', null, bower);
+    mix.scripts(paths.mouseWheel + 'jquery.mousewheel.min.js', null, bower);
+    mix.scripts(paths.customScrollbar + 'jquery.mCustomScrollbar.concat.min.js', null, bower);
 
-    mix.browserify('resources/assets/js/fileinput.min.js', 'public/js');
-    mix.browserify('resources/assets/js/input-mask.min.js', 'public/js');
-    mix.browserify('resources/assets/js/jquery.bootgrid.updated.min.js', 'public/js');
+    // Form
+    mix.scripts(paths.select + 'js/bootstrap-select.min.js', null, bower);
+    mix.scripts(paths.nouislider + 'nouislider.min.js', null, bower);
+    mix.scripts(paths.placeHolder + 'jquery.placeholder.min.js', null, bower);
+    mix.scripts(paths.autoSize + 'autosize.min.js', null, bower);
+    mix.scripts(paths.dropZone + 'dropzone.min.js', null, bower);
+    mix.scripts(paths.wizard + 'jquery.bootstrap.wizard.min.js', null, bower);
 
-    mix.browserify('resources/assets/js/flot-charts/curved-line-chart.js', 'public/js');
-    mix.browserify('resources/assets/js/flot-charts/line-chart.js', 'public/js');
-    mix.browserify('resources/assets/js/charts.js', 'public/js');
+    //Chart
+    mix.scripts(paths.flot + 'jquery.flot.js', null, bower);
+    mix.scripts(paths.flot + 'jquery.flot.resize.js', null, bower);
+    mix.scripts(paths.curvedLines + 'curvedLines.js', null, bower);
+    mix.scripts(paths.requireJs + 'require.js', null, bower);
+    //mix.scriptsIn(paths.sparkLine, 'public/js/sparkline.js', bower);
+    mix.scripts('resources/assets/js/jquery.sparkline.min.js', 'public/js');
+    mix.scripts(paths.easyPie + 'jquery.easypiechart.min.js', null, bower);
+    mix.scripts('resources/assets/js/flot-charts/curved-line-chart.js', 'public/js');
+    mix.scripts('resources/assets/js/flot-charts/line-chart.js', 'public/js');
+    mix.scripts('resources/assets/js/charts.js', 'public/js');
 
-    mix.browserify('functions.js');
-    mix.browserify('demo.js');
+    mix.browserify('app.js');
     mix.browserify('ajaxForm.js');
     mix.browserify('validateAudience.js');
 });

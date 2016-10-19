@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-
+        @if($layers->isEmpty() == false)
         <br />
         <div class="" id="formWizard">
             <div class="form-wizard-audience fw-container">
@@ -133,14 +133,20 @@
             </div>
         </div>
         <br />
-        <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect"><i class="zmdi zmdi-square-right"></i>SUBMIT</button>
+        <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect">
+            <i class="zmdi zmdi-square-right"></i>SUBMIT
+        </button>
+        @else
+        <br />
+        <p class="text-center">No layer questions, please create one {{ link_to('layerQuestion', 'here') }}</p>
+        @endif
     </div>
     {{ Form::close() }}
 </div>
 @endsection
 
 @push('scripts')
-{{ Html::script('js/jquery.bootstrap.wizard.js') }}
+{{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
 (function ($) {

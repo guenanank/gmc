@@ -4,17 +4,15 @@ namespace GMC\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use GMC\Services\Containers\AudienceContainer as AudienceRepository;
+use GMC\Services\Facades\Audience as Audiences;
 use Validator;
 use GMC\Models\Upload as Uploads;
 
 class Upload extends Controller {
 
     protected $path;
-    protected $repo;
 
-    public function __construct(AudienceRepository $repo) {
-        $this->repo = $repo;
+    public function __construct() {
         $this->path = public_path('fileUploads');
     }
 
@@ -26,11 +24,11 @@ class Upload extends Controller {
 
             $excel->sheet('ActivityToken', function($sheet) {
 
-                $sheet->fromArray(AudienceRepository::Question()->all()->pluck('questionId'));
+                $sheet->fromArray(Audiences::Question()->all()->pluck('questionId'));
                 $sheet->row(1, function($row) {
                     $row->setBackground('#000000');
                 });
-                $sheet->row(2, AudienceRepository::Question()->all()->transform(function($item) {
+                $sheet->row(2, Audiences::Question()->all()->transform(function($item) {
                             $isMandatory = $item->questionIsMandatory ? '(mandatory)' : null;
                             return camel_case($item->questionText) . $isMandatory;
                         })->toArray());
@@ -75,7 +73,7 @@ class Upload extends Controller {
     public function upload() {
         foreach (Uploads::where('uploadIsExecuted', false)->pluck('uploadFilename') as $uploadFilename) :
             $readers = Excel::load($this->path . '/' . $uploadFilename)->all();
-            AudienceRepository::executeUploadedFile($readers);
+            Audiences::executeUploadedFile($readers);
         endforeach;
 
         dd('upload');

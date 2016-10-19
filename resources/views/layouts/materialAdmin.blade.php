@@ -162,24 +162,24 @@
                         <li>{{ link_to('mediaGroup', 'Media Groups') }}</li>
                         <li>{{ link_to('profession', 'Professions') }}</li>
                         <li>{{ link_to('region', 'Regions') }}</li>
-<!--                        <li class="sub-menu">
-                            {{ link_to('#', 'Residence') }}
-                            <ul>
-                                <li>{{ link_to('province', 'Provinces') }}</li>
-                                <li>{{ link_to('city', 'Cities') }}</li>
-                                <li>{{ link_to('district', 'Districts') }}</li>
-                                <li>{{ link_to('dwelling', 'Dwellings') }}</li>
-                                <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
-                            </ul>
-                        </li>-->
+                        <!--                        <li class="sub-menu">
+                                                    {{ link_to('#', 'Residence') }}
+                                                    <ul>
+                                                        <li>{{ link_to('province', 'Provinces') }}</li>
+                                                        <li>{{ link_to('city', 'Cities') }}</li>
+                                                        <li>{{ link_to('district', 'Districts') }}</li>
+                                                        <li>{{ link_to('dwelling', 'Dwellings') }}</li>
+                                                        <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
+                                                    </ul>
+                                                </li>-->
                         <li>{{ link_to('source', 'Sources') }}</li>
                         <li>{{ link_to('vehicle', 'Vehicle') }}</li>
-<!--                        <li class="sub-menu">
-                            {{ link_to('#', 'Vehicles') }}
-                            <ul>
-                                <li>{{ link_to('type', 'Types') }}</li>
-                            </ul>
-                        </li>-->
+                        <!--                        <li class="sub-menu">
+                                                    {{ link_to('#', 'Vehicles') }}
+                                                    <ul>
+                                                        <li>{{ link_to('type', 'Types') }}</li>
+                                                    </ul>
+                                                </li>-->
                     </ul>
                 </li>
             </ul>
@@ -213,92 +213,108 @@
             <p>Please wait...</p>
         </div>
     </div>
-
-    {{ Html::script('js/jquery.js') }}
-    {{ Html::script('js/bootstrap.js') }}
-    {{ Html::script('js/jquery.mCustomScrollbar.concat.min.js') }}
-    {{ Html::script('js/waves.js') }}
-    {{ Html::script('js/bootstrap-growl.js') }}
-    {{ Html::script('js/sweet-alert.min.js') }}
     
-    {{ Html::script('js/moment.js') }}
-    {{ Html::script('js/bootstrap-select.js') }}
-    {{ Html::script('js/jquery.nouislider.all.js') }}
-    {{ Html::script('js/bootstrap-datetimepicker.min.js') }}
-    {{ Html::script('js/clipboard.min.js') }}
-    {{ Html::script('js/input-mask.min.js') }}
-    {{ Html::script('js/fileinput.min.js') }}
-    {{ Html::script('js/jquery.bootgrid.updated.min.js') }}
-    {{ Html::script('js/autosize.js') }}
-    {{ Html::script('js/functions.js') }}
+    <!-- Older IE warning message -->
+    <!--[if lt IE 9]>
+        <div class="ie-warning">
+            <h1 class="c-white">Warning!!</h1>
+            <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+            <div class="iew-container">
+                <ul class="iew-download">
+                    <li>
+                        <a href="http://www.google.com/chrome/">
+                            <img src="img/browsers/chrome.png" alt="">
+                            <div>Chrome</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.mozilla.org/en-US/firefox/new/">
+                            <img src="img/browsers/firefox.png" alt="">
+                            <div>Firefox</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.opera.com">
+                            <img src="img/browsers/opera.png" alt="">
+                            <div>Opera</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.apple.com/safari/">
+                            <img src="img/browsers/safari.png" alt="">
+                            <div>Safari</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                            <img src="img/browsers/ie.png" alt="">
+                            <div>IE (New)</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <p>Sorry for the inconvenience!</p>
+        </div>   
+    <![endif]-->
+
+    <!-- Default -->
+    {{ Html::script('js/jquery.min.js') }}
+    {{ Html::script('js/bootstrap.min.js') }}
+    {{ Html::script('js/jquery.bootgrid.min.js') }}
+    {{ Html::script('js/moment-with-locales.min.js') }}
+    {{ Html::script('js/waves.min.js') }}
+    {{ Html::script('js/bootstrap-notify.min.js') }}
+    {{ Html::script('js/sweetalert.min.js') }}
+    {{ Html::script('js/jquery.mousewheel.min.js') }}
+    {{ Html::script('js/jquery.mCustomScrollbar.concat.min.js') }}
+
+    <!-- Form -->
+    {{ Html::script('js/bootstrap-select.min.js') }}
+    {{ Html::script('js/nouislider.min.js') }}
+    {{ Html::script('js/jquery.placeholder.min.js') }}
+    {{ Html::script('js/autosize.min.js') }}
+
+    {{ Html::script('js/app.js') }}
+    {{ Html::script('js/ajaxForm.js') }}
+    
+    <!-- Placeholder for IE9 -->
+    <!--[if IE 9 ]>
+        {{ Html::script('js/jquery.placeholder.min.js') }}
+    <![endif]-->
     
     <script type="text/javascript">
-        
-        /* Usage
-         * $.strPad(12, 5); // returns 00012
-         * $.strPad('abc', 6, '#'); // returns ###abc
-         */
-        $.strPad = function (i, l, s) {
-            var o = i.toString();
-            if (!s) {
-                s = '0';
-            }
-            while (o.length < l) {
-                o = s + o;
-            }
-            return o;
-        };
-                
-        var notify = function (message, type){
-            $.growl({
-                message: message
-            },{
-                type: type,
-                offset: {
-                    x: 20,
-                    y: 85
-                }
+        (function ($) {
+            $('form.ajaxForm').submit(function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                $(this).ajaxForm();
             });
-        };
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                _token: $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('form.ajaxForm').submit(function (e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            $(this).ajaxForm();
-        });
-
-        var deletes = function (controller, id) {
-            swal({
-                title: 'Are you sure?',
-                text: 'You will not be able to recover this file!',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                $.post(controller + '/' + id, {_method: 'DELETE'}, function () {
-                    swal({
-                        title: 'Deleted!',
-                        text: 'Your file has been deleted.',
-                        type: 'success',
-                        showConfirmButton: false,
-                        timer: 2000
+            var deletes = function (controller, id) {
+                swal({
+                    title: 'Are you sure?',
+                    text: 'You will not be able to recover this file!',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false
+                }, function () {
+                    $.post(controller + '/' + id, {_method: 'DELETE'}, function () {
+                        swal({
+                            title: 'Deleted!',
+                            text: 'Your file has been deleted.',
+                            type: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        $('#bootgrid').bootgrid('reload');
                     });
-                    $('#bootgrid').bootgrid('reload');
                 });
-            });
-        };
-
+            };
+        })(jQuery);
     </script>
-    {{ Html::script('js/ajaxForm.js') }}
+
     @stack('scripts')
     <script type="text/javascript">
         console.info('Document length: ' + $('*').length);

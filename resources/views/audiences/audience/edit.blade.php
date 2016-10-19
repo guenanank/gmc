@@ -134,7 +134,7 @@
 @endsection
 
 @push('scripts')
-{{ Html::script('js/jquery.bootstrap.wizard.js') }}
+{{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
 (function ($) {
