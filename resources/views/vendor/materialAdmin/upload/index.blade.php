@@ -1,4 +1,4 @@
-@extends('layouts.materialAdmin')
+@extends('vendor.layouts.materialAdmin')
 
 @section('styles')
 

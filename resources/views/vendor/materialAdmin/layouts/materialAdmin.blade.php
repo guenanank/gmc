@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
-
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Gramedia Majalah Community</title>
     {{ Html::style('css/all.css') }}
     {{ Html::style('css/app.1.css') }}
@@ -213,7 +212,7 @@
             <p>Please wait...</p>
         </div>
     </div>
-    
+
     <!-- Older IE warning message -->
     <!--[if lt IE 9]>
         <div class="ie-warning">
@@ -276,12 +275,12 @@
 
     {{ Html::script('js/app.js') }}
     {{ Html::script('js/ajaxForm.js') }}
-    
+
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]>
         {{ Html::script('js/jquery.placeholder.min.js') }}
     <![endif]-->
-    
+
     <script type="text/javascript">
         (function ($) {
             $('form.ajaxForm').submit(function (e) {

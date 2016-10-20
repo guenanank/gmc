@@ -29,6 +29,8 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    
+    protected $loginView = 'vendor.materialAdmin.auth.login';
 
     /**
      * Create a new authentication controller instance.
