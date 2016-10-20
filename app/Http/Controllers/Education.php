@@ -10,7 +10,7 @@ use GMC\Models\Education as Educations;
 class Education extends Controller {
 
     public function index() {
-        return view('masters.education.index');
+        return view('vendor.materialAdmin.masters.education.index');
     }
 
     public function bootgrid(Request $request) {
@@ -44,7 +44,7 @@ class Education extends Controller {
     }
 
     public function create() {
-        return view('masters.education.create');
+        return view('vendor.materialAdmin.masters.education.create');
     }
 
     public function store(Request $request) {
@@ -59,7 +59,7 @@ class Education extends Controller {
 
     public function edit($id) {
         $education = Educations::findOrFail($id);
-        return view('masters.education.edit', compact('education'));
+        return view('vendor.materialAdmin.masters.education.edit', compact('education'));
     }
 
     public function update(Request $request, $id) {

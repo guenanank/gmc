@@ -7,7 +7,7 @@ class Region extends Controller {
 
 
     public function index() {
-        return view('masters.region.index');
+        return view('vendor.materialAdmin.masters.region.index');
     }
 
 }

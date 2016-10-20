@@ -10,7 +10,7 @@ use GMC\Models\Profession as Professions;
 class Profession extends Controller {
 
     public function index() {
-        return view('masters.profession.index');
+        return view('vendor.materialAdmin.masters.profession.index');
     }
 
     public function bootgrid(Request $request) {
@@ -51,7 +51,7 @@ class Profession extends Controller {
 
     public function create() {
         $professions = Professions::lists('professionName', 'professionId')->all();
-        return view('masters.profession.create', compact('professions'));
+        return view('vendor.materialAdmin.masters.profession.create', compact('professions'));
     }
 
     public function store(Request $request) {
@@ -67,7 +67,7 @@ class Profession extends Controller {
     public function edit($id) {
         $profession = Professions::findOrFail($id);
         $professions = Professions::lists('professionName', 'professionId')->all();
-        return view('masters.profession.edit', compact('profession', 'professions'));
+        return view('vendor.materialAdmin.masters.profession.edit', compact('profession', 'professions'));
     }
 
     public function update(Request $request, $id) {

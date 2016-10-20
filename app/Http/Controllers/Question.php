@@ -73,7 +73,7 @@ class Question extends Controller {
         $formType = Audiences::Question()->questionFormType();
         $question = Audiences::Question()->with('layer')->findOrFail($id);
         $masters = \GMC\Models\Master::lists('masterName', 'masterId')->all();
-        return view('audiences.layerQuestion.question.edit', compact('question', 'formType', 'masters'));
+        return view('vendor.materialAdmin.audiences.layerQuestion.question.edit', compact('question', 'formType', 'masters'));
     }
 
     public function update(Request $request, $id) {

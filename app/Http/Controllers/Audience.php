@@ -10,7 +10,7 @@ use Validator;
 class Audience extends Controller {
 
     public function index() {
-        return view('audiences.audience.index');
+        return view('vendor.materialAdmin.audiences.audience.index');
     }
 
     public function bootgrid(Request $request) {
@@ -58,7 +58,7 @@ class Audience extends Controller {
     public function create() {
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $layers = Audiences::Layer()->with('questions.master')->get();
-        return view('audiences.audience.create', compact('activities', 'layers'));
+        return view('vendor.materialAdmin.audiences.audience.create', compact('activities', 'layers'));
     }
 
     public function store(Request $request) {
@@ -96,13 +96,13 @@ class Audience extends Controller {
 
     public function show($id) {
         $audience = Audiences::Audience()->with('layers.questions.master', 'activities')->find($id);
-        return view('audiences.audience.show', compact('audience'));
+        return view('vendor.materialAdmin.audiences.audience.show', compact('audience'));
     }
 
     public function edit($id) {
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $audience = Audiences::Audience()->with('layers.questions.master', 'activities')->find($id);
-        return view('audiences.audience.edit', compact('activities', 'audience'));
+        return view('vendor.materialAdmin.audiences.audience.edit', compact('activities', 'audience'));
     }
 
     public function update(Request $request, $id) {

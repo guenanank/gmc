@@ -10,7 +10,7 @@ use GMC\Models\MediaGroup as MediaGroups;
 class MediaGroup extends Controller {
 
     public function index() {
-        return view('masters.mediaGroup.index');
+        return view('vendor.materialAdmin.masters.mediaGroup.index');
     }
 
     public function bootgrid(Request $request) {
@@ -51,7 +51,7 @@ class MediaGroup extends Controller {
 
     public function create() {
         $mediaGroups = MediaGroups::lists('mediaGroupName', 'mediaGroupId')->all();
-        return view('masters.mediaGroup.create', compact('mediaGroups'));
+        return view('vendor.materialAdmin.masters.mediaGroup.create', compact('mediaGroups'));
     }
 
     public function store(Request $request) {
@@ -67,7 +67,7 @@ class MediaGroup extends Controller {
     public function edit($id) {
         $mediaGroup = MediaGroups::findOrFail($id);
         $mediaGroups = MediaGroups::lists('mediaGroupName', 'mediaGroupId')->all();
-        return view('masters.mediaGroup.edit', compact('mediaGroup', 'mediaGroups'));
+        return view('vendor.materialAdmin.masters.mediaGroup.edit', compact('mediaGroup', 'mediaGroups'));
     }
 
     public function update(Request $request, $id) {

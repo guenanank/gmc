@@ -10,7 +10,7 @@ use GMC\Services\Facades\Audience as Audiences;
 class Layer extends Controller {
 
     public function index() {
-        return view('audiences.layerQuestion.layer.index');
+        return view('vendor.materialAdmin.audiences.layerQuestion.layer.index');
     }
 
     public function layer($layerId) {
@@ -18,7 +18,7 @@ class Layer extends Controller {
         $questionType = Audiences::Question()->questionType();
         $formType = Audiences::Question()->questionFormType();
         $masters = \GMC\Models\Master::lists('masterName', 'masterId')->all();
-        return view('audiences.layerQuestion.question.index', compact('layer', 'masters', 'questionType', 'formType'));
+        return view('vendor.materialAdmin.audiences.layerQuestion.question.index', compact('layer', 'masters', 'questionType', 'formType'));
     }
 
     public function bootgrid(Request $request) {
@@ -53,7 +53,7 @@ class Layer extends Controller {
     }
 
     public function create() {
-        return view('audiences.layerQuestion.layer.create');
+        return view('vendor.materialAdmin.audiences.layerQuestion.layer.create');
     }
 
     public function store(Request $request) {
@@ -68,7 +68,7 @@ class Layer extends Controller {
 
     public function edit($id) {
         $layer = Audiences::Layer()->findOrFail($id);
-        return view('audiences.layerQuestion.layer.edit', compact('layer'));
+        return view('vendor.materialAdmin.audiences.layerQuestion.layer.edit', compact('layer'));
     }
 
     public function update(Request $request, $id) {

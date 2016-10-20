@@ -11,7 +11,7 @@ use GMC\Models\Activity as Activities;
 class Activity extends Controller {
 
     public function index() {
-        return view('masters.activity.index');
+        return view('vendor.materialAdmin.masters.activity.index');
     }
 
     public function bootgrid(Request $request) {
@@ -64,7 +64,7 @@ class Activity extends Controller {
     public function create() {
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
         $mediaGroups = \GMC\Models\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all();
-        return view('masters.activity.create', compact('sources', 'mediaGroups'));
+        return view('vendor.materialAdmin.masters.activity.create', compact('sources', 'mediaGroups'));
     }
 
     public function store(Request $request) {
@@ -82,7 +82,7 @@ class Activity extends Controller {
         $activity = Activities::findOrFail($id);
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
         $mediaGroups = \GMC\Models\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all();
-        return view('masters.activity.edit', compact('activity', 'sources', 'mediaGroups'));
+        return view('vendor.materialAdmin.masters.activity.edit', compact('activity', 'sources', 'mediaGroups'));
     }
 
     public function update(Request $request, $id) {

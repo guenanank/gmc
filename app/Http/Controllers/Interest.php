@@ -10,7 +10,7 @@ use GMC\Models\Interest as Interests;
 class Interest extends Controller {
 
     public function index() {
-        return view('masters.interest.index');
+        return view('vendor.materialAdmin.masters.interest.index');
     }
 
     public function bootgrid(Request $request) {
@@ -51,7 +51,7 @@ class Interest extends Controller {
 
     public function create() {
         $interests = Interests::lists('interestName', 'interestId')->all();
-        return view('masters.interest.create', compact('interests'));
+        return view('vendor.materialAdmin.masters.interest.create', compact('interests'));
     }
 
     public function store(Request $request) {
@@ -67,7 +67,7 @@ class Interest extends Controller {
     public function edit($id) {
         $interest = Interests::findOrFail($id);
         $interests = Interests::lists('interestName', 'interestId')->all();
-        return view('masters.interest.edit', compact('interest', 'interests'));
+        return view('vendor.materialAdmin.masters.interest.edit', compact('interest', 'interests'));
     }
 
     public function update(Request $request, $id) {

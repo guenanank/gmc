@@ -10,7 +10,7 @@ use GMC\Models\Expense as Expenses;
 class Expense extends Controller {
 
     public function index(Request $request) {
-        return view('masters.expense.index');
+        return view('vendor.materialAdmin.masters.expense.index');
     }
 
     public function bootgrid(Request $request) {
@@ -46,7 +46,7 @@ class Expense extends Controller {
     }
 
     public function create() {
-        return view('masters.expense.create');
+        return view('vendor.materialAdmin.masters.expense.create');
     }
 
     public function store(Request $request) {
@@ -61,7 +61,7 @@ class Expense extends Controller {
 
     public function edit($id) {
         $expense = Expenses::findOrFail($id);
-        return view('masters.expense.edit', compact('expense'));
+        return view('vendor.materialAdmin.masters.expense.edit', compact('expense'));
     }
 
     public function update(Request $request, $id) {

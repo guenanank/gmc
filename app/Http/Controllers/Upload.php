@@ -44,7 +44,7 @@ class Upload extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('upload.index');
+        return view('vendor.materialAdmin.upload.index');
     }
 
     /**

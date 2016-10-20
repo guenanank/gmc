@@ -9,7 +9,7 @@ use GMC\Http\Requests;
 class Media extends Controller {
 
     public function index() {
-        return view('masters.media.index');
+        return view('vendor.materialAdmin.masters.media.index');
     }
 
     public function bootgrid(Request $request) {
@@ -50,7 +50,7 @@ class Media extends Controller {
 
     public function create() {
         $mediaTypes = \GMC\Models\MediaType::lists('mediaTypeName', 'mediaTypeId')->all();
-        return view('masters.media.create', compact('mediaTypes'));
+        return view('vendor.materialAdmin.masters.media.create', compact('mediaTypes'));
     }
 
     public function store(Request $request) {
@@ -66,7 +66,7 @@ class Media extends Controller {
     public function edit($id) {
         $media = \GMC\Models\Media::findOrFail($id);
         $mediaTypes = \GMC\Models\MediaType::lists('mediaTypeName', 'mediaTypeId')->all();
-        return view('masters.media.edit', compact('media', 'mediaTypes'));
+        return view('vendor.materialAdmin.masters.media.edit', compact('media', 'mediaTypes'));
     }
 
     public function update(Request $request, $id) {

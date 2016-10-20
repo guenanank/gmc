@@ -10,7 +10,7 @@ use GMC\Models\Source as Sources;
 class Source extends Controller {
 
     public function index() {
-        return view('masters.source.index');
+        return view('vendor.materialAdmin.masters.source.index');
     }
 
     public function bootgrid(Request $request) {
@@ -44,7 +44,7 @@ class Source extends Controller {
     }
 
     public function create() {
-        return view('masters.source.create');
+        return view('vendor.materialAdmin.masters.source.create');
     }
 
     public function store(Request $request) {
@@ -59,7 +59,7 @@ class Source extends Controller {
 
     public function edit($id) {
         $source = Sources::findOrFail($id);
-        return view('masters.source.edit', compact('source'));
+        return view('vendor.materialAdmin.masters.source.edit', compact('source'));
     }
 
     public function update(Request $request, $id) {

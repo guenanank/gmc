@@ -10,7 +10,7 @@ use GMC\Models\Hobby as Hobbies;
 class Hobby extends Controller {
 
     public function index() {
-        return view('masters.hobby.index');
+        return view('vendor.materialAdmin.masters.hobby.index');
     }
 
     public function bootgrid(Request $request) {
@@ -51,7 +51,7 @@ class Hobby extends Controller {
 
     public function create() {
         $hobbies = Hobbies::lists('hobbyName', 'hobbyId')->all();
-        return view('masters.hobby.create', compact('hobbies'));
+        return view('vendor.materialAdmin.masters.hobby.create', compact('hobbies'));
     }
 
     public function store(Request $request) {
@@ -67,7 +67,7 @@ class Hobby extends Controller {
     public function edit($id) {
         $hobby = Hobbies::findOrFail($id);
         $hobbies = Hobbies::lists('hobbyName', 'hobbyId')->all();
-        return view('masters.hobby.edit', compact('hobby', 'hobbies'));
+        return view('vendor.materialAdmin.masters.hobby.edit', compact('hobby', 'hobbies'));
     }
 
     public function update(Request $request, $id) {

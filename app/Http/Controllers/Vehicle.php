@@ -14,7 +14,7 @@ class Vehicle extends Controller {
 
     public function index() {
         $bootgrid = $this->type->target . 'bootgrid';
-        return view('masters.vehicle.index', compact('bootgrid'));
+        return view('vendor.materialAdmin.masters.vehicle.index', compact('bootgrid'));
     }
 
 }

@@ -172,3 +172,7 @@ Route::group(['prefix' => 'vehicle'], function() {
 //    Route::resource('series', 'Vehicle\Series');
 //    Route::resource('type', 'Vehicle\Type');
 //});
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
