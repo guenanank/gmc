@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Gramedia Majalah Community</title>
-    {{ Html::style('css/all.css') }}
-    {{ Html::style('css/app.1.css') }}
-    {{ Html::style('css/app.2.css') }}
+    {{ Html::style('css/all.css', [], Request::secure()) }}
+    {{ Html::style('css/app.1.css', [], Request::secure()) }}
+    {{ Html::style('css/app.2.css', [], Request::secure()) }}
 </head>
 
 <body class="login-content">
@@ -116,17 +116,17 @@
     <![endif]-->
 
     <!-- Javascript Libraries -->
-    {{ Html::script('js/jquery.min.js') }}
-    {{ Html::script('js/bootstrap.min.js') }}
+    {{ Html::script('js/jquery.min.js', [], Request::secure()) }}
+    {{ Html::script('js/bootstrap.min.js', [], Request::secure()) }}
 
-    {{ Html::script('js/waves.min.js') }}
+    {{ Html::script('js/waves.min.js', [], Request::secure()) }}
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]>
         {{ Html::script('js/jquery.placeholder.min.js') }}
     <![endif]-->
 
-    {{ Html::script('js/app.js') }}
+    {{ Html::script('js/app.js', [], Request::secure()) }}
 
 </body>
 </html>
