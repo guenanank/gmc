@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://gmc.gramedia-majalah.com'),
+    'url' => env('APP_URL', 'https://gmc.gramedia-majalah.com'),
 
     /*
     |--------------------------------------------------------------------------
