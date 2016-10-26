@@ -11,7 +11,7 @@
   |
  */
 Route::auth();
-//Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'Dashboard@index');
     Route::get('dashboard/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
 
@@ -158,4 +158,4 @@ Route::auth();
         Route::get('/', ['uses' => 'Vehicle@index', 'as' => 'region.index']);
     });
 
-//});
+});
