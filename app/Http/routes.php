@@ -11,7 +11,7 @@
   |
  */
 Route::auth();
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth', 'before' => 'force.ssl'], function() {
     Route::get('/', 'Dashboard@index');
     Route::get('dashboard/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
 
