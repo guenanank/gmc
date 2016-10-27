@@ -2,14 +2,15 @@
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>
     <base href="{{ url('/') }}" />
+    {{ Html::favicon() }}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Gramedia Majalah Community</title>
-    {{ Html::style('css/all.css', [], Request::secure()) }}
-    {{ Html::style('css/app.1.css', [], Request::secure()) }}
-    {{ Html::style('css/app.2.css', [], Request::secure()) }}
+    <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
+    {{ Html::style('css/app.1.css') }}
+    {{ Html::style('css/app.2.css') }}
     @stack('styles')
 </head>
 <body>
@@ -258,24 +259,24 @@
     <![endif]-->
 
     <!-- Default -->
-    {{ Html::script('js/jquery.min.js', [], Request::secure()) }}
-    {{ Html::script('js/bootstrap.min.js', [], Request::secure()) }}
-    {{ Html::script('js/jquery.bootgrid.min.js', [], Request::secure()) }}
-    {{ Html::script('js/moment-with-locales.min.js', [], Request::secure()) }}
-    {{ Html::script('js/waves.min.js', [], Request::secure()) }}
-    {{ Html::script('js/bootstrap-notify.min.js', [], Request::secure()) }}
-    {{ Html::script('js/sweetalert.min.js', [], Request::secure()) }}
-    {{ Html::script('js/jquery.mousewheel.min.js', [], Request::secure()) }}
-    {{ Html::script('js/jquery.mCustomScrollbar.concat.min.js', [], Request::secure()) }}
+    {{ Html::script('js/jquery.min.js') }}
+    {{ Html::script('js/bootstrap.min.js') }}
+    {{ Html::script('js/jquery.bootgrid.min.js') }}
+    {{ Html::script('js/moment-with-locales.min.js') }}
+    {{ Html::script('js/waves.min.js') }}
+    {{ Html::script('js/bootstrap-notify.min.js') }}
+    {{ Html::script('js/sweetalert.min.js') }}
+    {{ Html::script('js/jquery.mousewheel.min.js') }}
+    {{ Html::script('js/jquery.mCustomScrollbar.concat.min.js') }}
 
     <!-- Form -->
-    {{ Html::script('js/bootstrap-select.min.js', [], Request::secure()) }}
-    {{ Html::script('js/nouislider.min.js', [], Request::secure()) }}
-    {{ Html::script('js/jquery.placeholder.min.js', [], Request::secure()) }}
-    {{ Html::script('js/autosize.min.js', [], Request::secure()) }}
+    {{ Html::script('js/bootstrap-select.min.js') }}
+    {{ Html::script('js/nouislider.min.js') }}
+    {{ Html::script('js/jquery.placeholder.min.js') }}
+    {{ Html::script('js/autosize.min.js') }}
 
-    {{ Html::script('js/app.js', [], Request::secure()) }}
-    {{ Html::script('js/ajaxForm.js', [], Request::secure()) }}
+    {{ Html::script('js/app.js') }}
+    {{ Html::script('js/ajaxForm.js') }}
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]>

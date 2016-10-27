@@ -170,7 +170,9 @@ return [
         GMC\Services\Providers\Audience::class,
         GMC\Services\Providers\Residence::class,
         GMC\Services\Providers\Vehicle::class,
-
+        
+        GMC\Services\Providers\Html::class,
+        
     ],
 
     /*

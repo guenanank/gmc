@@ -1,14 +1,16 @@
 <!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>
     <base href="{{ url('/') }}" />
+    {{ Html::favicon() }}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Gramedia Majalah Community</title>
-    {{ Html::style('css/all.css', [], Request::secure()) }}
-    {{ Html::style('css/app.1.css', [], Request::secure()) }}
-    {{ Html::style('css/app.2.css', [], Request::secure()) }}
+    <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
+    {{ Html::style('css/app.1.css') }}
+    {{ Html::style('css/app.2.css') }}
 </head>
 
 <body class="login-content">
@@ -116,16 +118,23 @@
     <![endif]-->
 
     <!-- Javascript Libraries -->
+<<<<<<< HEAD
     {{ Html::script('js/jquery.min.js', [], Request::secure()) }}
     {{ Html::script('js/bootstrap.min.js', [], Request::secure()) }}
     {{ Html::script('js/waves.min.js', [], Request::secure()) }}
+=======
+    {{ Html::script('js/jquery.min.js') }}
+    {{ Html::script('js/bootstrap.min.js') }}
+
+    {{ Html::script('js/waves.min.js') }}
+>>>>>>> 9d54765f05ccbe5f5919f04ccddba82a844556c4
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]>
         {{ Html::script('js/jquery.placeholder.min.js') }}
     <![endif]-->
 
-    {{ Html::script('js/app.js', [], Request::secure()) }}
+    {{ Html::script('js/app.js') }}
 
 </body>
 </html>
