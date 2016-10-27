@@ -171,7 +171,7 @@ return [
         GMC\Services\Providers\Residence::class,
         GMC\Services\Providers\Vehicle::class,
         
-        GMC\Services\Providers\Html::class,
+        //GMC\Services\Providers\Html::class,
         
     ],
 
