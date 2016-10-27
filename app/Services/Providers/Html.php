@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Providers;
+namespace GMC\Services\Providers;
 
 use Collective\Html\HtmlBuilder;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlServiceProvider as BaseHtmlServiceProvider;
 
-class HtmlServiceProvider extends BaseHtmlServiceProvider {
+class Html extends BaseHtmlServiceProvider {
 
     protected function registerHtmlBuilder() {
         $this->app->singleton('html', function($app) {
@@ -17,7 +17,7 @@ class HtmlServiceProvider extends BaseHtmlServiceProvider {
                 $url->forceSchema('https');
             }
 
-            return new HtmlBuilder($url, $app['view']);
+            return new HtmlBuilder($url);
         });
     }
 
@@ -29,7 +29,7 @@ class HtmlServiceProvider extends BaseHtmlServiceProvider {
                 $url->forceSchema('https');
             }
 
-            $form = new FormBuilder($app['html'], $url, $app['view'], $app['session.store']->getToken());
+            $form = new FormBuilder($app['html'], $url, $app['session.store']->getToken());
 
             return $form->setSessionStore($app['session.store']);
         });
