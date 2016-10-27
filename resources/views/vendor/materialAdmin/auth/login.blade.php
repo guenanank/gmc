@@ -118,7 +118,6 @@
     <!-- Javascript Libraries -->
     {{ Html::script('js/jquery.min.js', [], Request::secure()) }}
     {{ Html::script('js/bootstrap.min.js', [], Request::secure()) }}
-
     {{ Html::script('js/waves.min.js', [], Request::secure()) }}
 
     <!-- Placeholder for IE9 -->
