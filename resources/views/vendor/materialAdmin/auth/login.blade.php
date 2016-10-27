@@ -2,12 +2,13 @@
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>
     <base href="{{ url('/') }}" />
+    {{ Html::favicon() }}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Gramedia Majalah Community</title>
-    {{ Html::style('css/all.css') }}
+    <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
     {{ Html::style('css/app.1.css') }}
     {{ Html::style('css/app.2.css') }}
 </head>
