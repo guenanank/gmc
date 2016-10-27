@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
             $string = preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', ' $0', $parameters[0]);
             return str_replace(':field', strtolower($string), $message);
         });
+        
+        if(!\App::environment('local')) {
+            \URL::forceSchema('https');
+        }
     }
 
     /**
