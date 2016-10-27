@@ -118,16 +118,15 @@
     <![endif]-->
 
     <!-- Javascript Libraries -->
-<<<<<<< HEAD
-    {{ Html::script('js/jquery.min.js', [], Request::secure()) }}
-    {{ Html::script('js/bootstrap.min.js', [], Request::secure()) }}
-    {{ Html::script('js/waves.min.js', [], Request::secure()) }}
-=======
+
+    {{ Html::script('js/jquery.min.js') }}
+    {{ Html::script('js/bootstrap.min.js') }}
+    {{ Html::script('js/waves.min.js') }}
+
     {{ Html::script('js/jquery.min.js') }}
     {{ Html::script('js/bootstrap.min.js') }}
 
     {{ Html::script('js/waves.min.js') }}
->>>>>>> 9d54765f05ccbe5f5919f04ccddba82a844556c4
 
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]>
