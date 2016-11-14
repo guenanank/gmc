@@ -1,4 +1,4 @@
-@extends('vendor.layouts.materialAdmin')
+@extends('vendor.materialAdmin.layouts.materialAdmin')
 
 @section('blockHeader')
 <ol class="breadcrumb">

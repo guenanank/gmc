@@ -38,9 +38,13 @@ class Kernel extends HttpKernel
             'throttle:60,1',
         ],
         
-        'ajax' => [
+        'isAjax' => [
             \GMC\Http\Middleware\IsAjax::class,
-        ]
+        ],
+        
+        'withAPI' => [
+            \GMC\Http\Middleware\WithAPI::class,
+        ],
     ];
 
     /**
@@ -56,5 +60,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \GMC\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        
+        
     ];
 }

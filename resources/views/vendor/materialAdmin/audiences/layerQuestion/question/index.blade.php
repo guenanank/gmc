@@ -1,4 +1,4 @@
-@extends('vendor.layouts.materialAdmin')
+@extends('vendor.materialAdmin.layouts.materialAdmin')
 
 @section('breadcrumb')
 <ol class="breadcrumb">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    @include('audiences.layerQuestion.question.create')
+    @include('vendor.materialAdmin.audiences.layerQuestion.question.create')
 
 @endsection
 

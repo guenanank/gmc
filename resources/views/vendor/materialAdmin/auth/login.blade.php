@@ -16,21 +16,24 @@
 <body class="login-content">
 
     <div class="lc-block toggled" id="l-login">
-        {{ Form::open(['url' => 'http://localhost/api/public/OAuth/in']) }}
-        <div class="input-group m-b-20">
+        <!--{{ Form::open(['url' => 'https://api.gramedia-majalah.com/OAuth/login']) }}-->
+        <!--{{ Form::open(['url' => 'http://localhost/api/public/OAuth/login']) }}-->
+        {{ Form::open(['url' => '/login']) }}
+
+        <div class="input-group m-b-20 {{ $errors->has('username') ? ' has-error' : '' }}">
             <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
             <div class="fg-line">
                 {{ Form::text('username', null, ['class' => 'form-control', 'placeholder' => 'Username']) }}
             </div>
-            <small class="help-block" id="username"></small>
+            <span class="small help-block text-left c-orange" id="username">{{ $errors->first('username') }}</span>
         </div>
 
-        <div class="input-group m-b-20">
-            <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
+        <div class="input-group m-b-20 {{ $errors->has('password') ? ' has-error' : '' }}">
+            <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
             <div class="fg-line">
                 {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) }}
             </div>
-            <small class="help-block" id="password"></small>
+            <span class="small help-block text-left c-orange" id="password">{{ $errors->first('password') }}</span>
         </div>
 
         <div class="clearfix"></div>
@@ -132,6 +135,30 @@
     <!--[if IE 9 ]>
         {{ Html::script('js/jquery.placeholder.min.js') }}
     <![endif]-->
+
+    <script type="text/javascript">
+//        $('form').submit(function (e) {
+//            e.preventDefault();
+//            $.ajax({
+//                url: $(this).attr('action'),
+//                type: $(this).attr('method'),
+//                data: $(this).serialize(),
+//                beforeSend: function () {
+//                    $('small.help-block').text(null);
+//                },
+//                statusCode: {
+//                    200: function (data) {
+//                        window.location.href = 'http://localhost/gmc/public/?api=' + data.token;
+//                    },
+//                    422: function (response) {
+//                        $.each(response.responseJSON, function (k, v) {
+//                            $('#' + k).text(v);
+//                        });
+//                    }
+//                }
+//            });
+//        });
+    </script>
 
     {{ Html::script('js/app.js') }}
 

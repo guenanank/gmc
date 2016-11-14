@@ -12,8 +12,8 @@ class Vehicle extends Controller {
         $this->type = Vehicles::get('types');
     }
 
-    public function index() {
-        $bootgrid = $this->type->target . 'bootgrid';
+    public function index(\Illuminate\Http\Request $request) {
+        $bootgrid = $this->type->target . 'bootgrid?token=' . $request->session()->get('api_token');
         return view('vendor.materialAdmin.masters.vehicle.index', compact('bootgrid'));
     }
 

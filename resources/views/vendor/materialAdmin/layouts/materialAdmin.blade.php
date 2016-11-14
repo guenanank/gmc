@@ -124,7 +124,7 @@
                         <img src="{{ asset('images/profile-pics/1.jpg') }}" alt="">
                     </div>
                     <div class="profile-info">
-                        Malinda Hollaway <i class="zmdi zmdi-caret-down"></i>
+                        {{ Request::session()->get('employee_name') }} <i class="zmdi zmdi-caret-down"></i>
                     </div>
                 </a>
                 <ul class="main-menu">
@@ -138,7 +138,7 @@
                         <a href="#"><i class="zmdi zmdi-settings"></i> Settings</a>
                     </li>
                     <li>
-                        <a href="#"><i class="zmdi zmdi-time-restore"></i> Logout</a>
+                        <a href="{{ url('/logout') }}"><i class="zmdi zmdi-time-restore"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -162,25 +162,9 @@
                         <li>{{ link_to('media', 'Media') }}</li>
                         <li>{{ link_to('mediaGroup', 'Media Groups') }}</li>
                         <li>{{ link_to('profession', 'Professions') }}</li>
-                        <li>{{ link_to('region', 'Regions') }}</li>
-                        <!--                        <li class="sub-menu">
-                                                    {{ link_to('#', 'Residence') }}
-                                                    <ul>
-                                                        <li>{{ link_to('province', 'Provinces') }}</li>
-                                                        <li>{{ link_to('city', 'Cities') }}</li>
-                                                        <li>{{ link_to('district', 'Districts') }}</li>
-                                                        <li>{{ link_to('dwelling', 'Dwellings') }}</li>
-                                                        <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
-                                                    </ul>
-                                                </li>-->
+                        <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
                         <li>{{ link_to('source', 'Sources') }}</li>
                         <li>{{ link_to('vehicle', 'Vehicle') }}</li>
-                        <!--                        <li class="sub-menu">
-                                                    {{ link_to('#', 'Vehicles') }}
-                                                    <ul>
-                                                        <li>{{ link_to('type', 'Types') }}</li>
-                                                    </ul>
-                                                </li>-->
                     </ul>
                 </li>
             </ul>

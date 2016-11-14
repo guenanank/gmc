@@ -1,8 +1,4 @@
-@extends('vendor.layouts.materialAdmin')
-
-@section('styles')
-
-@stop
+@extends('vendor.materialAdmin.layouts.materialAdmin')
 
 @section('breadcrumb')
 <ol class="breadcrumb">
@@ -28,7 +24,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 {{ Html::script('js/dropzone.min.js') }}
 <script type="text/javascript">
     Dropzone.options.uploadAudience = {
@@ -47,4 +43,4 @@
         }
     };
 </script>
-@stop
+@endpush
