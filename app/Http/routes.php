@@ -11,6 +11,10 @@
   |
  */
 
+Route::get('phpinfo', function() {
+    phpinfo();
+});
+
 Route::auth();
 Route::get('locked', ['uses' => 'LockScreen@get', 'as' => 'locked']);
 Route::group(['middleware' => ['auth', 'withAPI']], function() {
