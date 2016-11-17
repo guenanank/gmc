@@ -124,7 +124,7 @@
                         <img src="{{ asset('images/profile-pics/1.jpg') }}" alt="">
                     </div>
                     <div class="profile-info">
-                        {{ Request::session()->get('employee_name') }} <i class="zmdi zmdi-caret-down"></i>
+                        {{ Request::session()->get('employee.employeeName') }} <i class="zmdi zmdi-caret-down"></i>
                     </div>
                 </a>
                 <ul class="main-menu">

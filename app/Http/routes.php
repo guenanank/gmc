@@ -13,7 +13,7 @@
 
 Route::auth();
 Route::get('locked', ['uses' => 'LockScreen@get', 'as' => 'locked']);
-Route::group(['before' => 'force.ssl'], function() {
+Route::group(['middleware' => ['auth', 'withAPI'], 'before' => 'force.ssl'], function() {
 
     Route::get('/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
     Route::get('dashboard/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
