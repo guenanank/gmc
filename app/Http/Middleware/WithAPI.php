@@ -18,7 +18,7 @@ class WithAPI
     {
         $username = Auth::user()->username;
         $apiToken = \Illuminate\Support\Facades\Crypt::encrypt($username);
-        $getEmployee = file_get_contents('http://localhost/api/public/gateway/employee/' . $username . '?token=' . $apiToken);
+        $getEmployee = file_get_contents('https://api.gramedia-majalah.com/v1/gateway/employee/' . $request->username . '?token=' . $apiToken);
         $employee = collect(json_decode($getEmployee));
         if($employee->isEmpty() == false) :
             $request->session()->put('api_token', $apiToken);

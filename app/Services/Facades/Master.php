@@ -4,10 +4,10 @@ namespace GMC\Services\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Vehicle extends Facade {
+class Master extends Facade {
 
     protected static function getFacadeAccessor() {
-        return '\GMC\Services\Containers\Vehicle';
+        return '\GMC\Services\Containers\Master';
     }
 
 }

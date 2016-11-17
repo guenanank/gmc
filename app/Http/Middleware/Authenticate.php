@@ -25,6 +25,10 @@ class Authenticate
             }
         }
         
+        if(\Illuminate\Support\Facades\Session::get('locked') === true) :
+            return redirect('/locked');
+        endif;
+        
         return $next($request);
     }
 }

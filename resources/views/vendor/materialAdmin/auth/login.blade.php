@@ -126,11 +126,6 @@
     {{ Html::script('js/bootstrap.min.js') }}
     {{ Html::script('js/waves.min.js') }}
 
-    {{ Html::script('js/jquery.min.js') }}
-    {{ Html::script('js/bootstrap.min.js') }}
-
-    {{ Html::script('js/waves.min.js') }}
-
     <!-- Placeholder for IE9 -->
     <!--[if IE 9 ]>
         {{ Html::script('js/jquery.placeholder.min.js') }}

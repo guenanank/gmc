@@ -168,8 +168,7 @@ return [
          * Defined Service Providers...
          */
         GMC\Services\Providers\Audience::class,
-        GMC\Services\Providers\Residence::class,
-        GMC\Services\Providers\Vehicle::class,
+        GMC\Services\Providers\Master::class,
         
         //GMC\Services\Providers\Html::class,
         
@@ -226,9 +225,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
         'Audience' => GMC\Services\Facades\Audience::class,
-        'Residence' => GMC\Services\Facades\Residence::class,
-        'Vehicle' => GMC\Services\Facades\Vehicle::class,
-        
+        'Master' => GMC\Services\Facades\Master::class,
     ],
 
 ];

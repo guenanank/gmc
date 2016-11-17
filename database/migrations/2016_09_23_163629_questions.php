@@ -16,7 +16,7 @@ class Questions extends Migration {
             $table->string('questionText', 255);
             $table->text('questionAnswer')->nullable();
             $table->text('questionDesc')->nullable();
-            $table->string('question', 31)->nullable();
+            $table->string('questionFormType', 31)->nullable();
             $table->boolean('questionIsMandatory');
             $table->timestamps();
             $table->softDeletes();

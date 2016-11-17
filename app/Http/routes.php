@@ -11,10 +11,14 @@
   |
  */
 
-Route::auth();
+Route::get('hash/{key}', function($key) {
+    return Illuminate\Support\Facades\Hash::make($key);
+});
 
+Route::auth();
+Route::get('locked', ['uses' => 'LockScreen@get', 'as' => 'locked']);
 Route::group(['middleware' => ['auth', 'withAPI'], 'before' => 'force.ssl'], function() {
-    
+
     Route::get('/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
     Route::get('dashboard/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
 
@@ -160,5 +164,4 @@ Route::group(['middleware' => ['auth', 'withAPI'], 'before' => 'force.ssl'], fun
     Route::group(['prefix' => 'vehicle'], function() {
         Route::get('/', ['uses' => 'Vehicle@index', 'as' => 'vehicle.index']);
     });
-
 });
