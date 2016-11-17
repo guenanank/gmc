@@ -13,7 +13,7 @@ class Vehicle extends Controller {
     }
 
     public function index(\Illuminate\Http\Request $request) {
-        $bootgrid = $this->vehicle->target . 'bootgrid?token=' . $request->session()->get('api_token');
+        $bootgrid = $this->vehicle->target . '/bootgrid?token=' . $request->session()->get('api_token');
         return view('vendor.materialAdmin.masters.vehicle.index', compact('bootgrid'));
     }
 
