@@ -40,70 +40,6 @@
                     <li id="top-search">
                         <a href="#"><i class="tm-icon zmdi zmdi-search"></i></a>
                     </li>
-
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" href="#">
-                            <i class="tm-icon zmdi zmdi-notifications"></i>
-                            <i class="tmn-counts">1</i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg pull-right">
-                            <div class="listview" id="notifications">
-                                <div class="lv-header">
-                                    Notification
-                                    <ul class="actions">
-                                        <li class="dropdown">
-                                            <a href="#" data-clear="notification">
-                                                <i class="zmdi zmdi-check-all"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="lv-body">
-                                    <a class="lv-item" href="#">
-                                        <div class="media">
-                                            <div class="pull-left">
-                                                <img class="lv-img-sm" src="{{ asset('images/profile-pics/2.jpg') }}" alt="">
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="lv-title">Bill Phillips</div>
-                                                <small class="lv-small">Proin laoreet commodo eros id faucibus. Donec ligula quam, imperdiet vel ante placerat</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <a class="lv-footer" href="#">View Previous</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" href="#"><i class="tm-icon zmdi zmdi-more-vert"></i></a>
-                        <ul class="dropdown-menu dm-icon pull-right">
-                            <li class="skin-switch hidden-xs">
-                                <span class="ss-skin bgm-lightblue" data-skin="lightblue"></span>
-                                <span class="ss-skin bgm-bluegray" data-skin="bluegray"></span>
-                                <span class="ss-skin bgm-cyan" data-skin="cyan"></span>
-                                <span class="ss-skin bgm-teal" data-skin="teal"></span>
-                                <span class="ss-skin bgm-orange" data-skin="orange"></span>
-                                <span class="ss-skin bgm-blue" data-skin="blue"></span>
-                            </li>
-                            <li class="divider hidden-xs"></li>
-                            <li class="hidden-xs">
-                                <a data-action="fullscreen" href="#"><i class="zmdi zmdi-fullscreen"></i> Toggle Fullscreen</a>
-                            </li>
-                            <li>
-                                <a data-action="clear-localstorage" href="#"><i class="zmdi zmdi-delete"></i> Clear Local Storage</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="zmdi zmdi-face"></i> Privacy Settings</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="zmdi zmdi-settings"></i> Other Settings</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="hidden-xs" id="chat-trigger" data-trigger="#chat">
-                        <a href="#"><i class="tm-icon zmdi zmdi-comment-alt-text"></i></a>
-                    </li>
                 </ul>
             </li>
         </ul>
@@ -129,13 +65,7 @@
                 </a>
                 <ul class="main-menu">
                     <li>
-                        <a href="profile-about.html"><i class="zmdi zmdi-account"></i> View Profile</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="zmdi zmdi-settings"></i> Settings</a>
+                        <a href="#"><i class="zmdi zmdi-account"></i> View Profile</a>
                     </li>
                     <li>
                         <a href="{{ url('/logout') }}"><i class="zmdi zmdi-time-restore"></i> Logout</a>
@@ -159,12 +89,9 @@
                         <li>{{ link_to('expense', 'Expenses') }}</li>
                         <li>{{ link_to('hobby', 'Hobbies') }}</li>
                         <li>{{ link_to('interest', 'Interests') }}</li>
-                        <li>{{ link_to('media', 'Media') }}</li>
-                        <li>{{ link_to('mediaGroup', 'Media Groups') }}</li>
                         <li>{{ link_to('profession', 'Professions') }}</li>
                         <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
                         <li>{{ link_to('source', 'Sources') }}</li>
-                        <li>{{ link_to('vehicle', 'Vehicle') }}</li>
                     </ul>
                 </li>
             </ul>
@@ -269,34 +196,14 @@
 
     <script type="text/javascript">
         (function ($) {
+            var baseUrl = $('base').attr('href');
+
             $('form.ajaxForm').submit(function (e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 $(this).ajaxForm();
             });
 
-            var deletes = function (controller, id) {
-                swal({
-                    title: 'Are you sure?',
-                    text: 'You will not be able to recover this file!',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    closeOnConfirm: false
-                }, function () {
-                    $.post(controller + '/' + id, {_method: 'DELETE'}, function () {
-                        swal({
-                            title: 'Deleted!',
-                            text: 'Your file has been deleted.',
-                            type: 'success',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                        $('#bootgrid').bootgrid('reload');
-                    });
-                });
-            };
         })(jQuery);
     </script>
 

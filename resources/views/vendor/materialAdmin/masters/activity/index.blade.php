@@ -92,7 +92,10 @@
 
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                deletes('activity', $(this).data('row-id'));
+                var activityId = $(this).data('row-id');
+                $(this).ajaxDelete({
+                    url: 'activity/' + activityId
+                });
             });
         });
     })(jQuery);

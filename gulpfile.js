@@ -19,7 +19,7 @@ var paths = {
     moment: bower + 'moment/min/',
     waves: bower + 'Waves/dist/',
     growl: bower + 'remarkable-bootstrap-notify/dist/',
-    sweetAlert: bower + 'sweetalert/dist/',
+    sweetAlert: bower + 'sweetalert/',
     mouseWheel: bower + 'jquery-mousewheel/',
     customScrollbar: 'malihu-custom-scrollbar-plugin/',
     iconicFont: bower + 'material-design-iconic-font/dist/',
@@ -49,7 +49,8 @@ elixir(function (mix) {
     mix.styles([
         // Default
         paths.animateCss + 'animate.css',
-        paths.sweetAlert + 'sweetalert.css',
+        paths.sweetAlert + 'dist/sweetalert.css',
+        paths.sweetAlert + 'themes/google/google.css',
         paths.iconicFont + 'css/material-design-iconic-font.css',
         paths.dateTimePicker + 'css/bootstrap-datetimepicker.min.css',
         paths.bootgrid + 'jquery.bootgrid.min.css',
@@ -73,7 +74,7 @@ elixir(function (mix) {
     mix.scripts(paths.moment + 'moment-with-locales.min.js', null, bower);
     mix.scripts(paths.waves + 'waves.min.js', null, bower);
     mix.scripts(paths.growl + 'bootstrap-notify.min.js', null, bower);
-    mix.scripts(paths.sweetAlert + 'sweetalert.min.js', null, bower);
+    mix.scripts(paths.sweetAlert + 'dist/sweetalert.min.js', null, bower);
     mix.scripts(paths.mouseWheel + 'jquery.mousewheel.min.js', null, bower);
     mix.scripts(paths.customScrollbar + 'jquery.mCustomScrollbar.concat.min.js', null, bower);
 

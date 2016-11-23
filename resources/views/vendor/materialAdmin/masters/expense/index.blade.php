@@ -65,7 +65,10 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                deletes('expense', $(this).data('row-id'));
+                var expenseId = $(this).data('row-id');
+                $(this).ajaxDelete({
+                    url: 'expense/' + expenseId
+                });
             });
         });
     })(jQuery);

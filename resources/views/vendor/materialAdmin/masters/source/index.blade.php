@@ -58,7 +58,10 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                deletes('source', $(this).data('row-id'));
+                var sourceId = $(this).data('row-id');
+                $(this).ajaxDelete({
+                    url: 'source/' + sourceId
+                });
             });
         });
     })(jQuery);

@@ -35,8 +35,9 @@
                 statusCode: {
                     200: function (data) {
                         swal({
-                            title: 'Success!',
-                            text: 'Data Saved.',
+                            title: null,
+                            html: true,
+                            text: '<strong class="f-20">Success</strong><br />Data Saved.',
                             showConfirmButton: false,
                             timer: 2000,
                             type: 'success'
@@ -56,4 +57,59 @@
             $.ajax(ajaxSetup);
         });
     };
+
+    $.fn.ajaxDelete = function (obj) {
+        var setting = $.fn.extend({
+            url: ''
+        }, obj);
+
+        return this.each(function () {
+
+            var ajaxSetup = {
+                type: 'POST',
+                url: setting.url,
+                data: {_method: 'DELETE'},
+                statusCode: {
+                    200: function (del) {
+                        swal({
+                            html: true,
+                            title: null,
+                            text: '<strong class="f-20">Deleted</strong><br />Your file has been deleted.',
+                            type: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        $('#bootgrid').bootgrid('reload');
+                    }
+                }
+            };
+
+            swal({
+                html: true,
+                title: null,
+                text: '<strong class="f-20">Are you sure?</strong><br />You will not be able to recover this file!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, delete it!',
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (confirm) {
+                if (confirm) {
+                    $.ajax(ajaxSetup);
+                } else {
+                    swal({
+                        html: true,
+                        title: null,
+                        text: '<strong class="f-20">Cancelled</strong><br />Your file is safe :)',
+                        type: 'error',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
+
+        });
+    };
+
 })(jQuery);

@@ -24,7 +24,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         {{ Form::text('sourceName', $source->sourceName, ['class' => 'form-control fg-input']) }}
-                        {{ Form::label('sourceName', 'Hobby Name', ['class' => 'fg-label']) }}
+                        {{ Form::label('sourceName', 'Source Name', ['class' => 'fg-label']) }}
                     </div>
                     <small id="sourceName" class="help-block"></small>
                 </div>

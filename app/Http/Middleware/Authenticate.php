@@ -29,6 +29,19 @@ class Authenticate
             return redirect('/locked');
         endif;
         
-        return $next($request);
+        $username = Auth::user()->username;
+        $apiToken = \Illuminate\Support\Facades\Crypt::encrypt($username);
+
+        $client = new \GuzzleHttp\Client;
+        $getEmployee = $client->get('http://localhost/api/public/v1/gateway/employee/' . $username, ['query' => ['token' => $apiToken]]);
+        $employee = collect(json_decode($getEmployee->getBody()));
+        if ($employee->isEmpty() == false) :
+            $request->session()->put('api_token', $apiToken);
+            $request->session()->put('employee', $employee);
+            
+            return $next($request);
+        else :
+            return redirect()->guest('login');
+        endif;
     }
 }

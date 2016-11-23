@@ -3195,7 +3195,7 @@ select.chosen {
   }
 }
 
-.sweet-alert {
+/*.sweet-alert {
   border-radius: 2px;
   padding: 10px 30px;
 }
@@ -3215,7 +3215,7 @@ select.chosen {
   padding: 6px 12px;
   font-size: 13px;
   margin: 20px 2px 0;
-}
+}*/
 
 .twitter-typeahead {
   width: 100%;
