@@ -24,7 +24,7 @@
                     <th data-column-id="activityWhere" data-type="string">Location</th>
                     <th data-column-id="activityWhen" data-converter="datetime" data-type="date">Date</th>
                     <th data-column-id="sourceId" data-formatter="source" data-type="string">Source</th>
-                    <th data-column-id="mediaGroupId" data-formatter="mediaGroup" data-type="string">Media Group</th>
+                    <th data-column-id="mediaGroupId" data-formatter="mediaGroup" data-type="string" data-sortable="false">Media Group</th>
                     <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
                 </tr>
             </thead>
@@ -34,6 +34,7 @@
 @endsection
 
 @push('scripts')
+{{ Html::script('js/clipboard.min.js') }}
 <script type="text/javascript">
     (function ($) {
         $('#bootgrid').bootgrid({
@@ -67,7 +68,10 @@
                     return (row.source) ? row.source.sourceName : 'None';
                 },
                 mediaGroup: function (column, row) {
-                    return (row.media_group) ? row.media_group.mediaGroupName : 'None';
+                    $.get(apiTarget + 'gateway/mediaGroup/' + row.mediaGroupId + '?token=' + apiToken, function (mediaGroup) {
+                        $('span.media-group').text(mediaGroup.mediaGroupName);
+                    });
+                    return '<span class="media-group"></span>';
                 },
                 commands: function (column, row) {
                     var btnCopy = '<button id="btn" type="button" class="btn btn-icon bgm-bluegray command-copy" data-toggle="tooltip" title="Copy token into clipboard\n' + row.activityToken + '" data-clipboard-text="' + row.activityToken + '"><span class="zmdi zmdi-copy"></span></button>&nbsp; ';
@@ -77,12 +81,14 @@
                 }
             }
         }).on('loaded.rs.jquery.bootgrid', function () {
+
             $('#bootgrid').find('.command-copy').on('click', function () {
                 var clipboard = new Clipboard(this);
                 clipboard.on('success', function () {
                     swal({
-                        title: 'Copied!',
-                        text: 'Activity token was copied into cliboard.',
+                        title: null,
+                        html: true,
+                        text: '<strong class="f-20">Copied</strong><br />Activity token was copied into cliboard.',
                         type: 'success',
                         showConfirmButton: false,
                         timer: 2000
@@ -92,9 +98,8 @@
 
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                var activityId = $(this).data('row-id');
                 $(this).ajaxDelete({
-                    url: 'activity/' + activityId
+                    url: 'activity/' + $(this).data('row-id')
                 });
             });
         });

@@ -2,12 +2,20 @@
 
 namespace GMC\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use GMC\Http\Controllers\Controller;
 use GMC\Services\Facades\Audience as Audiences;
 use Validator;
 
 class Audience extends Controller {
+
+    protected $master;
+    protected $client;
+
+    public function __construct(Client $client) {
+        $this->client = $client;
+    }
 
     public function index() {
         return view('vendor.materialAdmin.audiences.audience.index');
@@ -56,9 +64,10 @@ class Audience extends Controller {
     }
 
     public function create() {
+        $client = $this->client;
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $layers = Audiences::Layer()->with('questions.master')->get();
-        return view('vendor.materialAdmin.audiences.audience.create', compact('activities', 'layers'));
+        return view('vendor.materialAdmin.audiences.audience.create', compact('client', 'activities', 'layers'));
     }
 
     public function store(Request $request) {

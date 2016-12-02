@@ -8,7 +8,7 @@
  */
 
 (function ($) {
-    
+
     $.fn.validateAudience = function (obj) {
         var setting = $.fn.extend({
             target: 'validate',
@@ -49,7 +49,27 @@
                         $clear(data.create);
                     },
                     422: function (response) {
-                        notify('Oh snap! Change a few things up and try submitting again. ', 'danger');
+                        $.notify({
+                            message: 'Oh snap! Change a few things up and try submitting again.'
+                        }, {
+                            type: 'danger',
+                            allow_dismiss: false,
+                            label: 'Cancel',
+                            className: 'btn-xs btn-inverse',
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            },
+                            delay: 2500,
+                            animate: {
+                                enter: 'animated bounceIn',
+                                exit: 'animated bounceOut'
+                            },
+                            offset: {
+                                x: 20,
+                                y: 85
+                            }
+                        });
                         $.each(response.responseJSON, function (k, v) {
                             $('#' + k).parents('div.form-group').addClass('has-warning');
                             $('#' + k).text(v);
@@ -65,9 +85,9 @@
                 $flag = false;
                 setting.callback.call(jqXHR);
             });
-            
+
         });
-        
+
         return $flag;
     };
 })(jQuery);

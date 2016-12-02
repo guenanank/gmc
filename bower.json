@@ -28,6 +28,7 @@
     "sparkline": "jquery.sparkline#^2.1.2",
     "dropzone": "^4.3.0",
     "twitter-bootstrap-wizard": "bootstrap-wizard#^1.3.2",
-    "flot.curvedlines": "curvedlines#^1.1.1"
+    "flot.curvedlines": "curvedlines#^1.1.1",
+    "clipboard": "^1.5.15"
   }
 }

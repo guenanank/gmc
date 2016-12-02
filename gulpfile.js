@@ -18,7 +18,7 @@ var paths = {
     bootstrap: bower + 'bootstrap/dist/',
     moment: bower + 'moment/min/',
     waves: bower + 'Waves/dist/',
-    growl: bower + 'remarkable-bootstrap-notify/dist/',
+    notify: bower + 'remarkable-bootstrap-notify/dist/',
     sweetAlert: bower + 'sweetalert/',
     mouseWheel: bower + 'jquery-mousewheel/',
     customScrollbar: 'malihu-custom-scrollbar-plugin/',
@@ -38,7 +38,8 @@ var paths = {
     placeHolder: bower + 'jquery-placeholder/',
     autoSize: bower + 'autosize/dist/',
     dropZone: bower + 'dropzone/dist/min/',
-    wizard: bower + 'twitter-bootstrap-wizard/'
+    wizard: bower + 'twitter-bootstrap-wizard/',
+    clipboard: bower + 'clipboard/dist/',
 };
 
 elixir(function (mix) {
@@ -73,7 +74,7 @@ elixir(function (mix) {
     mix.scripts('resources/assets/js/jquery.bootgrid.updated.min.js', 'public/js/jquery.bootgrid.min.js');
     mix.scripts(paths.moment + 'moment-with-locales.min.js', null, bower);
     mix.scripts(paths.waves + 'waves.min.js', null, bower);
-    mix.scripts(paths.growl + 'bootstrap-notify.min.js', null, bower);
+    mix.scripts(paths.notify + 'bootstrap-notify.min.js', null, bower);
     mix.scripts(paths.sweetAlert + 'dist/sweetalert.min.js', null, bower);
     mix.scripts(paths.mouseWheel + 'jquery.mousewheel.min.js', null, bower);
     mix.scripts(paths.customScrollbar + 'jquery.mCustomScrollbar.concat.min.js', null, bower);
@@ -82,9 +83,11 @@ elixir(function (mix) {
     mix.scripts(paths.select + 'js/bootstrap-select.min.js', null, bower);
     mix.scripts(paths.nouislider + 'nouislider.min.js', null, bower);
     mix.scripts(paths.placeHolder + 'jquery.placeholder.min.js', null, bower);
+    mix.scripts('resources/assets/js/input-mask.min.js', 'public/js/input-mask.min.js');
     mix.scripts(paths.autoSize + 'autosize.min.js', null, bower);
     mix.scripts(paths.dropZone + 'dropzone.min.js', null, bower);
     mix.scripts(paths.wizard + 'jquery.bootstrap.wizard.min.js', null, bower);
+    mix.scripts(paths.clipboard + 'clipboard.min.js', null, bower);
 
     //Chart
     mix.scripts(paths.flot + 'jquery.flot.js', null, bower);
@@ -101,4 +104,5 @@ elixir(function (mix) {
     mix.browserify('app.js');
     mix.browserify('ajaxForm.js');
     mix.browserify('validateAudience.js');
+    mix.browserify('question.js');
 });

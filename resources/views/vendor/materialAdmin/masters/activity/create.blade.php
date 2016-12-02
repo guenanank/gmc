@@ -21,29 +21,15 @@
         {{ Form::open(['route' => 'activity.store', 'class' => 'ajaxForm']) }}
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                <div class="form-group fg-float">
-                    <div class="fg-line">
-                        <div class="select">
-                            {{ Form::select('sourceId', [''=>''] + $sources, null, ['class' => 'form-control']) }}
-                        </div>
-                        {{ Form::label('sourceId', 'Choose Source Data', ['class' => 'fg-label']) }}
-                    </div>
-                    <small id="sourceId" class="help-block"></small>
-                </div>
+                {{ Form::select('sourceId', [''=>''] + $sources, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
+                <small id="sourceId" class="help-block c-orange"></small>
             </div>
         </div>
         <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                <div class="form-group fg-float">
-                    <div class="fg-line">
-                        <div class="select">
-                            {{ Form::select('mediaGroupId', [''=>''] + $mediaGroups, null, ['class' => 'form-control']) }}
-                        </div>
-                        {{ Form::label('mediaGroupId', 'Choose Media Group', ['class' => 'fg-label']) }}
-                    </div>
-                    <small id="mediaGroupId" class="help-block"></small>
-                </div>
+                {{ Form::select('mediaGroupId', [''=>''] + $mediaGroups, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media Group']) }}
+                <small id="mediaGroupId" class="help-block c-orange"></small>
             </div>
         </div>
         <br />

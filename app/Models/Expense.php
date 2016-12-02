@@ -16,4 +16,13 @@ class Expense extends Model {
         ]);
     }
 
+    public static function lists() {
+        $lists = [];
+        foreach (self::all() as $expense) :
+            $lists[$expense->expenseId] = number_format($expense->expenseMin) . ' - ' . number_format($expense->expenseMax);
+        endforeach;
+
+        return $lists;
+    }
+
 }

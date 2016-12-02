@@ -286,7 +286,7 @@ $(document).ready(function () {
     }
 
     function notify(message, type) {
-        $.growl({
+        $.notify({
             message: message
         }, {
             type: type,
@@ -307,8 +307,7 @@ $(document).ready(function () {
                 y: 85
             }
         });
-    }
-    ;
+    };
 
     (function () {
         Waves.attach('.btn:not(.btn-icon):not(.btn-float)');

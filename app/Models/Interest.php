@@ -21,6 +21,11 @@ class Interest extends Model {
         $parent = self::find($this->interestSubFrom);
         return $parent ? $parent->interestName : null;
     }
+    
+    public function getInterestSubFromAttribute($value) {
+        $parent = self::find($value);
+        return $parent ? $parent->interestName : null;
+    }
 
     public function childs() {
         return $this->hasMany('\GMC\Models\Interest', 'interestSubFrom');
@@ -28,6 +33,19 @@ class Interest extends Model {
 
     public function parent() {
         return $this->belongsTo('\GMC\Models\Interest', 'interestSubFrom');
+    }
+    
+    public static function lists() {
+        $lists = [];
+        foreach (self::select('interestId', 'interestName', 'interestSubFrom')->get() as $interest) :
+            if($interest->interestSubFrom) :
+                $lists[$interest->hobbyId] = $interest->interestSubFrom . ' - ' . $interest->interestName;
+            else :
+                $lists[$interest->hobbyId] = $interest->interestName;
+            endif;
+        endforeach;
+
+        return $lists;
     }
 
 }

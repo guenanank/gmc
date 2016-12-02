@@ -16,7 +16,7 @@ class Activity extends Model {
     public static function rules($rules = []) {
         return array_merge($rules, [
             'sourceId' => 'required|exists:sources,sourceId',
-            'mediaGroupId' => 'required|exists:mediaGroups,mediaGroupId',
+            'mediaGroupId' => 'required',
             'activityName' => 'required|string|max:127|unique:activities,activityName,NULL,activityId,deleted_at,NULL',
             'activityWhere' => 'string',
             'activityWhen' => 'date_format:Y-m-d'

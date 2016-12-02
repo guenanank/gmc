@@ -68,9 +68,8 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                var greaterAreaId = $(this).data('row-id');
                 $(this).ajaxDelete({
-                    url: 'http://localhost/api/public/v1/region/greaterArea/' + greaterAreaId + "?token={{ Request::session()->get('api_token') }}"
+                    url: apiTarget + 'region/greaterArea/' + $(this).data('row-id') + '?token=' + apiToken
                 });
             });
         });

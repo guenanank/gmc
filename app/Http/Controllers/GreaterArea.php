@@ -12,13 +12,13 @@ class GreaterArea extends Controller {
     public $greaterArea;
     public $request;
     public $client;
+    public $regency;
 
     public function __construct(Request $request, Client $client) {
         $this->greaterArea = Master::get('Region.greaterAreas');
         $this->request = $request;
         $this->client = $client;
-
-        $this->greaterArea->target = 'http://localhost/api/public/v1/region/greaterArea';
+        $this->regency = 'https://api.gramedia-majalah.com/v1/region/regency';
     }
 
     public function index() {
@@ -28,7 +28,7 @@ class GreaterArea extends Controller {
 
     public function create() {
         $target = $this->greaterArea->target;
-        $request = $this->client->options('http://localhost/api/public/v1/region/regency/lists', [
+        $request = $this->client->options($this->regency . '/lists', [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);
         $regencies = json_decode($request->getBody());
@@ -43,7 +43,7 @@ class GreaterArea extends Controller {
         ]);
 
         $greaterArea = json_decode($getGeaterArea->getBody());
-        $getRegencies = $this->client->options('http://localhost/api/public/v1/region/regency/lists', [
+        $getRegencies = $this->client->options($this->regency . '/lists', [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);
 

@@ -50,7 +50,7 @@
                         <br />
                         <div class="form-group fg-float">
                             <div class="fg-line">
-                                {{ Form::text('questionAnswer', $question->questionAnswer, ['class' => 'form-control fg-input', isset($question->questionAnswer) ? 'autofocus' : false]) }}
+                                {{ Form::text('questionAnswer', is_array($question->questionAnswer) ? implode(', ', $question->questionAnswer) : $question->questionAnswer, ['class' => 'form-control fg-input', isset($question->questionAnswer) ? 'autofocus' : false]) }}
                                 {{ Form::label('questionAnswer', 'Question Answer', ['class' => 'fg-label']) }}
                             </div>
                             <small id="questionAnswer" class="help-block"></small>

@@ -29,5 +29,18 @@ class Profession extends Model {
     public function parent() {
         return $this->belongsTo('\GMC\Models\Profession', 'professionSubFrom');
     }
+    
+    public static function lists() {
+        $lists = [];
+        foreach(self::select('professionId', 'professionName', 'professionSubFrom')->get() as $profession) :
+            if($profession->professionSubFrom) :
+                $lists[$profession->professionId] = $profession->professionSubFrom . ' - ' . $profession->professionName;
+            else :
+                $lists[$profession->professionId] = $profession->professionName;
+            endif;
+        endforeach;
+        
+        return $lists;
+    }
 
 }

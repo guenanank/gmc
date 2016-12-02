@@ -2,28 +2,43 @@
 
 namespace GMC\Http\Controllers;
 
-use Crypt;
 use Validator;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
+use Illuminate\Support\Facades\Hash;
 use GMC\Models\Activity as Activities;
+use GMC\Services\Facades\Master;
 
 class Activity extends Controller {
+    
+    private $client;
+    private $request;
+    protected $mediaGroup;
+
+    public function __construct(Request $request, Client $client) {
+        $this->request = $request;
+        $this->client = $client;
+        $this->mediaGroup = Master::get('Media.mediaGroup');
+        
+        $this->mediaGroup->target = 'http://localhost/api/public/v1/gateway/mediaGroup';
+    }
+
 
     public function index() {
         return view('vendor.materialAdmin.masters.activity.index');
     }
 
-    public function bootgrid(Request $request) {
-        $current = $request->input('current', 1);
-        $rowCount = $request->input('rowCount', 10);
+    public function bootgrid() {
+        $current = $this->request->input('current', 1);
+        $rowCount = $this->request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
-        $search = $request->input('searchPhrase');
+        $search = $this->request->input('searchPhrase');
         $sortColumn = 'activityId';
         $sortType = 'DESC';
 
-        if (is_array($request->input('sort'))) :
-            foreach ($request->input('sort') as $key => $value) :
+        if (is_array($this->request->input('sort'))) :
+            foreach ($this->request->input('sort') as $key => $value) :
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
@@ -35,10 +50,7 @@ class Activity extends Controller {
                 ->orWhereHas('source', function($query) use ($search) {
                     $query->where('sourceName', 'LIKE', '%' . $search . '%');
                 })
-                ->orWhereHas('mediaGroup', function($query) use ($search) {
-                    $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
-                })
-                ->with('source', 'mediaGroup')
+                ->with('source')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
@@ -47,9 +59,6 @@ class Activity extends Controller {
                 ->orWhere('activityWhen', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('source', function($query) use ($search) {
                     $query->where('sourceName', 'LIKE', '%' . $search . '%');
-                })
-                ->orWhereHas('mediaGroup', function($query) use ($search) {
-                    $query->where('mediaGroupName', 'LIKE', '%' . $search . '%');
                 })
                 ->count();
 
@@ -63,38 +72,46 @@ class Activity extends Controller {
 
     public function create() {
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
-        $mediaGroups = \GMC\Models\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all();
+        $requestMediaGroups = $this->client->options($this->mediaGroup->target . '/lists', [
+            'query' => ['token' => $this->request->session()->get('api_token')]
+        ]);
+        
+        $mediaGroups = collect(json_decode($requestMediaGroups->getBody()))->toArray();
         return view('vendor.materialAdmin.masters.activity.create', compact('sources', 'mediaGroups'));
     }
 
-    public function store(Request $request) {
-        $validator = Validator::make($request->all(), Activities::rules());
+    public function store() {
+        $validator = Validator::make($this->request->all(), Activities::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $request->merge(['activityToken' => substr(Crypt::encrypt($request->activityName), 15, -1)]);
-        $create = Activities::create($request->all());
+        $this->request->merge(['activityToken' => Hash::make($this->request->activityName)]);
+        $create = Activities::create($this->request->all());
         return response()->json(['create' => $create], 200);
     }
 
     public function edit($id) {
         $activity = Activities::findOrFail($id);
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
-        $mediaGroups = \GMC\Models\MediaGroup::lists('mediaGroupName', 'mediaGroupId')->all();
+        $requestMediaGroups = $this->client->options($this->mediaGroup->target . '/lists', [
+            'query' => ['token' => $this->request->session()->get('api_token')]
+        ]);
+        
+        $mediaGroups = collect(json_decode($requestMediaGroups->getBody()))->toArray();
         return view('vendor.materialAdmin.masters.activity.edit', compact('activity', 'sources', 'mediaGroups'));
     }
 
     public function update(Request $request, $id) {
         $activity = Activities::findOrFail($id);
         Activities::rules(['activityName' => 'required|string|max:127|unique:activities,activityName,' . $activity->activityId . ',activityId']);
-        $validator = Validator::make($request->all(), Activities::rules());
+        $validator = Validator::make($this->request->all(), Activities::rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $request->merge(['activityToken' => substr(Crypt::encrypt($request->activityName), 15, -1)]);
-        $update = $activity->update($request->all());
+        $this->request->merge(['activityToken' => substr(Crypt::encrypt($this->request->activityName), 15, -1)]);
+        $update = $activity->update($this->request->all());
         return response()->json(['update' => $update], 200);
     }
 

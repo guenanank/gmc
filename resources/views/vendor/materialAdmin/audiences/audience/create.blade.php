@@ -39,7 +39,6 @@
             </div>
         </div>
 
-        <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-line">
@@ -50,7 +49,6 @@
             </div>
         </div>
         @if($layers->isEmpty() == false)
-        <br />
         <div class="" id="formWizard">
             <div class="form-wizard-audience fw-container">
                 <ul class="tab-nav text-center">
@@ -68,42 +66,47 @@
                                     @if(isset($q->master))
                                         @foreach($q->master->masterFormat as $format)
                                             @continue(empty($format->form))
+
                                             @if($q->master->masterUseAPI)
                                                 <div class="form-group fg-line">
-                                                    <p class="f-500 c-black">{{ strtoupper($format->name) }}</p>
-                                                    {{--*/ $guzzle = new \GuzzleHttp\Client() /*--}}
-                                                    {{--*/ $lists = $guzzle->request('POST', $format->useAPI->target . 'lists') /*--}}
-                                                    {{ Form::select(camel_case($format->name), ['' => ''] + json_decode($lists->getBody(), true), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => true]) }}
+                                                    <p class="f-500 c-black">{{ ucwords($format->name) }}</p>
+                                                    <!--{{--*/ $lists = $client->options($format->target . '/lists?token=' . Request::session()->get('api_token')) /*--}}-->
+                                                    <?php
+                                                        //$list = $client->options($format->target . '/lists', [
+                                                            //'query' => ['token' => Request::session()->get('api_token')]
+                                                        //]);
+                                                    ?>
+                                                    <!--{{ Form::select(camel_case($format->name), ['' => ''] + json_decode($lists->getBody(), true), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => true]) }}-->
                                                     <small id="{{ camel_case($format->name) }}" class="help-block"></small>
                                                 </div>
                                             @else
                                                 <div class="form-group fg-line">
-                                                    <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<small class="c-gray">{{ $q->questionDesc }}</small></p>
+                                                    <p class="f-500 c-black">
+                                                        {{ ucwords($q->questionText) }}
+                                                        <small class="c-gray">{{ $q->questionDesc }}</small>
+                                                    </p>
                                                     @if($format->name == 'media')
                                                         {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
                                                     @else
                                                         {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
                                                     @endif
-                                                    <select {{ $format->form->isMultiple ? 'multiple data-selected-text-format="count"' : null }} name="{{ $format->name }}" class="form-control fg-input input-sm selectpicker" data-live-search="true">
-                                                        <option value=""></option>
-                                                        @foreach($model::all() as $option)
-                                                            <option value="{{ $option->{$format->form->index} }}">
-                                                                @foreach($format->form->value as $key => $val)
-                                                                    {{ is_numeric($option->{$val}) ? number_format($option->{$val}) : $option->{$val} }}
-                                                                    @if(!empty($option->{$val}) && ($key + 1) < count($format->form->value))
-                                                                        &nbsp;&HorizontalLine;&nbsp;
-                                                                    @endif
-                                                                @endforeach
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                    
+                                                    @if($format->form->multiple)
+                                                        {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'multiple' => 'multiple', 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
+                                                    @else
+                                                        {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'title' => 'Choose ' . $format->name]) }}
+                                                    @endif
+                                                    
                                                     <small id="{{ $format->name }}" class="help-block"></small>
                                                 </div>
                                             @endif
                                         @endforeach
                                     @else
                                         <div class="form-group fg-line">
-                                            <p class="f-500 c-black">{{ strtoupper($q->questionText) }}<small class="c-gray">{{ $q->questionDesc }}</small></p>
+                                            <p class="f-500 c-black">
+                                                {{ ucwords($q->questionText) }}
+                                                <small class="c-gray">{{ $q->questionDesc }}</small>
+                                            </p>
                                             @if($q->questionType == 'True Or False' OR $q->questionType == 'Multiple Choice')
                                                 {{ Form::select(camel_case($q->questionText), ['' => ''] + $q->questionAnswer, null, ['class' => 'form-control fg-input input-sm selectpicker']) }}
                                             @else
@@ -149,43 +152,46 @@
 {{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
-(function ($) {
-    
-    $('select[name="provinces"]').on('change', function() {
-        var provinceId = $(this).val();
-        console.log(provinceId);
-    });
-    
-    $('.form-wizard-audience').bootstrapWizard({
-        tabClass: 'fw-nav',
-        nextSelector: '.next',
-        previousSelector: '.previous',
-        onTabClick: function () {
-            return false;
-        },
-        onNext: function (tab) {
-            return $(tab.children('a').attr('href')).validateAudience();
-        },
-        onPrevious: function () {
-            $('div.form-group').removeClass('has-warning');
-            $('small.help-block').text(null);
-            $('.btnSubmit').addClass('hide');
-        },
-        onFinish: function (tab) {
-            $(tab.children('a').attr('href')).validateAudience({
-                callback: function () {
-                    if (this.status === 200) {
-                        $('.btnSubmit').removeClass('hide');
+    (function ($) {
+
+        $('select[name="provinces"]').on('change', function () {
+            var provinceId = $(this).val();
+            console.log(provinceId);
+        });
+
+        $('.form-wizard-audience').bootstrapWizard({
+            tabClass: 'fw-nav',
+            nextSelector: '.next',
+            previousSelector: '.previous',
+            onTabClick: function () {
+                return false;
+            },
+            onNext: function (tab) {
+//                return $(tab.children('a').attr('href')).validateAudience({
+//                    target: 'audience/validate'
+//                });
+            },
+            onPrevious: function () {
+                $('div.form-group').removeClass('has-warning');
+                $('small.help-block').text(null);
+                $('.btnSubmit').addClass('hide');
+            },
+            onFinish: function (tab) {
+                $(tab.children('a').attr('href')).validateAudience({
+                    target: 'audience/validate',
+                    callback: function () {
+                        if (this.status === 200) {
+                            $('.btnSubmit').removeClass('hide');
+                        }
                     }
-                }
-            });
-        }
-    });
-    
-    $(document).bind('ajaxComplete', function() {
-        $('.btnSubmit').addClass('hide');
-    });
-    
-})(jQuery);
+                });
+            }
+        });
+
+        $(document).bind('ajaxComplete', function () {
+            $('.btnSubmit').addClass('hide');
+        });
+
+    })(jQuery);
 </script>
 @endpush
