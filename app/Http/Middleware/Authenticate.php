@@ -34,7 +34,7 @@ class Authenticate
 
         $client = new \GuzzleHttp\Client;
         //$getEmployee = $client->get('http://localhost/api/public/v1/gateway/employee/' . $username, ['query' => ['token' => $apiToken]]);
-        $getEmployee = $client->get(config('target') . '/' . config('version') . '/gateway/employee/' . $username, ['query' => ['token' => $apiToken]]);
+        $getEmployee = $client->get(config('api.target') . '/' . config('api.version') . '/gateway/employee/' . $username, ['query' => ['token' => $apiToken]]);
         $employee = collect(json_decode($getEmployee->getBody()));
         if ($employee->isEmpty() == false) :
             $request->session()->put('api_token', $apiToken);
