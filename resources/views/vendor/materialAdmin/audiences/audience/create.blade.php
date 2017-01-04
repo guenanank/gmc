@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 {{ Form::label('activityId', 'ACTIVITY', ['class' => 'f-500 c-black']) }}
-                {{ Form::select('activityId[]', $activities, null, ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true]) }}
+                {{ Form::select('activityId[]', $activities, null, ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true, 'title' => 'Choose Activities']) }}
                 <small id="activityId" class="help-block"></small>
             </div>
         </div>
@@ -49,7 +49,6 @@
             </div>
         </div>
         @if($layers->isEmpty() == false)
-        <div class="" id="formWizard">
             <div class="form-wizard-audience fw-container">
                 <ul class="tab-nav text-center">
                     @foreach($layers as $tabNav)
@@ -58,26 +57,35 @@
                 </ul>
                 <div class="tab-content">
                     @foreach($layers as $tabContent)
-                    <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
+                        <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
                         {{ Form::hidden('layerId', $tabContent->layerId) }}
                         @foreach($tabContent->questions as $q)
                             <div class="row">
                                 <div class="col-sm-offset-1 col-sm-10">
                                     @if(isset($q->master))
+                                        
                                         @foreach($q->master->masterFormat as $format)
-                                            @continue(empty($format->form))
+                                            
+                                            @continue($format->form == false)
 
                                             @if($q->master->masterUseAPI)
                                                 <div class="form-group fg-line">
                                                     <p class="f-500 c-black">{{ ucwords($format->name) }}</p>
-                                                    <!--{{--*/ $lists = $client->options($format->target . '/lists?token=' . Request::session()->get('api_token')) /*--}}-->
                                                     <?php
-                                                        //$list = $client->options($format->target . '/lists', [
-                                                            //'query' => ['token' => Request::session()->get('api_token')]
-                                                        //]);
+                                                        $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . $format->name . '/lists';
+                                                        $target = $format->name != 'media' ? $urlAPI : $urlAPI . '/gmc';
+                                                        if($format->nested) :
+                                                            $lists = '[]';
+                                                        else :
+                                                            $lists = $client->options($target, ['query' => ['token' => $token, 'connect_timeout' => 5]])->getBody();
+                                                        endif;
                                                     ?>
-                                                    <!--{{ Form::select(camel_case($format->name), ['' => ''] + json_decode($lists->getBody(), true), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => true]) }}-->
-                                                    <small id="{{ camel_case($format->name) }}" class="help-block"></small>
+                                                    @if($format->multiple)
+                                                        {{ Form::select($format->name, json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
+                                                    @else
+                                                        {{ Form::select($format->name, json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'title' => 'Choose ' . $format->name]) }}
+                                                    @endif
+                                                    <small id="{{ $format->name }}" class="help-block"></small>
                                                 </div>
                                             @else
                                                 <div class="form-group fg-line">
@@ -85,18 +93,14 @@
                                                         {{ ucwords($q->questionText) }}
                                                         <small class="c-gray">{{ $q->questionDesc }}</small>
                                                     </p>
-                                                    @if($format->name == 'media')
-                                                        {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
-                                                    @else
-                                                        {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
-                                                    @endif
                                                     
-                                                    @if($format->form->multiple)
-                                                        {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'multiple' => 'multiple', 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
+                                                    {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
+                                                    
+                                                    @if($format->multiple)
+                                                        {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
                                                     @else
                                                         {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'title' => 'Choose ' . $format->name]) }}
                                                     @endif
-                                                    
                                                     <small id="{{ $format->name }}" class="help-block"></small>
                                                 </div>
                                             @endif
@@ -134,14 +138,13 @@
                     <li class="finish"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-check"></i></a></li>
                 </ul>
             </div>
-        </div>
-        <br />
-        <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect">
-            <i class="zmdi zmdi-square-right"></i>SUBMIT
-        </button>
+            <br />
+            <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect">
+                <i class="zmdi zmdi-square-right"></i>SUBMIT
+            </button>
         @else
-        <br />
-        <p class="text-center">No layer questions, please create one {{ link_to('layerQuestion', 'here') }}</p>
+            <br />
+            <p class="text-center">No layer questions, please create one {{ link_to('layerQuestion', 'here') }}</p>
         @endif
     </div>
     {{ Form::close() }}
@@ -149,16 +152,13 @@
 @endsection
 
 @push('scripts')
+{{ Html::script('js/regions.js') }}
 {{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
+    
     (function ($) {
-
-        $('select[name="provinces"]').on('change', function () {
-            var provinceId = $(this).val();
-            console.log(provinceId);
-        });
-
+        var target = 'audience/validate';
         $('.form-wizard-audience').bootstrapWizard({
             tabClass: 'fw-nav',
             nextSelector: '.next',
@@ -167,9 +167,9 @@
                 return false;
             },
             onNext: function (tab) {
-//                return $(tab.children('a').attr('href')).validateAudience({
-//                    target: 'audience/validate'
-//                });
+                return $(tab.children('a').attr('href')).validateAudience({
+                    target: target
+                });
             },
             onPrevious: function () {
                 $('div.form-group').removeClass('has-warning');
@@ -178,7 +178,7 @@
             },
             onFinish: function (tab) {
                 $(tab.children('a').attr('href')).validateAudience({
-                    target: 'audience/validate',
+                    target: target,
                     callback: function () {
                         if (this.status === 200) {
                             $('.btnSubmit').removeClass('hide');
