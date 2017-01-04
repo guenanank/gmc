@@ -13,6 +13,7 @@ class Masters extends Migration {
             $table->string('masterName', 127);
             $table->boolean('masterUseAPI');
             $table->text('masterFormat')->nullable();
+            $table->string('masterNamespaces', 31)->nullable();
             $table->text('masterRawQuery')->nullable();
             $table->timestamps();
             $table->softDeletes();
