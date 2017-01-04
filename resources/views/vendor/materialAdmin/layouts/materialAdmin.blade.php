@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="api-url" content="{{ config('api.target') . '/' . config('api.version') . '/' }}" />
     <meta name="api-token" content="{{ Request::session()->get('api_token') }}" />
     <title>Gramedia Majalah Community</title>
     {{ Html::style('css/all.css') }}
@@ -199,7 +200,7 @@
     <script type="text/javascript">
         var baseUrl = $('base').attr('href');
         var apiToken = $('meta[name="api-token"]').attr('content');
-        var apiTarget = 'https://api.gramedia-majalah.com/v1/';
+        var apiTarget = $('meta[name="api-url"]').attr('content');
 
         (function ($) {
             $('form.ajaxForm').submit(function (e) {

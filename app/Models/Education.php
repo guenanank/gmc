@@ -14,7 +14,7 @@ class Education extends Model {
     }
 
     public static function lists() {
-        return self::all()->pluck('educationName', 'educationId')->all();
+        return self::select('educationName', 'educationId')->pluck('educationName', 'educationId')->all();
     }
 
 }

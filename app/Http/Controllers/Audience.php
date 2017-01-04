@@ -10,10 +10,16 @@ use Validator;
 
 class Audience extends Controller {
 
+    private $request;
     protected $master;
     protected $client;
+    protected $api;
+    protected $token;
 
-    public function __construct(Client $client) {
+    public function __construct(Request $request, Client $client) {
+        $this->request = $request;
+        $this->api = config('api.target') . '/' . config('api.version') . '/';
+        $this->token = $this->request->session()->get('api_token');
         $this->client = $client;
     }
 
@@ -21,16 +27,16 @@ class Audience extends Controller {
         return view('vendor.materialAdmin.audiences.audience.index');
     }
 
-    public function bootgrid(Request $request) {
-        $current = $request->input('current', 1);
-        $rowCount = $request->input('rowCount', 10);
+    public function bootgrid() {
+        $current = $this->request->input('current', 1);
+        $rowCount = $this->request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
-        $search = $request->input('searchPhrase');
+        $search = $this->request->input('searchPhrase');
         $sortColumn = 'audienceId';
         $sortType = 'DESC';
 
-        if (is_array($request->input('sort'))) :
-            foreach ($request->input('sort') as $key => $value):
+        if (is_array($this->request->input('sort'))) :
+            foreach ($this->request->input('sort') as $key => $value):
                 $sortColumn = $key;
                 $sortType = $value;
             endforeach;
@@ -64,10 +70,12 @@ class Audience extends Controller {
     }
 
     public function create() {
+        $token = $this->token;
+        $api = $this->api;
         $client = $this->client;
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $layers = Audiences::Layer()->with('questions.master')->get();
-        return view('vendor.materialAdmin.audiences.audience.create', compact('client', 'activities', 'layers'));
+        return view('vendor.materialAdmin.audiences.audience.create', compact('token', 'api', 'client', 'activities', 'layers'));
     }
 
     public function store(Request $request) {
@@ -78,6 +86,7 @@ class Audience extends Controller {
 
         $create = Audiences::Audience()->create($request->all());
         foreach (Audiences::Layer()->select('layerId')->get() as $l) :
+            dd($l);
             $audienceLayerResponse = [];
             foreach (Audiences::Question()->where('layerId', $l->layerId)->get() as $q) :
                 $questionText = camel_case($q->questionText);

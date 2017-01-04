@@ -15,11 +15,6 @@ Route::get('phpinfo', function() {
     phpinfo();
 });
 
-Route::get('tes', function() {
-    $hobby = \GMC\Models\Hobby::lists();
-    dd($hobby);
-});
-
 Route::auth();
 Route::get('locked', ['uses' => 'LockScreen@get', 'as' => 'locked']);
 Route::group(['middleware' => 'auth'], function() {

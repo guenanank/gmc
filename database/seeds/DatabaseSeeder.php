@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HobbySeeder::class);
         $this->call(InterestSeeder::class);
         $this->call(MasterSeeder::class);
-        $this->call(MediaHowToGetSeeder::class);
         $this->call(ProfessionSeeder::class);
         $this->call(SourceSeeder::class);
         $this->call(LayerSeeder::class);

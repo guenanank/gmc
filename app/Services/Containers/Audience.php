@@ -22,6 +22,10 @@ class Audience extends \Illuminate\Container\Container {
     public function Activity() {
         return new \GMC\Models\Activity;
     }
+    
+    public function Source() {
+        return new \GMC\Models\Source;
+    }
 
     public function AudienceActivity() {
         return new \GMC\Models\AudienceActivity;

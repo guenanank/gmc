@@ -22,11 +22,6 @@ class Hobby extends Model {
         return $parent ? $parent->hobbyName : null;
     }
     
-    public function getHobbySubFromAttribute($value) {
-        $parent = self::find($value);
-        return $parent ? $parent->hobbyName : null;
-    }
-
     public function childs() {
         return $this->hasMany('\GMC\Models\Hobby', 'hobbySubFrom');
     }
@@ -37,9 +32,11 @@ class Hobby extends Model {
     
     public static function lists() {
         $lists = [];
-        foreach (self::select('hobbyId', 'hobbyName', 'hobbySubFrom')->get() as $hobby) :
+        $hobbies = self::select('hobbyId', 'hobbyName', 'hobbySubFrom')->get();
+        foreach ($hobbies as $hobby) :
             if($hobby->hobbySubFrom) :
-                $lists[$hobby->hobbyId] = $hobby->hobbySubFrom . ' - ' . $hobby->hobbyName;
+                $hobbySubFrom = $hobbies->where('hobbySubFrom', $hobby->hobbySubFrom)->first();
+                $lists[$hobby->hobbyId] = $hobbySubFrom->hobbyName . ' - ' . $hobby->hobbyName;
             else :
                 $lists[$hobby->hobbyId] = $hobby->hobbyName;
             endif;

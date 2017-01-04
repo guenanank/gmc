@@ -105,4 +105,5 @@ elixir(function (mix) {
     mix.browserify('ajaxForm.js');
     mix.browserify('validateAudience.js');
     mix.browserify('question.js');
+    mix.browserify('regions.js');
 });

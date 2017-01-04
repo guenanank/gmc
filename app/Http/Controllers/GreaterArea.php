@@ -22,7 +22,8 @@ class GreaterArea extends Controller {
     }
 
     public function index() {
-        $target = $this->greaterArea->target;
+        //$target = $this->greaterArea->target;
+        $target = config('api.target') . '/' . config('api.version') . '/region/greaterArea';
         return view('vendor.materialAdmin.masters.greaterArea.index', compact('target'));
     }
 

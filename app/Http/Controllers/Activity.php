@@ -11,7 +11,7 @@ use GMC\Models\Activity as Activities;
 use GMC\Services\Facades\Master;
 
 class Activity extends Controller {
-    
+
     private $client;
     private $request;
     protected $mediaGroup;
@@ -19,11 +19,8 @@ class Activity extends Controller {
     public function __construct(Request $request, Client $client) {
         $this->request = $request;
         $this->client = $client;
-        $this->mediaGroup = Master::get('Media.mediaGroup');
-        
-        $this->mediaGroup->target = 'http://localhost/api/public/v1/gateway/mediaGroup';
+        $this->mediaGroup = config('api.target') . '/' . config('api.version') . '/gateway/mediaGroup/';
     }
-
 
     public function index() {
         return view('vendor.materialAdmin.masters.activity.index');
@@ -72,10 +69,10 @@ class Activity extends Controller {
 
     public function create() {
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
-        $requestMediaGroups = $this->client->options($this->mediaGroup->target . '/lists', [
+        $requestMediaGroups = $this->client->options($this->mediaGroup . 'lists', [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);
-        
+
         $mediaGroups = collect(json_decode($requestMediaGroups->getBody()))->toArray();
         return view('vendor.materialAdmin.masters.activity.create', compact('sources', 'mediaGroups'));
     }
@@ -94,10 +91,10 @@ class Activity extends Controller {
     public function edit($id) {
         $activity = Activities::findOrFail($id);
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
-        $requestMediaGroups = $this->client->options($this->mediaGroup->target . '/lists', [
+        $requestMediaGroups = $this->client->options($this->mediaGroup . 'lists', [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);
-        
+
         $mediaGroups = collect(json_decode($requestMediaGroups->getBody()))->toArray();
         return view('vendor.materialAdmin.masters.activity.edit', compact('activity', 'sources', 'mediaGroups'));
     }
