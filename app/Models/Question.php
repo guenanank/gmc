@@ -49,7 +49,7 @@ class Question extends Model {
             'useMaster' => 'Use Master'
         ];
         
-        return $type != null ? $questionType[$type] : $questionType;
+        return $questionType[$type];
     }
 
     public static function questionFormType() {
