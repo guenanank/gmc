@@ -63,11 +63,8 @@
                             <div class="row">
                                 <div class="col-sm-offset-1 col-sm-10">
                                     @if(isset($q->master))
-                                        
                                         @foreach($q->master->masterFormat as $format)
-                                            
                                             @continue($format->form == false)
-
                                             @if($q->master->masterUseAPI)
                                                 <div class="form-group fg-line">
                                                     <p class="f-500 c-black">{{ ucwords($format->name) }}</p>
@@ -95,7 +92,6 @@
                                                     </p>
                                                     
                                                     {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
-                                                    
                                                     @if($format->multiple)
                                                         {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
                                                     @else
@@ -159,6 +155,7 @@
     
     (function ($) {
         var target = 'audience/validate';
+//        var target = baseUrl + '/audience/validate';
         $('.form-wizard-audience').bootstrapWizard({
             tabClass: 'fw-nav',
             nextSelector: '.next',
