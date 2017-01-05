@@ -49,7 +49,7 @@ class Question extends Model {
             'useMaster' => 'Use Master'
         ];
         
-        return $questionType[$type];
+        return $questionType[camel_case($type)];
     }
 
     public static function questionFormType() {
