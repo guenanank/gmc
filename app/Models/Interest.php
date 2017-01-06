@@ -31,18 +31,17 @@ class Interest extends Model {
     }
     
     public static function lists() {
-        $lists = [];
-        $insterests = self::select('interestId', 'interestName', 'interestSubFrom')->get();
-        foreach ($insterests as $interest) :
-            if($interest->interestSubFrom) :
-                $interestSubFrom = $insterests->where('interestSubFrom', $interest->interestSubFrom)->first();
-                $lists[$interest->interestId] = $interestSubFrom->interestName . ' - ' . $interest->interestName;
-            else :
+        $lists = ['' => ''];
+        $interests = self::get()->pluck('interestName', 'interestId')->prepend(null);
+        foreach (self::select('interestId', 'interestName', 'interestSubFrom')->get() as $interest) :
+            $parent = $interests[$interest->interestSubFrom];
+            if(is_null($parent)) :
                 $lists[$interest->interestId] = $interest->interestName;
+            else :
+                $lists[$interest->interestId] = $parent . ' - ' . $interest->interestName;
             endif;
-            
         endforeach;
-
+        
         return $lists;
     }
 

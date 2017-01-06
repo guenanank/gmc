@@ -22,6 +22,85 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
     Route::get('dashboard/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
 
+    Route::group(['namespace' => 'Masters', 'prefix' => 'masters'], function() {
+
+        Route::group(['prefix' => 'activity'], function() {
+            Route::get('/', ['uses' => 'Activity@index', 'as' => 'activity.index']);
+            Route::post('bootgrid', ['uses' => 'Activity@bootgrid', 'as' => 'activity.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Activity@create', 'as' => 'activity.create']);
+            Route::post('store', ['uses' => 'Activity@store', 'as' => 'activity.store', 'middleware' => 'IsAjax']);
+            Route::get('{activityId}/edit', ['uses' => 'Activity@edit', 'as' => 'activity.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{activityId}', ['uses' => 'Activity@update', 'as' => 'activity.update', 'middleware' => 'IsAjax']);
+            Route::delete('{activityId}', ['uses' => 'Activity@destroy', 'as' => 'activity.delete']);
+        });
+
+        Route::group(['prefix' => 'education'], function() {
+            Route::get('/', ['uses' => 'Education@index', 'as' => 'education.index']);
+            Route::post('bootgrid', ['uses' => 'Education@bootgrid', 'as' => 'education.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Education@create', 'as' => 'education.create']);
+            Route::post('store', ['uses' => 'Education@store', 'as' => 'education.store', 'middleware' => 'IsAjax']);
+            Route::get('{educationId}/edit', ['uses' => 'Education@edit', 'as' => 'education.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{educationId}', ['uses' => 'Education@update', 'as' => 'education.update', 'middleware' => 'IsAjax']);
+            Route::delete('{educationId}', ['uses' => 'Education@destroy', 'as' => 'education.delete']);
+        });
+
+        Route::group(['prefix' => 'expense'], function() {
+            Route::get('/', ['uses' => 'Expense@index', 'as' => 'expense.index']);
+            Route::post('bootgrid', ['uses' => 'Expense@bootgrid', 'as' => 'expense.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Expense@create', 'as' => 'expense.create']);
+            Route::post('store', ['uses' => 'Expense@store', 'as' => 'expense.store', 'middleware' => 'IsAjax']);
+            Route::get('{expenseId}/edit', ['uses' => 'Expense@edit', 'as' => 'expense.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{expenseId}', ['uses' => 'Expense@update', 'as' => 'expense.update', 'middleware' => 'IsAjax']);
+            Route::delete('{expenseId}', ['uses' => 'Expense@destroy', 'as' => 'expense.delete']);
+        });
+
+        Route::group(['prefix' => 'hobby'], function() {
+            Route::get('/', ['uses' => 'Hobby@index', 'as' => 'hobby.index']);
+            Route::post('bootgrid', ['uses' => 'Hobby@bootgrid', 'as' => 'hobby.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Hobby@create', 'as' => 'hobby.create']);
+            Route::post('store', ['uses' => 'Hobby@store', 'as' => 'hobby.store', 'middleware' => 'IsAjax']);
+            Route::get('{hobbyId}/edit', ['uses' => 'Hobby@edit', 'as' => 'hobby.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{hobbyId}', ['uses' => 'Hobby@update', 'as' => 'hobby.update', 'middleware' => 'IsAjax']);
+            Route::delete('{hobbyId}', ['uses' => 'Hobby@destroy', 'as' => 'hobby.delete']);
+        });
+
+        Route::group(['prefix' => 'interest'], function() {
+            Route::get('/', ['uses' => 'Interest@index', 'as' => 'interest.index']);
+            Route::post('bootgrid', ['uses' => 'Interest@bootgrid', 'as' => 'interest.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Interest@create', 'as' => 'interest.create']);
+            Route::post('store', ['uses' => 'Interest@store', 'as' => 'interest.store', 'middleware' => 'IsAjax']);
+            Route::get('{interestId}/edit', ['uses' => 'Interest@edit', 'as' => 'interest.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{interestId}', ['uses' => 'Interest@update', 'as' => 'interest.update', 'middleware' => 'IsAjax']);
+            Route::delete('{interestId}', ['uses' => 'Interest@destroy', 'as' => 'interest.delete']);
+        });
+
+        Route::group(['prefix' => 'profession'], function() {
+            Route::get('/', ['uses' => 'Profession@index', 'as' => 'profession.index']);
+            Route::post('bootgrid', ['uses' => 'Profession@bootgrid', 'as' => 'profession.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Profession@create', 'as' => 'profession.create']);
+            Route::post('store', ['uses' => 'Profession@store', 'as' => 'profession.store', 'middleware' => 'IsAjax']);
+            Route::get('{professionId}/edit', ['uses' => 'Profession@edit', 'as' => 'profession.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{professionId}', ['uses' => 'Profession@update', 'as' => 'profession.update', 'middleware' => 'IsAjax']);
+            Route::delete('{professionId}', ['uses' => 'Profession@destroy', 'as' => 'profession.delete']);
+        });
+
+        Route::group(['prefix' => 'greaterArea'], function() {
+            Route::get('/', ['uses' => 'GreaterArea@index', 'as' => 'greaterArea.index']);
+            Route::get('create', ['uses' => 'GreaterArea@create', 'as' => 'greaterArea.create']);
+            Route::get('{greaterAreaId}/edit', ['uses' => 'GreaterArea@edit', 'as' => 'greaterArea.edit']);
+        });
+
+        Route::group(['prefix' => 'source'], function() {
+            Route::get('/', ['uses' => 'Source@index', 'as' => 'source.index']);
+            Route::post('bootgrid', ['uses' => 'Source@bootgrid', 'as' => 'source.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Source@create', 'as' => 'source.create']);
+            Route::post('store', ['uses' => 'Source@store', 'as' => 'source.store', 'middleware' => 'IsAjax']);
+            Route::get('{sourceId}/edit', ['uses' => 'Source@edit', 'as' => 'source.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{sourceId}', ['uses' => 'Source@update', 'as' => 'source.update', 'middleware' => 'IsAjax']);
+            Route::delete('{sourceId}', ['uses' => 'Source@destroy', 'as' => 'source.delete']);
+        });
+    });
+
     Route::group(['prefix' => 'audience'], function() {
         Route::get('/', ['uses' => 'Audience@index', 'as' => 'audience.index']);
         Route::post('bootgrid', ['uses' => 'Audience@bootgrid', 'as' => 'audience.bootgrid', 'middleware' => 'IsAjax']);
@@ -67,87 +146,4 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('download', ['uses' => 'Upload@download', 'as' => 'upload.download']);
     });
 
-    Route::group(['prefix' => 'activity'], function() {
-        Route::get('/', ['uses' => 'Activity@index', 'as' => 'activity.index']);
-        Route::post('bootgrid', ['uses' => 'Activity@bootgrid', 'as' => 'activity.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Activity@create', 'as' => 'activity.create']);
-        Route::post('store', ['uses' => 'Activity@store', 'as' => 'activity.store', 'middleware' => 'IsAjax']);
-        Route::get('{activityId}/edit', ['uses' => 'Activity@edit', 'as' => 'activity.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{activityId}', ['uses' => 'Activity@update', 'as' => 'activity.update', 'middleware' => 'IsAjax']);
-        Route::delete('{activityId}', ['uses' => 'Activity@destroy', 'as' => 'activity.delete']);
-    });
-
-    Route::group(['prefix' => 'education'], function() {
-        Route::get('/', ['uses' => 'Education@index', 'as' => 'education.index']);
-        Route::post('bootgrid', ['uses' => 'Education@bootgrid', 'as' => 'education.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Education@create', 'as' => 'education.create']);
-        Route::post('store', ['uses' => 'Education@store', 'as' => 'education.store', 'middleware' => 'IsAjax']);
-        Route::get('{educationId}/edit', ['uses' => 'Education@edit', 'as' => 'education.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{educationId}', ['uses' => 'Education@update', 'as' => 'education.update', 'middleware' => 'IsAjax']);
-        Route::delete('{educationId}', ['uses' => 'Education@destroy', 'as' => 'education.delete']);
-    });
-
-    Route::group(['prefix' => 'expense'], function() {
-        Route::get('/', ['uses' => 'Expense@index', 'as' => 'expense.index']);
-        Route::post('bootgrid', ['uses' => 'Expense@bootgrid', 'as' => 'expense.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Expense@create', 'as' => 'expense.create']);
-        Route::post('store', ['uses' => 'Expense@store', 'as' => 'expense.store', 'middleware' => 'IsAjax']);
-        Route::get('{expenseId}/edit', ['uses' => 'Expense@edit', 'as' => 'expense.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{expenseId}', ['uses' => 'Expense@update', 'as' => 'expense.update', 'middleware' => 'IsAjax']);
-        Route::delete('{expenseId}', ['uses' => 'Expense@destroy', 'as' => 'expense.delete']);
-    });
-
-    Route::group(['prefix' => 'hobby'], function() {
-        Route::get('/', ['uses' => 'Hobby@index', 'as' => 'hobby.index']);
-        Route::post('bootgrid', ['uses' => 'Hobby@bootgrid', 'as' => 'hobby.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Hobby@create', 'as' => 'hobby.create']);
-        Route::post('store', ['uses' => 'Hobby@store', 'as' => 'hobby.store', 'middleware' => 'IsAjax']);
-        Route::get('{hobbyId}/edit', ['uses' => 'Hobby@edit', 'as' => 'hobby.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{hobbyId}', ['uses' => 'Hobby@update', 'as' => 'hobby.update', 'middleware' => 'IsAjax']);
-        Route::delete('{hobbyId}', ['uses' => 'Hobby@destroy', 'as' => 'hobby.delete']);
-    });
-
-    Route::group(['prefix' => 'interest'], function() {
-        Route::get('/', ['uses' => 'Interest@index', 'as' => 'interest.index']);
-        Route::post('bootgrid', ['uses' => 'Interest@bootgrid', 'as' => 'interest.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Interest@create', 'as' => 'interest.create']);
-        Route::post('store', ['uses' => 'Interest@store', 'as' => 'interest.store', 'middleware' => 'IsAjax']);
-        Route::get('{interestId}/edit', ['uses' => 'Interest@edit', 'as' => 'interest.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{interestId}', ['uses' => 'Interest@update', 'as' => 'interest.update', 'middleware' => 'IsAjax']);
-        Route::delete('{interestId}', ['uses' => 'Interest@destroy', 'as' => 'interest.delete']);
-    });
-
-    Route::group(['prefix' => 'media'], function() {
-        Route::get('/', ['uses' => 'Media@index', 'as' => 'media.index']);
-    });
-
-    Route::group(['prefix' => 'profession'], function() {
-        Route::get('/', ['uses' => 'Profession@index', 'as' => 'profession.index']);
-        Route::post('bootgrid', ['uses' => 'Profession@bootgrid', 'as' => 'profession.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Profession@create', 'as' => 'profession.create']);
-        Route::post('store', ['uses' => 'Profession@store', 'as' => 'profession.store', 'middleware' => 'IsAjax']);
-        Route::get('{professionId}/edit', ['uses' => 'Profession@edit', 'as' => 'profession.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{professionId}', ['uses' => 'Profession@update', 'as' => 'profession.update', 'middleware' => 'IsAjax']);
-        Route::delete('{professionId}', ['uses' => 'Profession@destroy', 'as' => 'profession.delete']);
-    });
-
-    Route::group(['prefix' => 'greaterArea'], function() {
-        Route::get('/', ['uses' => 'GreaterArea@index', 'as' => 'greaterArea.index']);
-        Route::get('create', ['uses' => 'GreaterArea@create', 'as' => 'greaterArea.create']);
-        Route::get('{greaterAreaId}/edit', ['uses' => 'GreaterArea@edit', 'as' => 'greaterArea.edit']);
-    });
-
-    Route::group(['prefix' => 'source'], function() {
-        Route::get('/', ['uses' => 'Source@index', 'as' => 'source.index']);
-        Route::post('bootgrid', ['uses' => 'Source@bootgrid', 'as' => 'source.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Source@create', 'as' => 'source.create']);
-        Route::post('store', ['uses' => 'Source@store', 'as' => 'source.store', 'middleware' => 'IsAjax']);
-        Route::get('{sourceId}/edit', ['uses' => 'Source@edit', 'as' => 'source.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{sourceId}', ['uses' => 'Source@update', 'as' => 'source.update', 'middleware' => 'IsAjax']);
-        Route::delete('{sourceId}', ['uses' => 'Source@destroy', 'as' => 'source.delete']);
-    });
-
-    Route::group(['prefix' => 'vehicle'], function() {
-        Route::get('/', ['uses' => 'Vehicle@index', 'as' => 'vehicle.index']);
-    });
 });

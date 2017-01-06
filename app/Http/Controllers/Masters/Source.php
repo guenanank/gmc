@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Models\Source as Sources;
 
-class Source extends Controller {
+class Source extends \GMC\Http\Controllers\Controller {
 
     public function index() {
         return view('vendor.materialAdmin.masters.source.index');
@@ -28,12 +28,17 @@ class Source extends Controller {
             endforeach;
         endif;
 
-        $rows = Sources::where('sourceName', 'like', '%' . $search . '%')
-                ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                ->get();
+        if (empty($search)) :
+            $rows = Sources::skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Sources::count();
+        else :
+            $rows = Sources::where('sourceName', 'like', '%' . $search . '%')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
 
-        $total = Sources::where('sourceName', 'like', '%' . $search . '%')
-                ->count();
+            $total = Sources::where('sourceName', 'like', '%' . $search . '%')
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,

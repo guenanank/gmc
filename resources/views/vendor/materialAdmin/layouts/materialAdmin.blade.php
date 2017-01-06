@@ -79,21 +79,21 @@
                 <li class="sub-menu">
                     <a href="{{ url('#') }}"><i class="zmdi zmdi-accounts-list"></i> Audiences</a>
                     <ul>
-                        <li>{{ link_to('layerQuestion', 'Layer Questions') }}</li>
-                        <li>{{ link_to('audience', 'Audiences') }}</li>
+                        <li>{{ link_to('audiences/layerQuestion', 'Layer Questions') }}</li>
+                        <li>{{ link_to('audiences/audience', 'Audiences') }}</li>
                     </ul>
                 </li>
                 <li class="sub-menu">
                     <a href="#"><i class="zmdi zmdi-layers"></i> Master Data</a>
                     <ul>
-                        <li>{{ link_to('activity', 'Activities') }}</li>
-                        <li>{{ link_to('education', 'Education') }}</li>
-                        <li>{{ link_to('expense', 'Expenses') }}</li>
-                        <li>{{ link_to('hobby', 'Hobbies') }}</li>
-                        <li>{{ link_to('interest', 'Interests') }}</li>
-                        <li>{{ link_to('profession', 'Professions') }}</li>
-                        <li>{{ link_to('greaterArea', 'Greater Areas') }}</li>
-                        <li>{{ link_to('source', 'Sources') }}</li>
+                        <li>{{ link_to('masters/activity', 'Activities') }}</li>
+                        <li>{{ link_to('masters/education', 'Education') }}</li>
+                        <li>{{ link_to('masters/expense', 'Expenses') }}</li>
+                        <li>{{ link_to('masters/hobby', 'Hobbies') }}</li>
+                        <li>{{ link_to('masters/interest', 'Interests') }}</li>
+                        <li>{{ link_to('masters/profession', 'Professions') }}</li>
+                        <li>{{ link_to('masters/greaterArea', 'Greater Areas') }}</li>
+                        <li>{{ link_to('masters/source', 'Sources') }}</li>
                     </ul>
                 </li>
             </ul>

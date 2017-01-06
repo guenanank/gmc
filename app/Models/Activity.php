@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Activity extends Model {
 
     use SoftDeletes;
-
+    
     public $primaryKey = 'activityId';
     protected $fillable = ['sourceId', 'mediaGroupId', 'activityName', 'activityWhere', 'activityWhen', 'activityToken'];
     protected $dates = ['deleted_at'];
@@ -22,13 +22,10 @@ class Activity extends Model {
             'activityWhen' => 'date_format:Y-m-d'
         ]);
     }
-
+    
     public function source() {
         return $this->hasOne('\GMC\Models\Source', 'sourceId', 'sourceId');
     }
 
-    public function mediaGroup() {
-        return $this->hasOne('\GMC\Models\MediaGroup', 'mediaGroupId', 'mediaGroupId');
-    }
 
 }

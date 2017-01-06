@@ -3,7 +3,7 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard', 'GMC') }}</li>
-    <li>{{ link_to('education', 'Education') }}</li>
+    <li>{{ link_to('masters/education', 'Education') }}</li>
     <li class="active">Edit</li>
 </ol>
 @stop
@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Edit Education <small>Master data of education.</small></h2>
-        <a href="{{ action('Education@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Masters\Education@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

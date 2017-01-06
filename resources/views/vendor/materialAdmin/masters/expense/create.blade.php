@@ -3,7 +3,7 @@
 @section('blockHeader')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard', 'GMC') }}</li>
-    <li>{{ link_to('expense', 'Expenses') }}</li>
+    <li>{{ link_to('masters/expense', 'Expenses') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Expense <small>Master data of expense.</small></h2>
-        <a href="{{ action('Expense@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Masters\Expense@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

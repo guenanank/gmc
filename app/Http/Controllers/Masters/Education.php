@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Models\Education as Educations;
 
-class Education extends Controller {
+class Education extends \GMC\Http\Controllers\Controller {
 
     public function index() {
         return view('vendor.materialAdmin.masters.education.index');
@@ -28,12 +28,16 @@ class Education extends Controller {
             endforeach;
         endif;
 
-        $rows = Educations::where('educationName', 'like', '%' . $search . '%')
-                ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                ->get();
-
-        $total = Educations::where('educationName', 'like', '%' . $search . '%')
-                ->count();
+        if (empty($search)) :
+            $rows = Educations::skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Educations::count();
+        else :
+            $rows = Educations::where('educationName', 'like', '%' . $search . '%')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
+            $total = Educations::where('educationName', 'like', '%' . $search . '%')
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,

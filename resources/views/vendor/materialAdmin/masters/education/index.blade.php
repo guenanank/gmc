@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Education <small>Master data of education.</small></h2>
-        <a href="{{ action('Education@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
+        <a href="{{ action('Masters\Education@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Education">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -50,7 +50,7 @@
             },
             formatters: {
                 commands: function (column, row) {
-                    var btnEdit = '<a href="{{ url("education") }}/' + row.educationId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.educationName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnEdit = '<a href="{{ url("masters/education") }}/' + row.educationId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.educationName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
                     var btnDel = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.educationId + '" title="Delete ' + row.educationName + '"><span class="zmdi zmdi-delete"></span></button>';
                     return btnEdit + btnDel;
                 }

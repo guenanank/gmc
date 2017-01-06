@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Models\Interest as Interests;
 
-class Interest extends Controller {
+class Interest extends \GMC\Http\Controllers\Controller {
 
     public function index() {
         return view('vendor.materialAdmin.masters.interest.index');
@@ -28,18 +28,23 @@ class Interest extends Controller {
             endforeach;
         endif;
 
-        $rows = Interests::where('interestName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('interestName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
-                ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                ->get();
+        if (empty($search)) :
+            $rows = Interests::with('parent')->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Interests::count();
+        else:
+            $rows = Interests::where('interestName', 'like', '%' . $search . '%')
+                    ->orWhereHas('parent', function($query) use ($search) {
+                        $query->where('interestName', 'LIKE', '%' . $search . '%');
+                    })->with('parent')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
 
-        $total = Interests::where('interestName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('interestName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
-                ->count();
+            $total = Interests::where('interestName', 'like', '%' . $search . '%')
+                    ->orWhereHas('parent', function($query) use ($search) {
+                        $query->where('interestName', 'LIKE', '%' . $search . '%');
+                    })
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,
@@ -50,7 +55,7 @@ class Interest extends Controller {
     }
 
     public function create() {
-        $interests = Interests::lists('interestName', 'interestId')->all();
+        $interests = Interests::lists();
         return view('vendor.materialAdmin.masters.interest.create', compact('interests'));
     }
 
@@ -66,7 +71,7 @@ class Interest extends Controller {
 
     public function edit($id) {
         $interest = Interests::findOrFail($id);
-        $interests = Interests::lists('interestName', 'interestId')->all();
+        $interests = Interests::lists();
         return view('vendor.materialAdmin.masters.interest.edit', compact('interest', 'interests'));
     }
 

@@ -3,7 +3,7 @@
 @section('blockHeader')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard', 'GMC') }}</li>
-    <li>{{ link_to('interest', 'Interests') }}</li>
+    <li>{{ link_to('masters/interest', 'Interests') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Interest <small>Master data of interest.</small></h2>
-        <a href="{{ action('Interest@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Masters\Interest@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
@@ -36,7 +36,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('interestSubFrom', [''=>''] + $interests, null, ['class' => 'form-control']) }}
+                            {{ Form::select('interestSubFrom', $interests, null, ['class' => 'form-control']) }}
                         </div>
                         {{ Form::label('interestSubFrom', 'Is Sub Interest From', ['class' => 'fg-label']) }}
                     </div>

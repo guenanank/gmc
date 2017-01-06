@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Greater Areas <small>Master data of greater area.</small></h2>
-        <a href="{{ action('GreaterArea@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Greater Area">
+        <a href="{{ action('Masters\GreaterArea@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Greater Area">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -60,7 +60,7 @@
                     return regencies.join(', ');
                 },
                 commands: function (column, row) {
-                    var edit = '<a href="{{ url("greaterArea") }}/' + row.greaterAreaId + '/edit" class="bgm-blue command-edit btn btn-default btn-icon waves-effect waves-circle" title="Edit ' + row.greaterAreaName + '"><i class="zmdi zmdi-edit"></i></a>&nbsp; ';
+                    var edit = '<a href="{{ url("masters/greaterArea") }}/' + row.greaterAreaId + '/edit" class="bgm-blue command-edit btn btn-default btn-icon waves-effect waves-circle" title="Edit ' + row.greaterAreaName + '"><i class="zmdi zmdi-edit"></i></a>&nbsp; ';
                     var del = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.greaterAreaId + '" title="Delete ' + row.greaterAreaName + '"><i class="zmdi zmdi-delete"></i></button>';
                     return edit + del;
                 }

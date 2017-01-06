@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Services\Facades\Master;
 
-class GreaterArea extends Controller {
+class GreaterArea extends \GMC\Http\Controllers\Controller {
 
     public $greaterArea;
     public $request;
@@ -15,20 +15,19 @@ class GreaterArea extends Controller {
     public $regency;
 
     public function __construct(Request $request, Client $client) {
-        $this->greaterArea = Master::get('Region.greaterAreas');
+        $this->greaterArea = config('api.target') . '/' . config('api.version') . '/region/greaterArea';
         $this->request = $request;
         $this->client = $client;
-        $this->regency = 'https://api.gramedia-majalah.com/v1/region/regency';
+        $this->regency = config('api.target') . '/' . config('api.version') . '/region/regency';
     }
 
     public function index() {
-        //$target = $this->greaterArea->target;
-        $target = config('api.target') . '/' . config('api.version') . '/region/greaterArea';
+        $target = $this->greaterArea;
         return view('vendor.materialAdmin.masters.greaterArea.index', compact('target'));
     }
 
     public function create() {
-        $target = $this->greaterArea->target;
+        $target = $this->greaterArea;
         $request = $this->client->options($this->regency . '/lists', [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);
@@ -38,7 +37,7 @@ class GreaterArea extends Controller {
     }
 
     public function edit($id) {
-        $target = $this->greaterArea->target;
+        $target = $this->greaterArea;
         $getGeaterArea = $this->client->get($target . '/' . $id, [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);

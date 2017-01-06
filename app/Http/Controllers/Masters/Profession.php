@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Models\Profession as Professions;
 
-class Profession extends Controller {
+class Profession extends \GMC\Http\Controllers\Controller {
 
     public function index() {
         return view('vendor.materialAdmin.masters.profession.index');
@@ -28,18 +28,23 @@ class Profession extends Controller {
             endforeach;
         endif;
 
-        $rows = Professions::where('professionName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('professionName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
-                ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                ->get();
+        if (empty($search)) :
+            $rows = Professions::with('parent')->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Professions::count();
+        else :
+            $rows = Professions::where('professionName', 'like', '%' . $search . '%')
+                    ->orWhereHas('parent', function($query) use ($search) {
+                        $query->where('professionName', 'LIKE', '%' . $search . '%');
+                    })->with('parent')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
 
-        $total = Professions::where('professionName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('professionName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
-                ->count();
+            $total = Professions::where('professionName', 'like', '%' . $search . '%')
+                    ->orWhereHas('parent', function($query) use ($search) {
+                        $query->where('professionName', 'LIKE', '%' . $search . '%');
+                    })
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,
@@ -50,7 +55,7 @@ class Profession extends Controller {
     }
 
     public function create() {
-        $professions = Professions::lists('professionName', 'professionId')->all();
+        $professions = Professions::lists();
         return view('vendor.materialAdmin.masters.profession.create', compact('professions'));
     }
 
@@ -66,7 +71,7 @@ class Profession extends Controller {
 
     public function edit($id) {
         $profession = Professions::findOrFail($id);
-        $professions = Professions::lists('professionName', 'professionId')->all();
+        $professions = Professions::lists();
         return view('vendor.materialAdmin.masters.profession.edit', compact('profession', 'professions'));
     }
 

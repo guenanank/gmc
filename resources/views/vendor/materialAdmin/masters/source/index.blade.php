@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Source <small>Master data of source.</small></h2>
-        <a href="{{ action('Source@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Sources">
+        <a href="{{ action('Masters\Source@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Sources">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -50,7 +50,7 @@
             },
             formatters: {
                 commands: function (column, row) {
-                    var btnEdit = '<a href="{{ url("source") }}/' + row.sourceId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.sourceName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnEdit = '<a href="{{ url("masters/source") }}/' + row.sourceId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.sourceName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
                     var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.sourceId + '" title="Delete ' + row.sourceName + '"><span class="zmdi zmdi-delete"></span></button>';
                     return btnEdit + btnDelete;
                 }
