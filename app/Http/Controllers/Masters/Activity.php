@@ -1,6 +1,6 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use Validator;
 use GuzzleHttp\Client;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use GMC\Models\Activity as Activities;
 use GMC\Services\Facades\Master;
 
-class Activity extends Controller {
+class Activity extends \GMC\Http\Controllers\Controller {
 
     private $client;
     private $request;
@@ -41,23 +41,28 @@ class Activity extends Controller {
             endforeach;
         endif;
 
-        $rows = Activities::where('activityName', 'LIKE', '%' . $search . '%')
-                ->orWhere('activityWhere', 'LIKE', '%' . $search . '%')
-                ->orWhere('activityWhen', 'LIKE', '%' . $search . '%')
-                ->orWhereHas('source', function($query) use ($search) {
-                    $query->where('sourceName', 'LIKE', '%' . $search . '%');
-                })
-                ->with('source')
-                ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                ->get();
+        if (empty($search)) :
+            $rows = Activities::with('source')->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Activities::count();
+        else :
+            $rows = Activities::where('activityName', 'LIKE', '%' . $search . '%')
+                    ->orWhere('activityWhere', 'LIKE', '%' . $search . '%')
+                    ->orWhere('activityWhen', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('source', function($query) use ($search) {
+                        $query->where('sourceName', 'LIKE', '%' . $search . '%');
+                    })
+                    ->with('source')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
 
-        $total = Activities::where('activityName', 'LIKE', '%' . $search . '%')
-                ->orWhere('activityWhere', 'LIKE', '%' . $search . '%')
-                ->orWhere('activityWhen', 'LIKE', '%' . $search . '%')
-                ->orWhereHas('source', function($query) use ($search) {
-                    $query->where('sourceName', 'LIKE', '%' . $search . '%');
-                })
-                ->count();
+            $total = Activities::where('activityName', 'LIKE', '%' . $search . '%')
+                    ->orWhere('activityWhere', 'LIKE', '%' . $search . '%')
+                    ->orWhere('activityWhen', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('source', function($query) use ($search) {
+                        $query->where('sourceName', 'LIKE', '%' . $search . '%');
+                    })
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,

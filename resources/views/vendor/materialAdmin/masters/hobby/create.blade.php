@@ -3,7 +3,7 @@
 @section('blockHeader')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard', 'GMC') }}</li>
-    <li>{{ link_to('hobby', 'Hobbies') }}</li>
+    <li>{{ link_to('masters/hobby', 'Hobbies') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Hobby <small>Master data of hobby.</small></h2>
-        <a href="{{ action('Hobby@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Masters\Hobby@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Expense <small>Master data of expense.</small></h2>
-        <a href="{{ action('Expense@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Expenses">
+        <a href="{{ action('Masters\Expense@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Expenses">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -57,7 +57,7 @@
                     return row.expenseMax.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
                 },
                 commands: function (column, row) {
-                    var btnEdit = '<a href="{{ url("expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnEdit = '<a href="{{ url("masters/expense") }}/' + row.expenseId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit Expense"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
                     var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.expenseId + '" title="Delete Expense"><span class="zmdi zmdi-delete"></span></button>';
                     return btnEdit + btnDelete;
                 }

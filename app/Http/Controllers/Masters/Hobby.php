@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Models\Hobby as Hobbies;
 
-class Hobby extends Controller {
+class Hobby extends \GMC\Http\Controllers\Controller {
 
     public function index() {
         return view('vendor.materialAdmin.masters.hobby.index');
@@ -28,18 +28,23 @@ class Hobby extends Controller {
             endforeach;
         endif;
 
-        $rows = Hobbies::where('hobbyName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('hobbyName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
-                ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                ->get();
+        if (empty($search)) :
+            $rows = Hobbies::with('parent')->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Hobbies::count();
+        else :
+            $rows = Hobbies::where('hobbyName', 'like', '%' . $search . '%')
+                    ->orWhereHas('parent', function($query) use ($search) {
+                        $query->where('hobbyName', 'LIKE', '%' . $search . '%');
+                    })->with('parent')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
 
-        $total = Hobbies::where('hobbyName', 'like', '%' . $search . '%')
-                ->orWhereHas('parent', function($query) use ($search) {
-                    $query->where('hobbyName', 'LIKE', '%' . $search . '%');
-                })->with('parent')
-                ->count();
+            $total = Hobbies::where('hobbyName', 'like', '%' . $search . '%')
+                    ->orWhereHas('parent', function($query) use ($search) {
+                        $query->where('hobbyName', 'LIKE', '%' . $search . '%');
+                    })
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,
@@ -50,7 +55,7 @@ class Hobby extends Controller {
     }
 
     public function create() {
-        $hobbies = Hobbies::lists('hobbyName', 'hobbyId')->all();
+        $hobbies = Hobbies::lists();
         return view('vendor.materialAdmin.masters.hobby.create', compact('hobbies'));
     }
 
@@ -66,7 +71,7 @@ class Hobby extends Controller {
 
     public function edit($id) {
         $hobby = Hobbies::findOrFail($id);
-        $hobbies = Hobbies::lists('hobbyName', 'hobbyId')->all();
+        $hobbies = Hobbies::lists();
         return view('vendor.materialAdmin.masters.hobby.edit', compact('hobby', 'hobbies'));
     }
 

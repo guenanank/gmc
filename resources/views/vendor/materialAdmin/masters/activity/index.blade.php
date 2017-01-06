@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Activity <small>Master data of activity.</small></h2>
-        <a href="{{ action('Activity@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Activities">
+        <a href="{{ action('Masters\Activity@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Activities">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -79,7 +79,7 @@
                 },
                 commands: function (column, row) {
                     var btnCopy = '<button id="btn" type="button" class="btn btn-icon bgm-bluegray command-copy" data-toggle="tooltip" title="Copy token into clipboard\n' + row.activityToken + '" data-clipboard-text="' + row.activityToken + '"><span class="zmdi zmdi-copy"></span></button>&nbsp; ';
-                    var btnEdit = '<a href="{{ url("activity") }}/' + row.activityId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnEdit = '<a href="{{ url("masters/activity") }}/' + row.activityId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit ' + row.activityName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
                     var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.activityId + '" data-toggle="tooltip" title="Delete ' + row.activityName + '"><span class="zmdi zmdi-delete"></span></button>';
                     return btnCopy + btnEdit + btnDelete;
                 }
@@ -90,6 +90,7 @@
 
             $('#bootgrid').find('.command-copy').on('click', function () {
                 var clipboard = new Clipboard(this);
+                console.log(clipboard);
                 clipboard.on('success', function () {
                     swal({
                         title: null,

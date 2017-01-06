@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Masters;
 
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Models\Expense as Expenses;
 
-class Expense extends Controller {
+class Expense extends \GMC\Http\Controllers\Controller {
 
     public function index(Request $request) {
         return view('vendor.materialAdmin.masters.expense.index');
@@ -28,14 +28,19 @@ class Expense extends Controller {
             endforeach;
         endif;
 
-        $rows = Expenses::where('expenseMin', 'like', '%' . $search . '%')
-                ->orWhere('expenseMax', 'like', '%' . $search . '%')
-                ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
-                ->get();
+        if (empty($search)) :
+            $rows = Expenses::skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Expenses::count();
+        else :
+            $rows = Expenses::where('expenseMin', 'like', '%' . $search . '%')
+                    ->orWhere('expenseMax', 'like', '%' . $search . '%')
+                    ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
+                    ->get();
 
-        $total = Expenses::where('expenseMin', 'like', '%' . $search . '%')
-                ->orWhere('expenseMax', 'like', '%' . $search . '%')
-                ->count();
+            $total = Expenses::where('expenseMin', 'like', '%' . $search . '%')
+                    ->orWhere('expenseMax', 'like', '%' . $search . '%')
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,

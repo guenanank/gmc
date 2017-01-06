@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Professions <small>Master data of professions.</small></h2>
-        <a href="{{ action('Profession@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Profession">
+        <a href="{{ action('Masters\Profession@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Profession">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
     </div>
@@ -55,7 +55,7 @@
                         return row.parent.professionName;
                 },
                 commands: function (column, row) {
-                    var btnEdit = '<a href="{{ url("profession") }}/' + row.professionId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.professionName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
+                    var btnEdit = '<a href="{{ url("masters/profession") }}/' + row.professionId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.professionName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
                     var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.professionId + '" title="Delete ' + row.professionName + '"><span class="zmdi zmdi-delete"></span></button>';
                     return btnEdit + btnDelete;
                 }
