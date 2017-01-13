@@ -3,7 +3,7 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard', 'GMC') }}</li>
-    <li>{{ link_to('layerQuestion', 'Layer Questions') }}</li>
+    <li>{{ link_to('audiences/layerQuestion', 'Layer Questions') }}</li>
     <li class="active">Questions</li>
 </ol>
 @stop
@@ -16,7 +16,7 @@
         <a class="btn bgm-green pull-right btn-icon create" data-toggle="tooltip" data-placement="top" title="Create New Layer Questions">
             <i class="zmdi zmdi-plus"></i>
         </a>
-        <a href="{{ action('Layer@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Audiences\Layer@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>

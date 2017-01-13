@@ -64,9 +64,8 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                var hobbyId = $(this).data('row-id');
                 $(this).ajaxDelete({
-                    url: 'hobby/' + hobbyId
+                    url: 'masters/hobby/'
                 });
             });
         });

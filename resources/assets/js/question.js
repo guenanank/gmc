@@ -32,18 +32,20 @@
                 return (row.master) ? row.master.masterName : '';
             },
             commands: function (column, row) {
-                var btnEdit = '<a href="#" data-href="' + baseUrl + '/question/' + row.questionId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit"><span class="zmdi zmdi-edit"></span></a>&nbsp;';
+                var btnEdit = '<a href="#" data-href="' + baseUrl + '/audiences/question/' + row.questionId + '/edit" class="btn btn-icon bgm-blue command-edit" data-toggle="tooltip" title="Edit"><span class="zmdi zmdi-edit"></span></a>&nbsp;';
                 var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.questionId + '" data-toggle="tooltip" title="Delete"><span class="zmdi zmdi-delete"></span></button>';
                 return btnEdit + btnDelete;
             }
         }
     }).on('loaded.rs.jquery.bootgrid', function () {
-
+        $('input[type="checkbox"]').prop('checked', false);
         $('#bootgrid').find('.command-edit').on('click', function (e) {
             e.preventDefault();
             $.get($(this).data('href'), function (data) {
                 $(data).modal().on('shown.bs.modal', function () {
                     $(this).find('[autofocus]').focus();
+                }).on('hidden.bs.modal', function () {
+                    clearField({create: false});
                 });
             });
         });
@@ -51,7 +53,7 @@
         $('#bootgrid').find('.command-delete').on('click', function (e) {
             e.preventDefault();
             $(this).ajaxDelete({
-                url: 'question/' + $(this).data('row-id')
+                url: 'audiences/question/'
             });
         });
     });
@@ -74,6 +76,7 @@
             });
         }
 
+        $('input[type="checkbox"]').prop('checked', false);
         divModal.find('div.form-group').removeClass('has-warning');
         divModal.find('small.help-block').text(null);
         $('body').find('#bootgrid').bootgrid('reload');
@@ -87,8 +90,8 @@
             divModal.find('.questionText, .questionFormType').removeClass('hide');
         } else if (questionType === 'multipleChoice' || questionType === 'trueOrFalse') {
             divModal.find('.master').addClass('hide');
-            divModal.find('input[name="questionAnswer"], input[name="questionText"], select[name="masterId"], select[name="questionFormType"], input[name="questionDesc"]').val(null).blur();
-            divModal.find('.questionText, .questionAnswer, .questionFormType').removeClass('hide');
+            divModal.find('input[name="questionAnswer"], input[name="questionText"], select[name="masterId"], input[name="questionDesc"]').val(null).blur();
+            divModal.find('.questionText, .questionAnswer').removeClass('hide');
         } else if (questionType === 'useMaster') {
             divModal.find('.questionText, .questionAnswer, .questionFormType').addClass('hide');
             divModal.find('input[name="questionAnswer"], input[name="questionText"], select[name="questionFormType"], input[name="questionDesc"]').val(null).blur();

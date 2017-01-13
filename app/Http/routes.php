@@ -22,6 +22,42 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
     Route::get('dashboard/', ['uses' => 'Dashboard@index', 'as' => 'dashboard']);
 
+    Route::group(['namespace' => 'Audiences', 'prefix' => 'audiences'], function() {
+
+        Route::group(['prefix' => 'layerQuestion'], function() {
+            Route::get('/', ['uses' => 'Layer@index', 'as' => 'layerQuestion.index']);
+            Route::post('bootgrid', ['uses' => 'Layer@bootgrid', 'as' => 'layerQuestion.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Layer@create', 'as' => 'layerQuestion.create']);
+            Route::post('store', ['uses' => 'Layer@store', 'as' => 'layerQuestion.store', 'middleware' => 'IsAjax']);
+            Route::get('{layerId}/edit', ['uses' => 'Layer@edit', 'as' => 'layerQuestion.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{layerId}', ['uses' => 'Layer@update', 'as' => 'layerQuestion.update', 'middleware' => 'IsAjax']);
+            Route::delete('{layerId}', ['uses' => 'Layer@destroy', 'as' => 'layerQuestion.delete']);
+            Route::get('l/{id}', ['uses' => 'Layer@layer', 'as' => 'layerQuestion.layer']);
+        });
+
+        Route::group(['prefix' => 'question'], function() {
+            Route::get('/', ['uses' => 'Question@index', 'as' => 'question.index']);
+            Route::post('bootgrid', ['uses' => 'Question@bootgrid', 'as' => 'question.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Question@create', 'as' => 'question.create']);
+            Route::post('store', ['uses' => 'Question@store', 'as' => 'question.store', 'middleware' => 'IsAjax']);
+            Route::get('{questionId}/edit', ['uses' => 'Question@edit', 'as' => 'question.edit']);
+            Route::match(['PUT', 'PATCH'], 'update/{questionId}', ['uses' => 'Question@update', 'as' => 'question.update', 'middleware' => 'IsAjax']);
+            Route::delete('{questionId}', ['uses' => 'Question@destroy', 'as' => 'question.delete']);
+        });
+
+        Route::group(['prefix' => 'audience'], function() {
+            Route::get('/', ['uses' => 'Audience@index', 'as' => 'audience.index']);
+            Route::post('bootgrid', ['uses' => 'Audience@bootgrid', 'as' => 'audience.bootgrid', 'middleware' => 'IsAjax']);
+            Route::get('create', ['uses' => 'Audience@create', 'as' => 'audience.create']);
+            Route::post('store', ['uses' => 'Audience@store', 'as' => 'audience.store', 'middleware' => 'IsAjax']);
+            Route::get('{audienceId}/edit', ['uses' => 'Audience@edit', 'as' => 'audience.edit']);
+            Route::get('{audienceId}', ['uses' => 'Audience@show', 'as' => 'audience.show', 'middleware' => 'IsAjax']);
+            Route::match(['PUT', 'PATCH'], 'update/{audienceId}', ['uses' => 'Audience@update', 'as' => 'audience.update', 'middleware' => 'IsAjax']);
+            Route::delete('{audienceId}', ['uses' => 'Audience@destroy', 'as' => 'audience.delete']);
+            Route::post('validate', ['uses' => 'Audience@validateAudienceLayer', 'as' => 'audience.validate', 'middleware' => 'IsAjax']);
+        });
+    });
+
     Route::group(['namespace' => 'Masters', 'prefix' => 'masters'], function() {
 
         Route::group(['prefix' => 'activity'], function() {
@@ -101,39 +137,6 @@ Route::group(['middleware' => 'auth'], function() {
         });
     });
 
-    Route::group(['prefix' => 'audience'], function() {
-        Route::get('/', ['uses' => 'Audience@index', 'as' => 'audience.index']);
-        Route::post('bootgrid', ['uses' => 'Audience@bootgrid', 'as' => 'audience.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Audience@create', 'as' => 'audience.create']);
-        Route::post('store', ['uses' => 'Audience@store', 'as' => 'audience.store', 'middleware' => 'IsAjax']);
-        Route::get('{audienceId}/edit', ['uses' => 'Audience@edit', 'as' => 'audience.edit']);
-        Route::get('{audienceId}', ['uses' => 'Audience@show', 'as' => 'audience.show', 'middleware' => 'IsAjax']);
-        Route::match(['PUT', 'PATCH'], 'update/{audienceId}', ['uses' => 'Audience@update', 'as' => 'audience.update', 'middleware' => 'IsAjax']);
-        Route::delete('{audienceId}', ['uses' => 'Audience@destroy', 'as' => 'audience.delete']);
-        Route::post('validate', ['uses' => 'Audience@validateAudienceLayer', 'as' => 'audience.validate', 'middleware' => 'IsAjax']);
-    });
-
-    Route::group(['prefix' => 'layerQuestion'], function() {
-        Route::get('/', ['uses' => 'Layer@index', 'as' => 'layerQuestion.index']);
-        Route::post('bootgrid', ['uses' => 'Layer@bootgrid', 'as' => 'layerQuestion.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Layer@create', 'as' => 'layerQuestion.create']);
-        Route::post('store', ['uses' => 'Layer@store', 'as' => 'layerQuestion.store', 'middleware' => 'IsAjax']);
-        Route::get('{layerId}/edit', ['uses' => 'Layer@edit', 'as' => 'layerQuestion.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{layerId}', ['uses' => 'Layer@update', 'as' => 'layerQuestion.update', 'middleware' => 'IsAjax']);
-        Route::delete('{layerId}', ['uses' => 'Layer@destroy', 'as' => 'layerQuestion.delete']);
-        Route::get('l/{id}', ['uses' => 'Layer@layer', 'as' => 'layerQuestion.layer']);
-    });
-
-    Route::group(['prefix' => 'question'], function() {
-        Route::get('/', ['uses' => 'Question@index', 'as' => 'question.index']);
-        Route::post('bootgrid', ['uses' => 'Question@bootgrid', 'as' => 'question.bootgrid', 'middleware' => 'IsAjax']);
-        Route::get('create', ['uses' => 'Question@create', 'as' => 'question.create']);
-        Route::post('store', ['uses' => 'Question@store', 'as' => 'question.store', 'middleware' => 'IsAjax']);
-        Route::get('{questionId}/edit', ['uses' => 'Question@edit', 'as' => 'question.edit']);
-        Route::match(['PUT', 'PATCH'], 'update/{questionId}', ['uses' => 'Question@update', 'as' => 'question.update', 'middleware' => 'IsAjax']);
-        Route::delete('{questionId}', ['uses' => 'Question@destroy', 'as' => 'question.delete']);
-    });
-
     Route::group(['prefix' => 'upload'], function() {
         Route::get('/', ['uses' => 'Upload@index', 'as' => 'upload.index']);
         Route::post('bootgrid', ['uses' => 'Upload@bootgrid', 'as' => 'upload.bootgrid', 'middleware' => 'IsAjax']);
@@ -145,5 +148,4 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('upload', ['uses' => 'Upload@upload', 'as' => 'upload.upload']);
         Route::get('download', ['uses' => 'Upload@download', 'as' => 'upload.download']);
     });
-
 });

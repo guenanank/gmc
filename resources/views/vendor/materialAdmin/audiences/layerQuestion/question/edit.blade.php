@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal fade" id="edit" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         {{ Form::model($question, ['route' => ['question.update', $question], 'method' =>'patch', 'class' => 'layerQuestion']) }}
         <div class="modal-content">
@@ -8,16 +8,18 @@
             <div class="modal-body">
                 {{ Form::hidden('layerId', $question->layerId) }}
                 <br />
+                
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="form-group">
                             <div class="fg-line">
                                 {{ Form::text('questionTypeName', $question->questionType, ['class' => 'form-control', 'disabled' => true]) }}
-                                {{ Form::hidden('questionType', $question->questionType) }}
+                                {{ Form::hidden('questionType', camel_case($question->questionType)) }}
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="row master {{ isset($question->masterId) ? null : 'hide' }}">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -45,6 +47,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row questionAnswer {{ isset($question->questionAnswer) ? null : 'hide' }}">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -57,6 +60,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row questionFormType {{ isset($question->questionFormType) ? null : 'hide' }}">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -71,6 +75,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -83,6 +88,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />

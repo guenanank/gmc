@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Audiences <small>Master data of audience.</small></h2>
-        <a href="{{ action('Audience@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Audiences">
+        <a href="{{ action('Audiences\Audience@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Audiences">
             <i class="add-new-item zmdi zmdi-plus"></i>
         </a>
 
@@ -72,8 +72,8 @@
                     return activities.join(', ');
                 },
                 commands: function (column, row) {
-                    var detail = '<a data-href="{{ url("audience/") }}/' + row.audienceId + '" class="bgm-orange command-detail btn btn-default btn-icon waves-effect waves-circle"><i class="zmdi zmdi-search-in-file"></i></a>&nbsp; ';
-                    var edit = '<a href="{{ url("audience") }}/' + row.audienceId + '/edit" class="bgm-blue command-edit btn btn-default btn-icon waves-effect waves-circle" title="Edit"><i class="zmdi zmdi-edit"></i></a>&nbsp; ';
+                    var detail = '<a data-href="{{ url("audiences/audience/") }}/' + row.audienceId + '" class="bgm-orange command-detail btn btn-default btn-icon waves-effect waves-circle"><i class="zmdi zmdi-search-in-file"></i></a>&nbsp; ';
+                    var edit = '<a href="{{ url("audiences/audience") }}/' + row.audienceId + '/edit" class="bgm-blue command-edit btn btn-default btn-icon waves-effect waves-circle" title="Edit"><i class="zmdi zmdi-edit"></i></a>&nbsp; ';
                     var del = '<button type="button" class="bgm-red command-delete btn btn-default btn-icon waves-effect waves-circle" data-row-id="' + row.audienceId + '" title="Delete"><i class="zmdi zmdi-delete"></i></button>';
                     return detail + edit + del;
                 }
@@ -88,6 +88,9 @@
             });
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
+                $(this).ajaxDelete({
+                    //url: 'audiences/layerQuestion/'
+                });
             });
         });
     })(jQuery);

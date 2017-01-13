@@ -31,14 +31,14 @@ class Profession extends Model {
     }
     
     public static function lists() {
-        $lists = ['' => ''];
-        $professions = self::get()->pluck('professionName', 'professionId')->prepend(null);
-        foreach (self::select('professionId', 'professionName', 'professionSubFrom')->get() as $profession) :
-            $parent = $professions[$profession->professionSubFrom];
-            if(is_null($parent)) :
+        $lists = [];
+        $professions = self::select('professionId', 'professionName', 'professionSubFrom')->orderBy('professionId', 'ASC')->get();
+        foreach($professions as $profession) :
+            $parent = $professions->where('professionId', (int) $profession->professionSubFrom);
+            if($parent->isEmpty()) :
                 $lists[$profession->professionId] = $profession->professionName;
             else :
-                $lists[$profession->professionId] = $parent . ' - ' . $profession->professionName;
+                $lists[$profession->professionId] = $parent->first()->professionName . ' - ' . $profession->professionName;
             endif;
         endforeach;
         

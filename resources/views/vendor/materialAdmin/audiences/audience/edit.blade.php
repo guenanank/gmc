@@ -3,7 +3,7 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard', 'GMC') }}</li>
-    <li>{{ link_to('audience', 'Audience') }}</li>
+    <li>{{ link_to('audiences/audience', 'Audience') }}</li>
     <li class="active">Edit</li>
 </ol>
 @stop
@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Edit Audience <small>Master data of audience.</small></h2>
-        <a href="{{ action('Audience@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Audiences\Audience@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
@@ -49,26 +49,34 @@
                 </div>
             </div>
         </div>
-        
-        <div class="form-wizard-audience fw-container">
-            <ul class="tab-nav text-center">
-                @foreach($audience->layers as $tabNav)
-                    <li>{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
-                @endforeach
-            </ul>
-            <div class="tab-content">
-                @foreach($audience->layers as $tabContent)
-                    {{ dd($tabContent) }}
-                @endforeach
+        @if($layers->isEmpty() == false)
+            <div class="form-wizard-audience fw-container">
+                <ul class="tab-nav text-center">
+                    @foreach($layers as $tabNav)
+                        <li>{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
+                    @endforeach     
+                </ul>
+                <div class="tab-content">
+                    @foreach($layers as $tabContent)
+                        <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
+                            {{ Form::hidden('layerId', $tabContent->layerId) }}
+                        </div>
+                    @endforeach
+                </div>
+                <ul class="fw-footer pagination wizard">
+                    <li class="previous"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
+                    <li class="next"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
+                    <li class="finish"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-check"></i></a></li>
+                </ul>
             </div>
-            <ul class="fw-footer pagination wizard">
-                <li class="previous"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
-                <li class="next"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
-                <li class="finish"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-check"></i></a></li>
-            </ul>
-        </div>
-        <br />
-        <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect"><i class="zmdi zmdi-square-right"></i>SUBMIT</button>
+            <br />
+            <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect">
+                <i class="zmdi zmdi-square-right"></i>SUBMIT
+            </button>
+        @else
+            <br />
+            <p class="text-center">No layer questions, please create one {{ link_to('layerQuestion', 'here') }}</p>
+        @endif
     </div>
     {{ Form::close() }}
 </div>
@@ -80,7 +88,7 @@
 {{ Html::script('js/validateAudience.js') }}
 <script type="text/javascript">
     (function ($) {
-        var target = '{{ url("audience/validate") }}';
+        var target = '{{ url("audiences/audience/validate") }}';
         $('.form-wizard-audience').bootstrapWizard({
             tabClass: 'fw-nav',
             nextSelector: '.next',
@@ -111,6 +119,8 @@
         });
 
         $(document).bind('ajaxComplete', function() {
+            $(':input').not('input[type="hidden"]').val(null);
+            $('.selectpicker').selectpicker('deselectAll');
             $('.btnSubmit').addClass('hide');
         });
 

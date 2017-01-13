@@ -106,7 +106,7 @@
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
                 $(this).ajaxDelete({
-                    url: 'activity/' + $(this).data('row-id')
+                    url: 'masters/activity/'
                 });
             });
         });

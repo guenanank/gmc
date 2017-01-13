@@ -12,6 +12,7 @@ class Question extends Model {
         'questionType',
         'masterId',
         'questionText',
+        'questionSubText',
         'questionAnswer',
         'questionDesc',
         'questionFormType',
@@ -48,21 +49,22 @@ class Question extends Model {
             'trueOrFalse' => 'True Or False',
             'useMaster' => 'Use Master'
         ];
-        
-        return $questionType[camel_case($type)];
+
+
+        return is_null($type) ? $questionType : $questionType[camel_case($type)];
     }
 
     public static function questionFormType() {
         return [
-            '' => '',
+            null => null,
             'text' => 'Text',
             'textarea' => 'Textarea',
-            'hidden' => 'Hidden',
+            //'hidden' => 'Hidden',
             'password' => 'Password',
             'email' => 'Email',
-            'file' => 'File',
-            'checkbox' => 'Checkbox',
-            'radio' => 'Radio',
+            //'file' => 'File',
+            //'checkbox' => 'Checkbox',
+            //'radio' => 'Radio',
             'number' => 'Number',
             'date' => 'Date',
             'select' => 'Select'
@@ -105,6 +107,14 @@ class Question extends Model {
             return $answer;
         }
 
+        return $value;
+    }
+    
+    public function getQuestionSubTextAttribute($value) {
+        if(!empty($value)) :
+            return collect(json_decode($value));
+        endif;
+        
         return $value;
     }
 

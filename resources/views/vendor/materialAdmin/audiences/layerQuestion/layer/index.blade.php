@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Layer Questions <small>Master data of layer question.</small></h2>
-        <a href="{{ action('Layer@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Layer Questions">
+        <a href="{{ action('Audiences\Layer@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Create New Layer Questions">
             <i class="zmdi zmdi-plus"></i>
         </a>
 
@@ -55,8 +55,8 @@
             },
             formatters: {
                 commands: function (column, row) {
-                    var questionList = '<a href="{{ url("layerQuestion") }}/l/' + row.layerId + '" data-toggle="tooltip" class="btn btn-icon bgm-amber" title="' + row.layerName + ' Question List"><span class="zmdi zmdi-view-list-alt"></span></a>&nbsp;';
-                    var edit = '<a href="{{ url("layerQuestion") }}/' + row.layerId + '/edit" data-toggle="tooltip" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.layerName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp;';
+                    var questionList = '<a href="{{ url("audiences/layerQuestion") }}/l/' + row.layerId + '" data-toggle="tooltip" class="btn btn-icon bgm-amber" title="' + row.layerName + ' Question List"><span class="zmdi zmdi-view-list-alt"></span></a>&nbsp;';
+                    var edit = '<a href="{{ url("audiences/layerQuestion") }}/' + row.layerId + '/edit" data-toggle="tooltip" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.layerName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp;';
                     var del = '<button data-toggle="tooltip" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.layerId + '" title="Delete ' + row.layerName + '"><span class="zmdi zmdi-delete"></span></button>';
                     return  questionList + edit + del;
                 }
@@ -64,7 +64,9 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                deletes('layerQuestion', $(this).data('row-id'));
+                $(this).ajaxDelete({
+                    url: 'audiences/layerQuestion/'
+                });
             });
         });
     })(jQuery);

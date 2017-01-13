@@ -3,7 +3,7 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
     <li>{{ link_to('dashboard/', 'GMC') }}</li>
-    <li>{{ link_to('audience', 'Audience') }}</li>
+    <li>{{ link_to('audiences/audience', 'Audience') }}</li>
     <li class="active">Create</li>
 </ol>
 @stop
@@ -12,7 +12,7 @@
 <div class="card">
     <div class="card-header">
         <h2>Create New Audience <small>Master data of audience.</small></h2>
-        <a href="{{ action('Audience@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
+        <a href="{{ action('Audiences\Audience@index') }}" class="btn bgm-orange pull-right m-r-10 btn-icon" data-toggle="tooltip" data-placement="left" title="Back">
             <i class="zmdi zmdi-arrow-left"></i>
         </a>
     </div>
@@ -74,11 +74,11 @@
                                                         if($format->nested) :
                                                             $lists = '[]';
                                                         else :
-                                                            $lists = $client->options($target, ['query' => ['token' => $token, 'connect_timeout' => 5]])->getBody();
+                                                            $lists = $client->options($target, ['query' => ['token' => $token]])->getBody();
                                                         endif;
                                                     ?>
                                                     @if($format->multiple)
-                                                        {{ Form::select($format->name, json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
+                                                        {{ Form::select($format->name . '[]', json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
                                                     @else
                                                         {{ Form::select($format->name, json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'title' => 'Choose ' . $format->name]) }}
                                                     @endif
@@ -93,7 +93,7 @@
                                                     
                                                     {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
                                                     @if($format->multiple)
-                                                        {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
+                                                        {{ Form::select($format->name . '[]', $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
                                                     @else
                                                         {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'title' => 'Choose ' . $format->name]) }}
                                                     @endif
@@ -154,8 +154,7 @@
 <script type="text/javascript">
     
     (function ($) {
-        var target = 'audience/validate';
-//        var target = baseUrl + '/audience/validate';
+        var target = '{{ url("audiences/audience/validate") }}';
         $('.form-wizard-audience').bootstrapWizard({
             tabClass: 'fw-nav',
             nextSelector: '.next',
@@ -186,6 +185,8 @@
         });
 
         $(document).bind('ajaxComplete', function () {
+            $(':input').not('input[type="hidden"]').val(null);
+            $('.selectpicker').selectpicker('deselectAll');
             $('.btnSubmit').addClass('hide');
         });
 

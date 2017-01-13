@@ -1,6 +1,6 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Audiences;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use GMC\Http\Controllers\Controller;
 use GMC\Services\Facades\Audience as Audiences;
 use Validator;
 
-class Audience extends Controller {
+class Audience extends \GMC\Http\Controllers\Controller {
 
     private $request;
     protected $master;
@@ -65,8 +65,8 @@ class Audience extends Controller {
                         ], 200);
     }
 
-    public function validateAudienceLayer(Request $request) {
-        return Audiences::validateAudienceLayer($request);
+    public function validateAudienceLayer() {
+        return Audiences::validateAudienceLayer($this->request);
     }
 
     public function create() {
@@ -78,37 +78,22 @@ class Audience extends Controller {
         return view('vendor.materialAdmin.audiences.audience.create', compact('token', 'api', 'client', 'activities', 'layers'));
     }
 
-    public function store(Request $request) {
-        $validator = Validator::make($request->all(), Audiences::Audience()->rules() + Audiences::AudienceActivity()->rules());
+    public function store() {
+        $validator = Validator::make($this->request->all(), Audiences::Audience()->rules() + Audiences::AudienceActivity()->rules());
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
 
-        $create = Audiences::Audience()->create($request->all());
-        foreach (Audiences::Layer()->select('layerId')->get() as $l) :
-            dd($l);
-            $audienceLayerResponse = [];
-            foreach (Audiences::Question()->where('layerId', $l->layerId)->get() as $q) :
-                $questionText = camel_case($q->questionText);
-                if (array_key_exists($questionText, $request->all())) :
-                    $audienceLayerResponse[$q->questionId] = $request->input($questionText);
-                endif;
-            endforeach;
-
-            Audiences::Layer()->create([
-                'audienceId' => $create->audienceId,
-                'layerId' => $l->layerId,
-                'audienceLayerResponse' => collect($audienceLayerResponse)->toJson()
-            ]);
-        endforeach;
-
-        foreach ($request->activityId as $activityId) :
-            Audiences::AudienceActivity()->create([
+        $create = Audiences::Audience()->create($this->request->all());
+        foreach ($this->request->activityId as $activityId) :
+            $audienceActivity = [
                 'activityId' => $activityId,
                 'audienceId' => $create->audienceId
-            ]);
+            ];
         endforeach;
-
+        Audiences::AudienceActivity()->insert($audienceActivity);
+        
+        $this->audienceLayerResponse($create->audienceId);
         return response()->json(['create' => $create], 200);
     }
 
@@ -118,9 +103,10 @@ class Audience extends Controller {
     }
 
     public function edit($id) {
+        $layers = Audiences::Layer()->with('questions.master')->get();
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $audience = Audiences::Audience()->with('layers.questions.master', 'activities')->find($id);
-        return view('vendor.materialAdmin.audiences.audience.edit', compact('activities', 'audience'));
+        return view('vendor.materialAdmin.audiences.audience.edit', compact('activities', 'audience', 'layers'));
     }
 
     public function update(Request $request, $id) {
@@ -135,34 +121,49 @@ class Audience extends Controller {
         Audiences::AudienceLayer()->where('audienceId', $audience->audienceId)->delete();
         Audiences::Activity()->where('audienceId', $audience->audienceId)->delete();
 
-        foreach (Audiences::Layer()->select('layerId')->all() as $l) :
-            $audienceLayerResponse = [];
-            foreach (Audiences::Question()->where('layerId', $l->layerId)->get() as $q) :
-                $questionText = camel_case($q->questionText);
-                if (array_key_exists($questionText, $request->all())) :
-                    $audienceLayerResponse[$q->questionId] = $request->input($questionText);
-                endif;
-            endforeach;
-
-            Audiences::AudienceLayer()->create([
-                'audienceId' => $audience->audienceId,
-                'layerId' => $l->layerId,
-                'audienceLayerResponse' => collect($audienceLayerResponse)->toJson()
-            ]);
-        endforeach;
-
+        $audienceActivity = [];
         foreach ($request->activityId as $activityId) :
-            Audiences::AudienceActivity()->create([
+            $audienceActivity = [
                 'activityId' => $activityId,
                 'audienceId' => $audience->audienceId
-            ]);
+            ];
         endforeach;
-
+        Audiences::AudienceActivity()->insert($audienceActivity);
+        $this->audienceLayerResponse($audience->audienceId);
         return response()->json(['update' => $update], 200);
     }
 
     public function destroy($id) {
         //
+    }
+
+    private function audienceLayerResponse($audienceId) {
+        foreach (Audiences::Layer()->select('layerId')->with('questions.master')->get() as $l) :
+            $audienceLayerResponse = collect([]);
+            foreach ($l->questions as $q) :
+                if (is_null($q->master) == false && $q->master->masterUseAPI) :
+                    $questionSubText = [];
+                    foreach ($q->questionSubText as $row) :
+                        if($q->master->masterFormat->where('name', $row)->first()->form) :
+                            $questionSubText[$row] = $this->request->input($row);
+                        endif;
+                    endforeach;
+                    $audienceLayerResponse->put($q->questionId, $questionSubText);
+                else :
+                    $questionText = camel_case(str_singular($q->questionText));
+                    if (array_key_exists($questionText, $this->request->all())) :
+                        $audienceLayerResponse->put($q->questionId, $this->request->input($questionText));
+                    endif;
+                endif;
+            endforeach;
+
+            Audiences::AudienceLayer()->create([
+                'audienceId' => $audienceId,
+                'layerId' => $l->layerId,
+                'audienceLayerResponse' => $audienceLayerResponse->toJson()
+            ]);
+
+        endforeach;
     }
 
 }

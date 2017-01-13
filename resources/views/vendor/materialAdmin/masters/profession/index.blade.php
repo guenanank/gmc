@@ -63,9 +63,8 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                var professionId = $(this).data('row-id');
                 $(this).ajaxDelete({
-                    url: 'profession/' + professionId
+                    url: 'masters/profession/'
                 });
             });
         });

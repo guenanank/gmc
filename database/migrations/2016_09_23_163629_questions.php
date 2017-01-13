@@ -14,6 +14,7 @@ class Questions extends Migration {
             $table->integer('masterId')->unsigned()->nullable()->index();
             $table->string('questionType', 31);
             $table->string('questionText', 255);
+            $table->text('questionSubText')->nullable();
             $table->text('questionAnswer')->nullable();
             $table->text('questionDesc')->nullable();
             $table->string('questionFormType', 31)->nullable();

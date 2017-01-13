@@ -31,14 +31,14 @@ class Hobby extends Model {
     }
     
     public static function lists() {
-        $lists = ['' => ''];
-        $hobbies = self::get()->pluck('hobbyName', 'hobbyId')->prepend(null);
-        foreach (self::select('hobbyId', 'hobbyName', 'hobbySubFrom')->get() as $hobby) :
-            $parent = $hobbies[$hobby->hobbySubFrom];
-            if(is_null($parent)) :
+        $lists = [];
+        $hobbies = self::select('hobbyId', 'hobbyName', 'hobbySubFrom')->orderBy('hobbyId', 'ASC')->get();
+        foreach($hobbies as $hobby) :
+            $parent = $hobbies->where('hobbyId', (int) $hobby->hobbySubFrom);
+            if($parent->isEmpty()) :
                 $lists[$hobby->hobbyId] = $hobby->hobbyName;
             else :
-                $lists[$hobby->hobbyId] = $parent . ' - ' . $hobby->hobbyName;
+                $lists[$hobby->hobbyId] = $parent->first()->hobbyName . ' - ' . $hobby->hobbyName;
             endif;
         endforeach;
         

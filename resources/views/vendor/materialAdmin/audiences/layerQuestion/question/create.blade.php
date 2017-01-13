@@ -1,4 +1,4 @@
-<div class="modal fade" id="create" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="create" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         {{ Form::open(['route' => 'question.store', 'class' => 'layerQuestion']) }}
         <div class="modal-content">
@@ -21,6 +21,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row master hide">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -35,6 +36,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row questionText hide">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -47,6 +49,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row questionAnswer hide">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -60,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row questionFormType hide">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -75,7 +78,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -88,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -102,6 +106,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="modal-footer">
                 <button class="btn btn-primary btn-icon-text waves-effect" type="submit">
                     <i class="zmdi zmdi-check"></i> Save
