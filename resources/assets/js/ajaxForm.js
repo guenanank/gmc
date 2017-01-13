@@ -67,7 +67,7 @@
 
             var ajaxSetup = {
                 type: 'POST',
-                url: setting.url,
+                url: setting.url + $(this).data('row-id'),
                 data: {_method: 'DELETE'},
                 statusCode: {
                     200: function (del) {

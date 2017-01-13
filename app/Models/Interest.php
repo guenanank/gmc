@@ -31,14 +31,14 @@ class Interest extends Model {
     }
     
     public static function lists() {
-        $lists = ['' => ''];
-        $interests = self::get()->pluck('interestName', 'interestId')->prepend(null);
-        foreach (self::select('interestId', 'interestName', 'interestSubFrom')->get() as $interest) :
-            $parent = $interests[$interest->interestSubFrom];
-            if(is_null($parent)) :
+        $lists = [];
+        $interests = self::select('interestId', 'interestName', 'interestSubFrom')->orderBy('interestId', 'ASC')->get();
+        foreach($interests as $interest) :
+            $parent = $interests->where('interestId', (int) $interest->interestSubFrom);
+            if($parent->isEmpty()) :
                 $lists[$interest->interestId] = $interest->interestName;
             else :
-                $lists[$interest->interestId] = $parent . ' - ' . $interest->interestName;
+                $lists[$interest->interestId] = $parent->first()->interestName . ' - ' . $interest->interestName;
             endif;
         endforeach;
         

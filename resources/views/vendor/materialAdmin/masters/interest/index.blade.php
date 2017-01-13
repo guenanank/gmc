@@ -63,9 +63,8 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                var interestId = $(this).data('row-id');
                 $(this).ajaxDelete({
-                    url: 'interest/' + interestId
+                    url: 'masters/interest/'
                 });
             });
         });

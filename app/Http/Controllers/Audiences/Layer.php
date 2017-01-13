@@ -1,13 +1,13 @@
 <?php
 
-namespace GMC\Http\Controllers;
+namespace GMC\Http\Controllers\Audiences;
 
 use Validator;
 use Illuminate\Http\Request;
 use GMC\Http\Requests;
 use GMC\Services\Facades\Audience as Audiences;
 
-class Layer extends Controller {
+class Layer extends \GMC\Http\Controllers\Controller {
 
     public function index() {
         return view('vendor.materialAdmin.audiences.layerQuestion.layer.index');
@@ -36,13 +36,18 @@ class Layer extends Controller {
             endforeach;
         endif;
 
-        $rows = Audiences::Layer()->where('layerName', 'LIKE', '%' . $search . '%')
-                        ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
-                        ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+        if (empty($search)) :
+            $rows = Audiences::Layer()->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
+            $total = Audiences::Layer()->count();
+        else :
+            $rows = Audiences::Layer()->where('layerName', 'LIKE', '%' . $search . '%')
+                            ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
+                            ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)->get();
 
-        $total = Audiences::Layer()->where('layerName', 'LIKE', '%' . $search . '%')
-                ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
-                ->count();
+            $total = Audiences::Layer()->where('layerName', 'LIKE', '%' . $search . '%')
+                    ->orWhere('layerDesc', 'LIKE', '%' . $search . '%')
+                    ->count();
+        endif;
 
         return response()->json([
                     'current' => (int) $current,
@@ -86,6 +91,7 @@ class Layer extends Controller {
     public function destroy($id) {
         $layer = Audiences::Layer()->findOrFail($id);
         $delete = $layer->delete();
+        Audiences::Question()->where('layerId', $layer->layerId)->delete();
         return response()->json($delete, 200);
     }
 

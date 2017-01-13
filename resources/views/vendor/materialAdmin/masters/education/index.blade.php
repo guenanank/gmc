@@ -58,9 +58,8 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
-                var educationId = $(this).data('row-id');
                 $(this).ajaxDelete({
-                    url: 'education/' + educationId
+                    url: 'masters/education/'
                 });
             });
         });

@@ -43,6 +43,7 @@
                 async: false,
                 beforeSend: function () {
                     $clear(false);
+                    $('.page-loader').fadeIn();
                 },
                 statusCode: {
                     200: function (data) {
@@ -80,9 +81,11 @@
 
             $.ajax().done(function (data, msg, jqXHR) {
                 $flag = true;
+                $('.page-loader').fadeOut();
                 setting.callback.call(jqXHR);
             }).fail(function (jqXHR) {
                 $flag = false;
+                $('.page-loader').fadeOut();
                 setting.callback.call(jqXHR);
             });
 
