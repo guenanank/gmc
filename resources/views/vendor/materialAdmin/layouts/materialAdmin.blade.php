@@ -184,6 +184,7 @@
 
     <!-- Form -->
     {{ Html::script('js/bootstrap-select.min.js') }}
+    
     {{ Html::script('js/nouislider.min.js') }}
     {{ Html::script('js/jquery.placeholder.min.js') }}
     {{ Html::script('js/autosize.min.js') }}

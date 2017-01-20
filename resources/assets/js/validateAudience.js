@@ -30,8 +30,9 @@
             var $clear = function (create) {
                 if (create) {
                     $('form').find(':input').trigger('blur');
-                    $('.selectpicker').selectpicker('deselectAll');
                 }
+
+                $('.selectpicker').selectpicker('refresh');
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
             };
@@ -43,7 +44,9 @@
                 async: false,
                 beforeSend: function () {
                     $clear(false);
-                    $('.page-loader').fadeIn();
+                    setTimeout(function () {
+                        $('.page-loader').fadeIn();
+                    }, 1000);
                 },
                 statusCode: {
                     200: function (data) {
@@ -81,13 +84,13 @@
 
             $.ajax().done(function (data, msg, jqXHR) {
                 $flag = true;
-                $('.page-loader').fadeOut();
                 setting.callback.call(jqXHR);
             }).fail(function (jqXHR) {
                 $flag = false;
-                $('.page-loader').fadeOut();
                 setting.callback.call(jqXHR);
             });
+
+            $('.page-loader').fadeOut();
 
         });
 

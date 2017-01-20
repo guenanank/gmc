@@ -45,5 +45,13 @@ class Audience extends Model {
     public function layers() {
         return $this->belongsToMany('\GMC\Models\Layer', 'audienceLayer', 'audienceId', 'layerId')->withPivot('audienceLayerResponse');
     }
+    
+    public function audienceActivities() {
+        return $this->hasMany('\GMC\Models\AudienceActivity', 'audienceId');
+    }
+    
+    public function audienceLayers() {
+        return $this->hasMany('\GMC\Models\AudienceLayer', 'audienceId');
+    }
 
 }
