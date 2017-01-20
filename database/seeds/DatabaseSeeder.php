@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MasterSeeder::class);
         $this->call(ProfessionSeeder::class);
         $this->call(SourceSeeder::class);
-        $this->call(LayerSeeder::class);
-        $this->call(QuestionSeeder::class);
+        //$this->call(LayerSeeder::class);
+        //$this->call(QuestionSeeder::class);
         $this->call(UsersTableSeeder::class);
     }
 }

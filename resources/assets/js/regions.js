@@ -39,10 +39,10 @@
                     $('#' + setting.target.name).selectpicker('refresh');
                 }
             });
-            
-            if(!$t.val()) {
+
+            $(this).on('changed.bs.select', function () {
                 $.ajax();
-            }
+            });
 
             setting.callback();
         });
