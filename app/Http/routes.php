@@ -10,11 +10,6 @@
   | and give it the controller to call when that URI is requested.
   |
  */
-Route::get('t', function() {
-    $master = GMC\Models\Master::select('masterName', 'masterUseAPI', 'masterFormat', 'masterNamespaces', 'masterRawQuery')->get()->toJson();
-    dd($master);
-});
-
 Route::get('phpinfo', function() {
     phpinfo();
 });
