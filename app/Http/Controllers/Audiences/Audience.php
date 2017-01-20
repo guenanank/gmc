@@ -92,7 +92,7 @@ class Audience extends \GMC\Http\Controllers\Controller {
             ];
         endforeach;
         Audiences::AudienceActivity()->insert($audienceActivity);
-        
+
         $this->audienceLayerResponse($create->audienceId);
         return response()->json(['create' => $create], 200);
     }
@@ -103,10 +103,14 @@ class Audience extends \GMC\Http\Controllers\Controller {
     }
 
     public function edit($id) {
-        $layers = Audiences::Layer()->with('questions.master')->get();
+        $token = $this->token;
+        $api = $this->api;
+        $client = $this->client;
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
-        $audience = Audiences::Audience()->with('layers.questions.master', 'activities')->find($id);
-        return view('vendor.materialAdmin.audiences.audience.edit', compact('activities', 'audience', 'layers'));
+        $layers = Audiences::Layer()->with('questions.master')->get();
+        $audience = Audiences::Audience()->with('audienceLayers', 'audienceActivities')->find($id);
+        //dd($audience);
+        return view('vendor.materialAdmin.audiences.audience.edit', compact('token', 'api', 'client', 'activities', 'audience', 'layers'));
     }
 
     public function update(Request $request, $id) {
@@ -144,7 +148,7 @@ class Audience extends \GMC\Http\Controllers\Controller {
                 if (is_null($q->master) == false && $q->master->masterUseAPI) :
                     $questionSubText = [];
                     foreach ($q->questionSubText as $row) :
-                        if($q->master->masterFormat->where('name', $row)->first()->form) :
+                        if ($q->master->masterFormat->where('name', $row)->first()->form) :
                             $questionSubText[$row] = $this->request->input($row);
                         endif;
                     endforeach;

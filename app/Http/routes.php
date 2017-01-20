@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('{activityId}/edit', ['uses' => 'Activity@edit', 'as' => 'activity.edit']);
             Route::match(['PUT', 'PATCH'], 'update/{activityId}', ['uses' => 'Activity@update', 'as' => 'activity.update', 'middleware' => 'IsAjax']);
             Route::delete('{activityId}', ['uses' => 'Activity@destroy', 'as' => 'activity.delete']);
+            Route::post('lists', ['uses' => 'Activity@lists', 'as' => 'activity.lists']);
         });
 
         Route::group(['prefix' => 'education'], function() {

@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 {{ Form::label('activityId', 'ACTIVITY', ['class' => 'f-500 c-black']) }}
-                {{ Form::select('activityId[]', $activities, null, ['class' => 'form-control fg-input selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true, 'title' => 'Choose Activities']) }}
+                {{ Form::select('activityId[]', [], null, ['class' => 'form-control fg-input ajax-select', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true, 'title' => 'Choose Activities']) }}
                 <small id="activityId" class="help-block"></small>
             </div>
         </div>
@@ -151,8 +151,8 @@
 {{ Html::script('js/regions.js') }}
 {{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/validateAudience.js') }}
+{{ Html::script('js/ajax-bootstrap-select.min.js') }}
 <script type="text/javascript">
-    
     (function ($) {
         var target = '{{ url("audiences/audience/validate") }}';
         $('.form-wizard-audience').bootstrapWizard({
@@ -183,6 +183,21 @@
                 });
             }
         });
+        
+        $('.ajax-select').selectpicker({liveSearch: true}).ajaxSelectPicker({
+            ajax: {
+                url: '{{ url("masters/activity/lists") }}',
+                data: function () {
+                    return {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        activityName: '@{{{q}}}'
+                    };
+                }
+            },
+            preprocessData: function(data) {
+                return data;
+            }
+        });
 
         $(document).bind('ajaxComplete', function () {
             $(':input').not('input[type="hidden"]').val(null);
@@ -192,4 +207,5 @@
 
     })(jQuery);
 </script>
+
 @endpush

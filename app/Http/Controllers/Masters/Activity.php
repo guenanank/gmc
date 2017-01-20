@@ -123,4 +123,16 @@ class Activity extends \GMC\Http\Controllers\Controller {
         return response()->json($delete, 200);
     }
 
+    public function lists() {
+        $return = [];
+        foreach (Activities::where('activityName', 'like', '%' . $this->request->input('activityName') . '%')->get() as $activity) :
+            $return[] = [
+                'value' => $activity->activityId,
+                'text' => $activity->activityName
+            ];
+        endforeach;
+
+        return $return;
+    }
+
 }

@@ -33,6 +33,7 @@ var paths = {
     sparkLine: bower + 'sparkline/src/',
     // Form
     select: bower + 'bootstrap-select/dist/',
+    ajaxSelect: bower + 'ajax-bootstrap-select/dist/',
     nouislider: bower + 'nouislider/distribute/',
     dateTimePicker: bower + 'eonasdan-bootstrap-datetimepicker/build/',
     placeHolder: bower + 'jquery-placeholder/',
@@ -58,6 +59,7 @@ elixir(function (mix) {
         paths.customScrollbar + 'jquery.mCustomScrollbar.min.css',
         //Form
         paths.select + 'css/bootstrap-select.min.css',
+        paths.ajaxSelect + 'css/ajax-bootstrap-select.min.css',
         paths.dropZone + 'dropzone.min.css',
         paths.nouislider + 'nouislider.min.css'
     ], null, bower);
@@ -81,6 +83,7 @@ elixir(function (mix) {
 
     // Form
     mix.scripts(paths.select + 'js/bootstrap-select.min.js', null, bower);
+    mix.scripts(paths.ajaxSelect + 'js/ajax-bootstrap-select.min.js', null, bower);
     mix.scripts(paths.nouislider + 'nouislider.min.js', null, bower);
     mix.scripts(paths.placeHolder + 'jquery.placeholder.min.js', null, bower);
     mix.scripts('resources/assets/js/input-mask.min.js', 'public/js/input-mask.min.js');
