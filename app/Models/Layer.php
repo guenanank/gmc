@@ -3,8 +3,11 @@
 namespace GMC\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Layer extends Model {
+    
+    use SoftDeletes;
 
     public $primaryKey = 'layerId';
     protected $fillable = ['layerName', 'layerDesc'];

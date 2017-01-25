@@ -17,6 +17,7 @@ class Layer extends \GMC\Http\Controllers\Controller {
         $layer = Audiences::Layer()->findOrFail($layerId);
         $questionType = Audiences::Question()->questionType();
         $formType = Audiences::Question()->questionFormType();
+        array_pop($formType);
         $masters = \GMC\Models\Master::lists('masterName', 'masterId')->all();
         return view('vendor.materialAdmin.audiences.layerQuestion.question.index', compact('layer', 'masters', 'questionType', 'formType'));
     }

@@ -43,7 +43,17 @@
             e.preventDefault();
             $.get($(this).data('href'), function (data) {
                 $(data).modal().on('shown.bs.modal', function () {
-                    $(this).find('[autofocus]').focus();
+                    var $t = $(this);
+                    var questionType = $t.find('input[name="questionType"]').val();
+                    $t.find('[autofocus]').focus();
+                    if (questionType == 'useMaster') {
+                        $t.find('.questionText, .questionAnswer, .questionFormType').addClass('hide');
+                    } else if (questionType == 'essay') {
+                        $t.find('.master, .questionAnswer').addClass('hide');
+                    } else if (questionType == 'multipleChoice' || questionType == 'trueOrFalse') {
+                        $t.find('.master, .questionFormType').addClass('hide');
+                    }
+
                 }).on('hidden.bs.modal', function () {
                     clearField({create: false});
                 });
@@ -71,8 +81,9 @@
             divModal.find('.master, .questionText, .questionAnswer, .questionFormType').addClass('hide');
         } else {
             $.each(response, function (k, v) {
-                if (k < response.length)
+                if (k < response.length) {
                     divModal.find('.' + k).addClass('hide');
+                }
             });
         }
 
@@ -82,17 +93,18 @@
         $('body').find('#bootgrid').bootgrid('reload');
     };
 
+    divModal.find('.master, .questionText, .questionAnswer, .questionFormType').addClass('hide');
     divModal.on('change', 'select[name="questionType"]', function () {
         var questionType = $(this).find("option:selected").val();
-        if (questionType === 'essay') {
+        if (questionType == 'essay') {
             divModal.find('.master, .questionAnswer').addClass('hide');
-            divModal.find('input[name="questionAnswer"], select[name="masterId"]').val(null).blur();
+            divModal.find('input[name="questionAnswer"], select[name="masterId"], select[name="questionFormType"]').val(null).blur();
             divModal.find('.questionText, .questionFormType').removeClass('hide');
-        } else if (questionType === 'multipleChoice' || questionType === 'trueOrFalse') {
-            divModal.find('.master').addClass('hide');
-            divModal.find('input[name="questionAnswer"], input[name="questionText"], select[name="masterId"], input[name="questionDesc"]').val(null).blur();
+        } else if (questionType == 'multipleChoice' || questionType == 'trueOrFalse') {
+            divModal.find('.master, .questionFormType').addClass('hide');
+            divModal.find('input[name="questionAnswer"], input[name="questionText"], select[name="masterId"], select[name="questionFormType"], input[name="questionDesc"]').val(null).blur();
             divModal.find('.questionText, .questionAnswer').removeClass('hide');
-        } else if (questionType === 'useMaster') {
+        } else if (questionType == 'useMaster') {
             divModal.find('.questionText, .questionAnswer, .questionFormType').addClass('hide');
             divModal.find('input[name="questionAnswer"], input[name="questionText"], select[name="questionFormType"], input[name="questionDesc"]').val(null).blur();
             divModal.find('.master').removeClass('hide');

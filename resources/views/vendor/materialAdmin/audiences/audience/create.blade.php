@@ -88,7 +88,7 @@
                                                 <div class="form-group fg-line">
                                                     <p class="f-500 c-black">
                                                         {{ ucwords($q->questionText) }}
-                                                        <small class="c-gray">{{ $q->questionDesc }}</small>
+                                                        <br /><small class="c-gray">{{ $q->questionDesc }}</small>
                                                     </p>
                                                     
                                                     {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
@@ -105,7 +105,7 @@
                                         <div class="form-group fg-line">
                                             <p class="f-500 c-black">
                                                 {{ ucwords($q->questionText) }}
-                                                <small class="c-gray">{{ $q->questionDesc }}</small>
+                                                <br /><small class="c-gray">{{ $q->questionDesc }}</small>
                                             </p>
                                             @if($q->questionType == 'True Or False' OR $q->questionType == 'Multiple Choice')
                                                 {{ Form::select(camel_case($q->questionText), ['' => ''] + $q->questionAnswer, null, ['class' => 'form-control fg-input input-sm selectpicker']) }}
@@ -160,7 +160,7 @@
             nextSelector: '.next',
             previousSelector: '.previous',
             onTabClick: function () {
-                return false;
+                //return false;
             },
             onNext: function (tab) {
                 return $(tab.children('a').attr('href')).validateAudience({

@@ -20,13 +20,13 @@
                     </div>
                 </div>
                 
-                <div class="row master {{ isset($question->masterId) ? null : 'hide' }}">
+                <div class="row master">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">
                             <div class="fg-line">
                                 <div class="select">
-                                    {{ Form::select('masterId', ['' => ''] + $masters, $question->masterId, ['class' => 'form-control', ($question->masterId > 0) ? 'autofocus' : false]) }}
+                                    {{ Form::select('masterId', $masters, $question->masterId, ['class' => 'form-control', ($question->masterId > 0) ? 'autofocus' : false]) }}
                                 </div>
                                 {{ Form::label('masterId', 'Master', ['class' => 'fg-label']) }}
                             </div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <div class="row questionText {{ isset($question->questionText) ? null : 'hide' }}">
+                <div class="row questionText">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 
-                <div class="row questionAnswer {{ isset($question->questionAnswer) ? null : 'hide' }}">
+                <div class="row questionAnswer">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 
-                <div class="row questionFormType {{ isset($question->questionFormType) ? null : 'hide' }}">
+                <div class="row questionFormType">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">

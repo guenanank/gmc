@@ -72,7 +72,7 @@ class Question extends \GMC\Http\Controllers\Controller {
     }
 
     public function store(Request $request) {
-        Audiences::Question()->rules(['masterId' => 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $request->layerId]);
+        Audiences::Question()->rules(['masterId' => 'required_if:questionType,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $request->layerId]);
         $validator = Validator::make($request->all(), Audiences::Question()->rules());
 
         if ($validator->fails()) :
@@ -86,6 +86,10 @@ class Question extends \GMC\Http\Controllers\Controller {
                 $request->merge(['questionSubText' => $subText->toJson()]);
             endif;
         endif;
+        
+        if($request->input('questionType') != 'essay') :
+            $request->merge(['questionFormType' => 'select']);
+        endif;
 
         $create = Audiences::Question()->create($request->all());
         return response()->json(['create' => $create], 200);
@@ -93,6 +97,7 @@ class Question extends \GMC\Http\Controllers\Controller {
 
     public function edit($id) {
         $formType = Audiences::Question()->questionFormType();
+        array_pop($formType);
         $question = Audiences::Question()->with('layer')->findOrFail($id);
         $masters = $this->master->lists('masterName', 'masterId')->all();
         return view('vendor.materialAdmin.audiences.layerQuestion.question.edit', compact('question', 'formType', 'masters'));
@@ -100,7 +105,7 @@ class Question extends \GMC\Http\Controllers\Controller {
 
     public function update(Request $request, $id) {
         $question = Audiences::Question()->findOrFail($id);
-        Audiences::Question()->rules(['masterId' => 'required_if:questionTypeId,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $question->layerId]);
+        Audiences::Question()->rules(['masterId' => 'required_if:questionType,useMaster|exists:masters,masterId|unique:questions,masterId,NULL,questionId,layerId,' . $question->layerId]);
 
         if ($request->has('questionIsMandatory') == false) :
             $request->merge(['questionIsMandatory' => false]);
@@ -117,6 +122,10 @@ class Question extends \GMC\Http\Controllers\Controller {
                 $subText = $master->masterFormat->where('form', true)->pluck('name');
                 $request->merge(['questionSubText' => $subText->toJson()]);
             endif;
+        endif;
+        
+        if($request->input('questionType') != 'essay') :
+            $request->merge(['questionFormType' => 'select']);
         endif;
 
         $request->merge(['questionType' => camel_case($request->questionType)]);
