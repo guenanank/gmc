@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 
-                <div class="row master hide">
+                <div class="row master">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 
-                <div class="row questionText hide">
+                <div class="row questionText">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 
-                <div class="row questionAnswer hide">
+                <div class="row questionAnswer">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="row questionFormType hide">
+                <div class="row questionFormType">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
                         <div class="form-group fg-float">

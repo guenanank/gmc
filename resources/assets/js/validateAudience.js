@@ -44,9 +44,7 @@
                 async: false,
                 beforeSend: function () {
                     $clear(false);
-                    setTimeout(function () {
-                        $('.page-loader').fadeIn();
-                    }, 1000);
+                    $('.page-loader').fadeIn();
                 },
                 statusCode: {
                     200: function (data) {

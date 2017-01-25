@@ -3,8 +3,11 @@
 namespace GMC\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model {
+    
+    use SoftDeletes;
 
     public $primaryKey = 'questionId';
     protected $fillable = [
@@ -36,7 +39,7 @@ class Question extends Model {
             'questionText' => 'required_if:questionType,essay|string|max:255',
             'questionAnswer' => 'required_if:questionType,multipleChoice|required_if:questionType,trueOrFalse|string|max:255',
             'questionDesc' => 'string|max:255',
-            'questionFormType' => 'required_unless:questionType,useMaster|string|max:31',
+            'questionFormType' => 'required_if:questionType,essay|string|max:31',
             'questionIsMandatory' => 'boolean'
         ]);
     }
@@ -59,12 +62,7 @@ class Question extends Model {
             null => null,
             'text' => 'Text',
             'textarea' => 'Textarea',
-            //'hidden' => 'Hidden',
-            'password' => 'Password',
             'email' => 'Email',
-            //'file' => 'File',
-            //'checkbox' => 'Checkbox',
-            //'radio' => 'Radio',
             'number' => 'Number',
             'date' => 'Date',
             'select' => 'Select'
@@ -92,8 +90,8 @@ class Question extends Model {
     }
 
     public function getQuestionTypeAttribute() {
-        $original = $this->getOriginal('questionType');
-        return self::questionType($original);
+        $value = $this->getOriginal('questionType');
+        return self::questionType($value);
     }
 
     public function getQuestionAnswerAttribute($value) {
