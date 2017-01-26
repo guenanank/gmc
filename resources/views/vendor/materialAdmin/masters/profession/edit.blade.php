@@ -33,15 +33,8 @@
         <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                <div class="form-group fg-float">
-                    <div class="fg-line">
-                        <div class="select">
-                            {{ Form::select('professionSubFrom', $professions, $profession->professionSubFrom, ['class' => 'form-control']) }}
-                        </div>
-                        {{ Form::label('professionSubFrom', 'Is Sub Profession From', ['class' => 'fg-label']) }}
-                    </div>
-                    <small id="professionSubFrom" class="help-block"></small>
-                </div>
+                {{ Form::select('professionSubFrom', $professions, $profession->professionSubFrom, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Sub Profession']) }}
+                <small id="professionSubFrom" class="help-block"></small>
             </div>
         </div>
         <br />

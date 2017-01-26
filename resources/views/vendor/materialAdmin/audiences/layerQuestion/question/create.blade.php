@@ -10,30 +10,16 @@
                 <br />
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        <div class="form-group fg-float">
-                            <div class="fg-line">
-                                <div class="select">
-                                    {{ Form::select('questionType', $questionType, null, ['class' => 'form-control']) }}
-                                </div>
-                                {{ Form::label('questionType', 'Question Type', ['class' => 'fg-label']) }}
-                            </div>
-                            <small id="questionType" class="help-block"></small>
-                        </div>
+                        {{ Form::select('questionType', $questionType, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Question Type']) }}
+                        <small id="questionType" class="help-block"></small>
                     </div>
                 </div>
                 
                 <div class="row master">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
-                        <div class="form-group fg-float">
-                            <div class="fg-line">
-                                <div class="select">
-                                    {{ Form::select('masterId', [''=>''] + $masters, null, ['class' => 'form-control']) }}
-                                </div>
-                                {{ Form::label('masterId', 'Master', ['class' => 'fg-label']) }}
-                            </div>
-                            <small id="masterId" class="help-block"></small>
-                        </div>
+                        {{ Form::select('masterId', $masters, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Master']) }}
+                        <small id="masterId" class="help-block"></small>
                     </div>
                 </div>
                 
@@ -67,15 +53,8 @@
                 <div class="row questionFormType">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
-                        <div class="form-group fg-float">
-                            <div class="fg-line">
-                                <div class="select">
-                                    {{ Form::select('questionFormType', $formType, null, ['class' => 'form-control']) }}
-                                </div>
-                                {{ Form::label('questionFormType', 'Question Form Type', ['class' => 'fg-label']) }}
-                            </div>
-                            <small id="questionFormType" class="help-block"></small>
-                        </div>
+                        {{ Form::select('questionFormType', $formType, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Form Type']) }}
+                        <small id="questionFormType" class="help-block"></small>
                     </div>
                 </div>
 
