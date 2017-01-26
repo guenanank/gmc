@@ -90,7 +90,6 @@
 
             $('#bootgrid').find('.command-copy').on('click', function () {
                 var clipboard = new Clipboard(this);
-                console.log(clipboard);
                 clipboard.on('success', function () {
                     swal({
                         title: null,
