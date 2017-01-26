@@ -24,7 +24,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('sourceId', [''=>''] + $sources, $activity->sourceId, ['class' => 'form-control']) }}
+                            {{ Form::select('sourceId', $sources, $activity->sourceId, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
                         </div>
                         {{ Form::label('sourceId', 'Choose Source Data', ['class' => 'fg-label']) }}
                     </div>
@@ -38,7 +38,7 @@
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         <div class="select">
-                            {{ Form::select('mediaGroupId', [''=>''] + $mediaGroups, $activity->mediaGroupId, ['class' => 'form-control']) }}
+                            {{ Form::select('mediaGroupId', $mediaGroups, $activity->mediaGroupId, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media Group']) }}
                         </div>
                         {{ Form::label('mediaGroupId', 'Choose Media Group', ['class' => 'fg-label']) }}
                     </div>

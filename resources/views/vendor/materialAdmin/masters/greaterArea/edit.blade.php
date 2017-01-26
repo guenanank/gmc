@@ -34,7 +34,7 @@
 
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('regencyId[]', $regencies, collect($greaterArea->regencies)->pluck('regencyId')->all(), ['class' => 'form-control selectpicker', 'multiple' => 'multiple', 'data-selected-text-format' => 'count', 'data-live-search' => true, 'title' => 'Select Regencies']) }}
+                {{ Form::select('regencyId[]', $regencies, collect($greaterArea->regencies)->pluck('regencyId')->all(), ['class' => 'form-control selectpicker', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true, 'title' => 'Select Regencies']) }}
                 <small id="regencyId" class="help-block"></small>
             </div>
         </div>

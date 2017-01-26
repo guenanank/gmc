@@ -33,15 +33,8 @@
         <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                <div class="form-group fg-float">
-                    <div class="fg-line">
-                        <div class="select">
-                            {{ Form::select('interestSubFrom', $interests, null, ['class' => 'form-control']) }}
-                        </div>
-                        {{ Form::label('interestSubFrom', 'Is Sub Interest From', ['class' => 'fg-label']) }}
-                    </div>
-                    <small id="interestSubFrom" class="help-block"></small>
-                </div>
+                {{ Form::select('interestSubFrom', $interests, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Sub Interest']) }}
+                <small id="interestSubFrom" class="help-block"></small>
             </div>
         </div>
         <br />

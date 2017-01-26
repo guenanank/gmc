@@ -21,14 +21,14 @@
         {{ Form::open(['route' => 'activity.store', 'class' => 'ajaxForm']) }}
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('sourceId', [''=>''] + $sources, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
+                {{ Form::select('sourceId', $sources, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
                 <small id="sourceId" class="help-block c-orange"></small>
             </div>
         </div>
         <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('mediaGroupId', [''=>''] + $mediaGroups, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media Group']) }}
+                {{ Form::select('mediaGroupId', $mediaGroups, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media Group']) }}
                 <small id="mediaGroupId" class="help-block c-orange"></small>
             </div>
         </div>
