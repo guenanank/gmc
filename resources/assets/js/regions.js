@@ -21,30 +21,29 @@
 
             var $t = $(this);
             
-            $.ajaxSetup({
-                url: setting.urlAPI + setting.target.name + '/' + $t.attr('id') + '/' + $t.val() + '?token=' + setting.token,
-                dataType: 'json',
-                method: 'GET',
-                beforeSend: function () {
-                    $('#' + setting.target.name + ' option').remove();
-                },
-                success: function (data) {
-                    $.each(data, function (k, v) {
-                        $('#' + setting.target.name)
-                                .append('<option value="'
-                                        + v[setting.target.index] + '">'
-                                        + v[setting.target.value] + '</option>');
-                    });
-
-                    $('#' + setting.target.name).selectpicker('refresh');
-                }
-            });
-
             $(this).on('changed.bs.select', function () {
-                $.ajax();
-            });
+                $.ajaxSetup({
+                    url: setting.urlAPI + setting.target.name + '/' + $t.attr('id') + '/' + $t.val() + '?token=' + setting.token,
+                    dataType: 'json',
+                    method: 'GET',
+                    beforeSend: function () {
+                        $('#' + setting.target.name + ' option').remove();
+                    },
+                    success: function (data) {
+                        $.each(data, function (k, v) {
+                            $('#' + setting.target.name)
+                                    .append('<option value="'
+                                            + v[setting.target.index] + '">'
+                                            + v[setting.target.value] + '</option>');
+                        });
 
-            setting.callback();
+                        $('#' + setting.target.name).selectpicker('refresh');
+                    }
+                });
+
+                $.ajax();
+                setting.callback();
+            });
         });
     };
 
