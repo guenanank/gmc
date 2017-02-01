@@ -10,9 +10,6 @@
   | and give it the controller to call when that URI is requested.
   |
  */
-Route::get('phpinfo', function() {
-    phpinfo();
-});
 
 Route::auth();
 Route::get('locked', ['uses' => 'LockScreen@get', 'as' => 'locked']);

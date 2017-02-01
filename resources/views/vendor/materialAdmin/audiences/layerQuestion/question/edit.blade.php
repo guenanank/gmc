@@ -81,6 +81,19 @@
                         <br />
                         <div class="form-group fg-float">
                             <div class="fg-line">
+                                {{ Form::number('questionSort', $question->questionSort, ['class' => 'form-control fg-input']) }}
+                                {{ Form::label('questionSort', 'Question Sort Order', ['class' => 'fg-label']) }}
+                            </div>
+                            <small id="questionSort" class="help-block"></small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <br />
+                        <div class="form-group fg-float">
+                            <div class="fg-line">
                                 {{ Form::text('questionDesc', $question->questionDesc, ['class' => 'form-control fg-input', isset($question->questionDesc) ? 'autofocus' : false]) }}
                                 {{ Form::label('questionDesc', 'Question Description', ['class' => 'fg-label']) }}
                             </div>

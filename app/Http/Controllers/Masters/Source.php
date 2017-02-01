@@ -49,7 +49,8 @@ class Source extends \GMC\Http\Controllers\Controller {
     }
 
     public function create() {
-        return view('vendor.materialAdmin.masters.source.create');
+        $sourceTypes = Sources::sourceTypes();
+        return view('vendor.materialAdmin.masters.source.create', compact('sourceTypes'));
     }
 
     public function store(Request $request) {
@@ -64,7 +65,8 @@ class Source extends \GMC\Http\Controllers\Controller {
 
     public function edit($id) {
         $source = Sources::findOrFail($id);
-        return view('vendor.materialAdmin.masters.source.edit', compact('source'));
+        $sourceTypes = Sources::sourceTypes();
+        return view('vendor.materialAdmin.masters.source.edit', compact('source', 'sourceTypes'));
     }
 
     public function update(Request $request, $id) {

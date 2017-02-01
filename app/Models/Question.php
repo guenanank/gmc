@@ -19,7 +19,8 @@ class Question extends Model {
         'questionAnswer',
         'questionDesc',
         'questionFormType',
-        'questionIsMandatory'
+        'questionIsMandatory',
+        'questionSort'
     ];
     protected $casts = ['questionIsMandatory' => 'boolean'];
     protected $nullable = [
@@ -40,7 +41,8 @@ class Question extends Model {
             'questionAnswer' => 'required_if:questionType,multipleChoice|required_if:questionType,trueOrFalse|string|max:255',
             'questionDesc' => 'string|max:255',
             'questionFormType' => 'required_if:questionType,essay|string|max:31',
-            'questionIsMandatory' => 'boolean'
+            'questionIsMandatory' => 'boolean',
+            'questionSort' => 'required|numeric|max:3'
         ]);
     }
 

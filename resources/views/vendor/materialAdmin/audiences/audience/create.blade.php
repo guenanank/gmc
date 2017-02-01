@@ -70,11 +70,11 @@
                                                     <p class="f-500 c-black">{{ ucwords($format->name) }}</p>
                                                     <?php
                                                         $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . $format->name . '/lists';
-                                                        $target = $format->name != 'media' ? $urlAPI : $urlAPI . '/gmc';
+                                                        //$target = $format->name != 'media' ? $urlAPI : $urlAPI . '/gmc';
                                                         if($format->nested) :
                                                             $lists = '[]';
                                                         else :
-                                                            $lists = $client->options($target, ['query' => ['token' => $token]])->getBody();
+                                                            $lists = $client->options($urlAPI, ['query' => ['token' => $token]])->getBody();
                                                         endif;
                                                     ?>
                                                     @if($format->multiple)

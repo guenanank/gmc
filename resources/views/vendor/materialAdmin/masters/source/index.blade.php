@@ -21,6 +21,7 @@
             <thead>
                 <tr>
                     <th data-column-id="sourceName" data-type="string" data-identifier="true">Name</th>
+                    <th data-column-id="sourceType" data-type="string" data-formatter="sourceType">Type</th>
                     <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
                 </tr>
             </thead>
@@ -49,6 +50,9 @@
                 iconRefresh: 'zmdi-refresh'
             },
             formatters: {
+                sourceType: function(column, row) {
+                    return row.sourceType == false ? 'External Event' : 'Internal Event';
+                },
                 commands: function (column, row) {
                     var btnEdit = '<a href="{{ url("masters/source") }}/' + row.sourceId + '/edit" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.sourceName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp; ';
                     var btnDelete = '<button type="button" class="btn btn-icon bgm-red command-delete" data-row-id="' + row.sourceId + '" title="Delete ' + row.sourceName + '"><span class="zmdi zmdi-delete"></span></button>';

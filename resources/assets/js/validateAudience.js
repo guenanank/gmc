@@ -89,7 +89,6 @@
             });
 
             $('.page-loader').fadeOut();
-
         });
 
         return $flag;

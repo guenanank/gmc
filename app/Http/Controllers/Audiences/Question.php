@@ -20,7 +20,7 @@ class Question extends \GMC\Http\Controllers\Controller {
         $rowCount = $request->input('rowCount', 10);
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
-        $sortColumn = 'questionId';
+        $sortColumn = 'questionSort';
         $sortType = 'DESC';
 
         if (is_array($request->input('sort'))) :

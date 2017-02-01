@@ -69,7 +69,7 @@
                         activities.push(v.activityName);
                     });
 
-                    return activities.join(', ');
+                    return activities.join(', ').length > 37 ? activities.join(', ').substring(0, 37) + '...' : activities.join(', ');
                 },
                 commands: function (column, row) {
                     var detail = '<a data-href="{{ url("audiences/audience/") }}/' + row.audienceId + '" class="bgm-orange command-detail btn btn-default btn-icon waves-effect waves-circle"><i class="zmdi zmdi-search-in-file"></i></a>&nbsp; ';

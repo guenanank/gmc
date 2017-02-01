@@ -87,6 +87,7 @@
             });
         }
 
+        $('.selectpicker').selectpicker('refresh');
         $('input[type="checkbox"]').prop('checked', false);
         divModal.find('div.form-group').removeClass('has-warning');
         divModal.find('small.help-block').text(null);

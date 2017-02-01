@@ -31,6 +31,13 @@
             </div>
         </div>
         <br />
+        <div class="row">
+            <div class="col-sm-offset-1 col-sm-10">
+                {{ Form::select('sourceType', $sourceTypes, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Source Type']) }}
+                <small id="hobbySubFrom" class="help-block"></small>
+            </div>
+        </div>
+        <br />
         <div class="form-group">
             <div class="col-sm-offset-1 col-sm-10">
                 <button class="btn btn-primary btn-icon-text btn-sm waves-effect" type="submit">

@@ -7,10 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Source extends Model {
 
     public $primaryKey = 'sourceId';
-    protected $fillable = ['sourceName'];
+    protected $fillable = ['sourceName', 'sourceType'];
+
+    public static function sourceTypes($sourceType = null) {
+        $sourceTypes = ['External Event', 'Internal Event'];
+        return is_null($sourceType) ? $sourceTypes : $sourceTypes[$sourceType];
+    }
 
     public static function rules($rules = []) {
-        return array_merge($rules, ['sourceName' => 'required|string|max:127|unique:sources']);
+        return array_merge($rules, [
+            'sourceName' => 'required|string|max:127|unique:sources',
+            'sourceType' => 'required|boolean'
+        ]);
     }
 
     public function activities() {

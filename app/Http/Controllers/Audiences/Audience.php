@@ -109,7 +109,6 @@ class Audience extends \GMC\Http\Controllers\Controller {
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $layers = Audiences::Layer()->with('questions.master')->get();
         $audience = Audiences::Audience()->with('audienceLayers', 'audienceActivities')->find($id);
-        //dd($audience);
         return view('vendor.materialAdmin.audiences.audience.edit', compact('token', 'api', 'client', 'activities', 'audience', 'layers'));
     }
 

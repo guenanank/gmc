@@ -1,5 +1,6 @@
 /**
  * jQuery AJAX form
+ * used only for material admin template
  *
  * @author nanank
  */
@@ -25,7 +26,7 @@
                 $('small.help-block').text(null);
             };
 
-            var ajaxSetup = {
+            $.ajaxSetup({
                 type: $t.attr('method'),
                 url: (setting.url) ? setting.url : $t.attr('action'),
                 data: (typeof setting.data === 'undefined') ? setting.data : $t.serialize(),
@@ -52,9 +53,8 @@
                         });
                     }
                 }
-            };
-
-            $.ajax(ajaxSetup);
+            });
+            $.ajax();
         });
     };
 
@@ -64,13 +64,12 @@
         }, obj);
 
         return this.each(function () {
-
-            var ajaxSetup = {
+            $.ajaxSetup({
                 type: 'POST',
                 url: setting.url + $(this).data('row-id'),
                 data: {_method: 'DELETE'},
                 statusCode: {
-                    200: function (del) {
+                    200: function () {
                         swal({
                             html: true,
                             title: null,
@@ -79,10 +78,9 @@
                             showConfirmButton: false,
                             timer: 2000
                         });
-                        $('#bootgrid').bootgrid('reload');
                     }
                 }
-            };
+            });
 
             swal({
                 html: true,
@@ -96,7 +94,9 @@
                 closeOnCancel: false
             }, function (confirm) {
                 if (confirm) {
-                    $.ajax(ajaxSetup);
+                    $.ajax().done(function() {
+                        $('#bootgrid').bootgrid('reload');
+                    });
                 } else {
                     swal({
                         html: true,
@@ -108,7 +108,6 @@
                     });
                 }
             });
-
         });
     };
 

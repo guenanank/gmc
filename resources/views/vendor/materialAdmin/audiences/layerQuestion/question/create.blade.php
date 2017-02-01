@@ -10,16 +10,20 @@
                 <br />
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
-                        {{ Form::select('questionType', $questionType, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Question Type']) }}
-                        <small id="questionType" class="help-block"></small>
+                        <div class="form-group">
+                                {{ Form::select('questionType', $questionType, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Question Type']) }}
+                                <small id="questionType" class="help-block"></small>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="row master">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
-                        {{ Form::select('masterId', $masters, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Master']) }}
-                        <small id="masterId" class="help-block"></small>
+                        <div class="form-group">
+                            {{ Form::select('masterId', $masters, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Master']) }}
+                            <small id="masterId" class="help-block"></small>
+                        </div>
                     </div>
                 </div>
                 
@@ -55,6 +59,19 @@
                         <br />
                         {{ Form::select('questionFormType', $formType, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Form Type']) }}
                         <small id="questionFormType" class="help-block"></small>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <br />
+                        <div class="form-group fg-float">
+                            <div class="fg-line">
+                                {{ Form::number('questionSort', null, ['class' => 'form-control fg-input']) }}
+                                {{ Form::label('questionSort', 'Question Sort Order', ['class' => 'fg-label']) }}
+                            </div>
+                            <small id="questionSort" class="help-block"></small>
+                        </div>
                     </div>
                 </div>
 

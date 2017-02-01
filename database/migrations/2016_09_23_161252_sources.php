@@ -11,6 +11,7 @@ class Sources extends Migration {
         Schema::create('sources', function (Blueprint $table) {
             $table->increments('sourceId');
             $table->string('sourceName', 127);
+            $table->boolean('sourceType');
             $table->timestamps();
         });
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
