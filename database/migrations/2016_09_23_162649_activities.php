@@ -12,6 +12,7 @@ class Activities extends Migration {
             $table->increments('activityId');
             $table->integer('sourceId')->unsigned()->index();
             $table->integer('mediaGroupId')->unsigned()->index();
+            $table->string('activityOldName', 127);
             $table->string('activityName', 127);
             $table->string('activityWhere', 63)->nullable();
             $table->date('activityWhen')->nullable();
@@ -20,7 +21,6 @@ class Activities extends Migration {
             $table->softDeletes();
 
             $table->foreign('sourceId')->references('sourceId')->on('sources')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('mediaGroupId')->references('mediaGroupId')->on('mediaGroups')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::enableForeignKeyConstraints();
