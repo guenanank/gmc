@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder {
         
         foreach (json_decode($seeds) as $row) :
             $seed = collect($row)->toArray();
-            DB::table('users')->create($seed);
+            DB::table('users')->insert($seed);
         endforeach;
     }
 
