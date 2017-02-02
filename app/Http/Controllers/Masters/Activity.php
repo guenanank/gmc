@@ -88,7 +88,7 @@ class Activity extends \GMC\Http\Controllers\Controller {
             return response()->json($validator->errors(), 422);
         endif;
 
-        $this->request->merge(['activityToken' => Hash::make($this->request->activityName)]);
+        $this->request->merge(['activityToken' => Hash::make($this->request->activityOldName)]);
         $create = Activities::create($this->request->all());
         return response()->json(['create' => $create], 200);
     }
@@ -112,7 +112,7 @@ class Activity extends \GMC\Http\Controllers\Controller {
             return response()->json($validator->errors(), 422);
         endif;
 
-        $this->request->merge(['activityToken' => substr(Crypt::encrypt($this->request->activityName), 15, -1)]);
+        $this->request->merge(['activityToken' => Hash::make($this->request->activityOldName)]);
         $update = $activity->update($this->request->all());
         return response()->json(['update' => $update], 200);
     }

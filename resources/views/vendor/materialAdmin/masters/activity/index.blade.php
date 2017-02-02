@@ -20,7 +20,8 @@
         <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('activity.bootgrid') }}">
             <thead>
                 <tr>
-                    <th data-column-id="activityName" data-formatter="activityName" data-type="string">Name</th>
+                    <th data-column-id="activityOldName" data-formatter="activityOldName" data-type="string">Old Name</th>
+                    <th data-column-id="activityName" data-type="string">Name</th>
                     <th data-column-id="activityWhere" data-type="string">Location</th>
                     <th data-column-id="activityWhen" data-converter="datetime" data-type="date">Date</th>
                     <th data-column-id="sourceId" data-formatter="source" data-type="string">Source</th>
@@ -64,9 +65,9 @@
                 }
             },
             formatters: {
-                activityName: function (column, row) {
-                    var activityName = row.activityName.length > 37 ? row.activityName.substring(0, 37) + '...' : row.activityName;
-                    return '<span data-toggle="tooltip" data-placement="right" title="' + row.activityName + '">' + activityName + '</span>';
+                activityOldName: function (column, row) {
+                    var activityOldName = row.activityOldName.length > 37 ? row.activityOldName.substring(0, 37) + '...' : row.activityOldName;
+                    return '<span data-toggle="tooltip" data-placement="right" title="' + row.activityOldName + '">' + activityOldName + '</span>';
                 },
                 source: function (column, row) {
                     return (row.source) ? row.source.sourceName : 'None';
