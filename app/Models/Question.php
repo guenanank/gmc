@@ -42,7 +42,7 @@ class Question extends Model {
             'questionDesc' => 'string|max:255',
             'questionFormType' => 'required_if:questionType,essay|string|max:31',
             'questionIsMandatory' => 'boolean',
-            'questionSort' => 'required|numeric|max:3'
+            'questionSort' => 'required|numeric|max:999'
         ]);
     }
 
