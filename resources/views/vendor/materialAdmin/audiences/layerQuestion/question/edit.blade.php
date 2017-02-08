@@ -81,7 +81,7 @@
                         <br />
                         <div class="form-group fg-float">
                             <div class="fg-line">
-                                {{ Form::number('questionSort', $question->questionSort, ['class' => 'form-control fg-input']) }}
+                                {{ Form::number('questionSort', $question->questionSort, ['class' => 'form-control fg-input', isset($question->questionSort) ? 'autofocus' : false]) }}
                                 {{ Form::label('questionSort', 'Question Sort Order', ['class' => 'fg-label']) }}
                             </div>
                             <small id="questionSort" class="help-block"></small>
