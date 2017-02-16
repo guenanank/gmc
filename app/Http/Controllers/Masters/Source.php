@@ -54,7 +54,7 @@ class Source extends \GMC\Http\Controllers\Controller {
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), Sources::rules());
+        $validator = Validator::make($request->all(), Sources::rules([], $request->sourceType));
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;
@@ -71,8 +71,7 @@ class Source extends \GMC\Http\Controllers\Controller {
 
     public function update(Request $request, $id) {
         $source = Sources::findOrFail($id);
-        Sources::rules(['sourceName' => 'required|string|max:127|unique:sources,sourceName,' . $source->sourceId . ',sourceId']);
-        $validator = Validator::make($request->all(), Sources::rules());
+        $validator = Validator::make($request->all(), Sources::rules([], $request->sourceType));
         if ($validator->fails()) :
             return response()->json($validator->errors(), 422);
         endif;

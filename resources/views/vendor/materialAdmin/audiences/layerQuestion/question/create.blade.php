@@ -11,12 +11,12 @@
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="form-group">
-                                {{ Form::select('questionType', $questionType, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Question Type']) }}
-                                <small id="questionType" class="help-block"></small>
+                            {{ Form::select('questionType', $questionType, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Question Type']) }}
+                            <small id="questionType" class="help-block"></small>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row master">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row questionText">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row questionAnswer">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -61,7 +61,7 @@
                         <small id="questionFormType" class="help-block"></small>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <br />
@@ -102,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="modal-footer">
                 <button class="btn btn-primary btn-icon-text waves-effect" type="submit">
                     <i class="zmdi zmdi-check"></i> Save

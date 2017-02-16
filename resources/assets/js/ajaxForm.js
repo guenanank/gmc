@@ -20,7 +20,7 @@
             var $clear = function (create) {
                 if (create) {
                     $t.find(':input').val(null).trigger('blur');
-                    $('.selectpicker').selectpicker('deselectAll');
+                    $('.selectpicker').selectpicker('refresh');
                 }
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
@@ -54,6 +54,7 @@
                     }
                 }
             });
+            
             $.ajax();
         });
     };

@@ -33,8 +33,10 @@
         <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('sourceType', $sourceTypes, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Source Type']) }}
-                <small id="hobbySubFrom" class="help-block"></small>
+                <div class="form-group">
+                    {{ Form::select('sourceType', $sourceTypes, null, ['class' => 'form-control selectpicker', 'title' => 'Choose Source Type']) }}
+                    <small id="sourceType" class="help-block"></small>
+                </div>
             </div>
         </div>
         <br />
