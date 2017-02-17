@@ -74,7 +74,9 @@ class Audience extends \GMC\Http\Controllers\Controller {
         $api = $this->api;
         $client = $this->client;
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
-        $layers = Audiences::Layer()->with('questions.master')->get();
+        $layers = Audiences::Layer()->with(['questions.master' => function($query) {
+            $query->orderBy('questionSort', 'asc');
+        }])->get();
         return view('vendor.materialAdmin.audiences.audience.create', compact('token', 'api', 'client', 'activities', 'layers'));
     }
 
