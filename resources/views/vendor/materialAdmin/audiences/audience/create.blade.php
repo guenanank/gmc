@@ -69,8 +69,12 @@
                                                 <div class="form-group fg-line">
                                                     <p class="f-500 c-black">{{ ucwords($format->name) }}</p>
                                                     <?php
-                                                        $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . $format->name . '/lists';
-                                                        //$target = $format->name != 'media' ? $urlAPI : $urlAPI . '/gmc';
+                                                        if($q->master->masterName == 'Products') :
+                                                            $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . strtolower(str_singular($q->master->masterName)) . '/' . strtolower($format->name);
+                                                        else :
+                                                            $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . $format->name . '/lists';
+                                                        endif;
+                                                        
                                                         if($format->nested) :
                                                             $lists = '[]';
                                                         else :
