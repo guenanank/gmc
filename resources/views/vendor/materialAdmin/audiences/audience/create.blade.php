@@ -153,8 +153,8 @@
 
 @push('scripts')
 {{ Html::script('js/regions.js') }}
-{{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/validateAudience.js') }}
+{{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/ajax-bootstrap-select.min.js') }}
 <script type="text/javascript">
     (function ($) {
