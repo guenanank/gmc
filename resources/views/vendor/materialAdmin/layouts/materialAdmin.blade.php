@@ -84,7 +84,7 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="#"><i class="zmdi zmdi-layers"></i> Master Data</a>
+                    <a href="{{ url('#') }}"><i class="zmdi zmdi-layers"></i> Master Data</a>
                     <ul>
                         <li>{{ link_to('masters/activity', 'Activities') }}</li>
                         <li>{{ link_to('masters/education', 'Education') }}</li>
@@ -94,6 +94,15 @@
                         <li>{{ link_to('masters/profession', 'Professions') }}</li>
                         <li>{{ link_to('masters/greaterArea', 'Greater Areas') }}</li>
                         <li>{{ link_to('masters/source', 'Sources') }}</li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="{{ url('#') }}"><i class="zmdi zmdi-car"></i> Vehicles</a>
+                    <ul>
+                        <li>{{ link_to('vehicles/classification', 'Classifications') }}</li>
+                        <li>{{ link_to('vehicles/brand', 'Brands') }}</li>
+                        <li>{{ link_to('vehicles/series', 'Series') }}</li>
+                        <li>{{ link_to('vehicles/type', 'Types') }}</li>
                     </ul>
                 </li>
             </ul>

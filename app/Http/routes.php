@@ -145,4 +145,31 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('upload', ['uses' => 'Upload@upload', 'as' => 'upload.upload']);
         Route::get('download', ['uses' => 'Upload@download', 'as' => 'upload.download']);
     });
+
+    Route::group(['namespace' => 'Vehicles', 'prefix' => 'vehicles'], function() {
+
+        Route::group(['prefix' => 'classification'], function() {
+            Route::get('/', ['uses' => 'Classification@index', 'as' => 'classification.index']);
+            Route::get('create', ['uses' => 'Classification@create', 'as' => 'classification.create']);
+            Route::get('{classificationId}/edit', ['uses' => 'Classification@edit', 'as' => 'classification.edit']);
+        });
+
+        Route::group(['prefix' => 'brand'], function() {
+            Route::get('/', ['uses' => 'Brand@index', 'as' => 'brand.index']);
+            Route::get('create', ['uses' => 'Brand@create', 'as' => 'brand.create']);
+            Route::get('{brandId}/edit', ['uses' => 'Brand@edit', 'as' => 'brand.edit']);
+        });
+
+        Route::group(['prefix' => 'series'], function() {
+            Route::get('/', ['uses' => 'Series@index', 'as' => 'series.index']);
+            Route::get('create', ['uses' => 'Series@create', 'as' => 'series.create']);
+            Route::get('{seriesId}/edit', ['uses' => 'Series@edit', 'as' => 'series.edit']);
+        });
+
+        Route::group(['prefix' => 'type'], function() {
+            Route::get('/', ['uses' => 'Type@index', 'as' => 'type.index']);
+            Route::get('create', ['uses' => 'Type@create', 'as' => 'type.create']);
+            Route::get('{typeId}/edit', ['uses' => 'Type@edit', 'as' => 'type.edit']);
+        });
+    });
 });

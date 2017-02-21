@@ -45,7 +45,7 @@
                         <br />
                         <div class="form-group fg-float">
                             <div class="fg-line">
-                                {{ Form::text('questionAnswer', null, ['class' => 'form-control fg-input']) }}
+                                {{ Form::textarea('questionAnswer', null, ['class' => 'form-control fg-input auto-size', 'cols' => '', 'rows' => '']) }}
                                 {{ Form::label('questionAnswer', 'Question Answer', ['class' => 'fg-label', 'aria-describedby' => 'help']) }}
                             </div>
                             <span id="help" class="help-block small">Seperate by comma (,)</span>
