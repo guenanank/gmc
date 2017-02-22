@@ -164,7 +164,7 @@
             nextSelector: '.next',
             previousSelector: '.previous',
             onTabClick: function () {
-                return false;
+                //return false;
             },
             onNext: function (tab) {
                 return $(tab.children('a').attr('href')).validateAudience({
