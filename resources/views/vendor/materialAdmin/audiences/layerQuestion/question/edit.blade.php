@@ -26,7 +26,7 @@
                         <div class="form-group fg-float">
                             <div class="fg-line">
                                 <div class="select">
-                                    {{ Form::select('masterId', $masters, $question->masterId, ['class' => 'form-control', ($question->masterId > 0) ? 'autofocus' : false]) }}
+                                    {{ Form::select('masterId', $masters, $question->masterId, ['class' => 'form-control', ($question->masterId > 0) ? 'autofocus' : false, 'title' => 'Chose Master']) }}
                                 </div>
                                 {{ Form::label('masterId', 'Master', ['class' => 'fg-label']) }}
                             </div>
@@ -67,7 +67,7 @@
                         <div class="form-group fg-float">
                             <div class="fg-line">
                                 <div class="select">
-                                    {{ Form::select('questionFormType', $formType, $question->questionFormType, ['class' => 'form-control', isset($question->questionFormType) ? 'autofocus' : false]) }}
+                                    {{ Form::select('questionFormType', $formType, $question->questionFormType, ['class' => 'form-control', isset($question->questionFormType) ? 'autofocus' : false, 'title' => 'Choose Form Type']) }}
                                 </div>
                                 {{ Form::label('questionFormType', 'Question Form Type', ['class' => 'fg-label']) }}
                             </div>

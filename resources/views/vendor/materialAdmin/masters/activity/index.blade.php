@@ -20,12 +20,12 @@
         <table id="bootgrid" class="table table-hover table-condensed table-vmiddle" data-url="{{ route('activity.bootgrid') }}">
             <thead>
                 <tr>
-                    <th data-column-id="activityOldName" data-formatter="activityOldName" data-type="string">Old Name</th>
-                    <th data-column-id="activityName" data-type="string">Name</th>
+                    <!--<th data-column-id="activityOldName" data-formatter="activityOldName" data-type="string">Old Name</th>-->
+                    <th data-column-id="activityName" data-type="string" data-identifier="true">Name</th>
                     <th data-column-id="activityWhere" data-type="string">Location</th>
                     <th data-column-id="activityWhen" data-converter="datetime" data-type="date">Date</th>
                     <th data-column-id="sourceId" data-formatter="source" data-type="string">Source</th>
-                    <th data-column-id="mediaGroupId" data-formatter="mediaGroup" data-type="string" data-sortable="false">Media Group</th>
+                    <th data-column-id="mediaId" data-formatter="media" data-type="string" data-sortable="false">Media</th>
                     <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
                 </tr>
             </thead>
@@ -72,9 +72,9 @@
                 source: function (column, row) {
                     return (row.source) ? row.source.sourceName : 'None';
                 },
-                mediaGroup: function (column, row) {
-                    $.get(apiTarget + 'gateway/mediaGroup/' + row.mediaGroupId + '?token=' + apiToken, function (mediaGroup) {
-                        $('span.media-group').text(mediaGroup.mediaGroupName);
+                media: function (column, row) {
+                    $.get(apiTarget + 'gateway/media/' + row.mediaId + '?token=' + apiToken, function (media) {
+                        $('span.media-group').text(media.mediaName);
                     });
                     return '<span class="media-group"></span>';
                 },

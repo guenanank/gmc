@@ -19,21 +19,27 @@
     <br />
     <div class="card-body card-padding">
         {{ Form::model($activity, ['route' => ['activity.update', $activity], 'method' =>'patch', 'class' => 'ajaxForm']) }}
-        <div class="row">
-            <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('sourceId', $sources, $activity->sourceId, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
-                <small id="sourceId" class="help-block"></small>
-            </div>
-        </div>
         
-        <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('mediaGroupId', $mediaGroups, $activity->mediaGroupId, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media Group']) }}
-                <small id="mediaGroupId" class="help-block"></small>
+                <div class="form-group">
+                    {{ Form::select('sourceId', $sources, $activity->sourceId, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
+                    <small id="sourceId" class="help-block"></small>
+                </div>
             </div>
         </div>
         <br />
+        
+        <div class="row">
+            <div class="col-sm-offset-1 col-sm-10">
+                <div class="form-group">
+                    {{ Form::select('mediaId', $media, $activity->mediaId, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media']) }}
+                    <small id="mediaId" class="help-block"></small>
+                </div>
+            </div>
+        </div>
+        <br />
+        
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
@@ -46,6 +52,7 @@
             </div>
         </div>
         <br />
+        
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">
@@ -58,6 +65,7 @@
             </div>
         </div>
         <br />
+        
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">

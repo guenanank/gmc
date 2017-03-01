@@ -19,20 +19,27 @@
     <br />
     <div class="card-body card-padding">
         {{ Form::open(['route' => 'activity.store', 'class' => 'ajaxForm']) }}
+        
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('sourceId', $sources, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
-                <small id="sourceId" class="help-block c-orange"></small>
+                <div class="form-group">
+                    {{ Form::select('sourceId', $sources, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Source Data']) }}
+                    <small id="sourceId" class="help-block"></small>
+                </div>
             </div>
         </div>
         <br />
+        
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::select('mediaGroupId', $mediaGroups, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media Group']) }}
-                <small id="mediaGroupId" class="help-block c-orange"></small>
+                <div class="form-group">
+                    {{ Form::select('mediaId', $media, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'title' => 'Choose Media']) }}
+                    <small id="mediaId" class="help-block"></small>
+                </div>
             </div>
         </div>
         <br />
+        
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
                 <div class="form-group fg-float">

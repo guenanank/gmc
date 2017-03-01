@@ -86,9 +86,10 @@
             }).fail(function (jqXHR) {
                 $flag = false;
                 setting.callback.call(jqXHR);
+            }).complet(function() {
+                $('.page-loader').fadeOut();
             });
 
-            $('.page-loader').fadeOut();
         });
 
         return $flag;

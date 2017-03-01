@@ -50,8 +50,10 @@
                         $t.find('.questionText, .questionAnswer, .questionFormType').addClass('hide');
                     } else if (questionType == 'essay') {
                         $t.find('.master, .questionAnswer').addClass('hide');
+                        $t.find('select[name="masterId"]').val(null);
                     } else if (questionType == 'multipleChoice' || questionType == 'trueOrFalse') {
                         $t.find('.master, .questionFormType').addClass('hide');
+                        $t.find('select[name="masterId"]').val(null);
                     }
 
                 }).on('hidden.bs.modal', function () {

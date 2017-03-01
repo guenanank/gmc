@@ -14,12 +14,12 @@ class Activity extends \GMC\Http\Controllers\Controller {
 
     private $client;
     private $request;
-    protected $mediaGroup;
+    protected $media;
 
     public function __construct(Request $request, Client $client) {
         $this->request = $request;
         $this->client = $client;
-        $this->mediaGroup = config('api.target') . '/' . config('api.version') . '/gateway/mediaGroup/';
+        $this->media = config('api.target') . '/' . config('api.version') . '/gateway/media/';
     }
 
     public function index() {
@@ -74,12 +74,12 @@ class Activity extends \GMC\Http\Controllers\Controller {
 
     public function create() {
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
-        $requestMediaGroups = $this->client->options($this->mediaGroup . 'lists', [
+        $requestMedia = $this->client->options($this->media . 'lists', [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);
 
-        $mediaGroups = collect(json_decode($requestMediaGroups->getBody()))->toArray();
-        return view('vendor.materialAdmin.masters.activity.create', compact('sources', 'mediaGroups'));
+        $media = collect(json_decode($requestMedia->getBody()))->toArray();
+        return view('vendor.materialAdmin.masters.activity.create', compact('sources', 'media'));
     }
 
     public function store() {
@@ -96,12 +96,12 @@ class Activity extends \GMC\Http\Controllers\Controller {
     public function edit($id) {
         $activity = Activities::findOrFail($id);
         $sources = \GMC\Models\Source::lists('sourceName', 'sourceId')->all();
-        $requestMediaGroups = $this->client->options($this->mediaGroup . 'lists', [
+        $requestMedia = $this->client->options($this->media . 'lists', [
             'query' => ['token' => $this->request->session()->get('api_token')]
         ]);
 
-        $mediaGroups = collect(json_decode($requestMediaGroups->getBody()))->toArray();
-        return view('vendor.materialAdmin.masters.activity.edit', compact('activity', 'sources', 'mediaGroups'));
+        $media = collect(json_decode($requestMedia->getBody()))->toArray();
+        return view('vendor.materialAdmin.masters.activity.edit', compact('activity', 'sources', 'media'));
     }
 
     public function update(Request $request, $id) {
@@ -123,9 +123,10 @@ class Activity extends \GMC\Http\Controllers\Controller {
         return response()->json($delete, 200);
     }
 
-    public function lists() {
+    public function selectpicker() {
         $return = [];
-        foreach (Activities::where('activityName', 'like', '%' . $this->request->input('activityName') . '%')->get() as $activity) :
+        $activities = Activities::where('activityName', 'like', '%' . $this->request->input('activityName') . '%')->get();
+        foreach ($activities as $activity) :
             $return[] = [
                 'value' => $activity->activityId,
                 'text' => $activity->activityName

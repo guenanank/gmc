@@ -87,11 +87,11 @@
                     <a href="{{ url('#') }}"><i class="zmdi zmdi-layers"></i> Master Data</a>
                     <ul>
                         <li>{{ link_to('masters/activity', 'Activities') }}</li>
-                        <li>{{ link_to('masters/education', 'Education') }}</li>
-                        <li>{{ link_to('masters/expense', 'Expenses') }}</li>
-                        <li>{{ link_to('masters/hobby', 'Hobbies') }}</li>
-                        <li>{{ link_to('masters/interest', 'Interests') }}</li>
-                        <li>{{ link_to('masters/profession', 'Professions') }}</li>
+                        <!--<li>{{ link_to('masters/education', 'Education') }}</li>-->
+                        <!--<li>{{ link_to('masters/expense', 'Expenses') }}</li>-->
+                        <!--<li>{{ link_to('masters/hobby', 'Hobbies') }}</li>-->
+                        <!--<li>{{ link_to('masters/interest', 'Interests') }}</li>-->
+                        <!--<li>{{ link_to('masters/profession', 'Professions') }}</li>-->
                         <li>{{ link_to('masters/greaterArea', 'Greater Areas') }}</li>
                         <li>{{ link_to('masters/source', 'Sources') }}</li>
                     </ul>

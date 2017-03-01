@@ -11,7 +11,7 @@ class Activities extends Migration {
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('activityId');
             $table->integer('sourceId')->unsigned()->index();
-            $table->integer('mediaGroupId')->unsigned()->index();
+            $table->integer('mediaId')->unsigned()->index();
             $table->string('activityOldName', 127);
             $table->string('activityName', 127);
             $table->string('activityWhere', 63)->nullable();
