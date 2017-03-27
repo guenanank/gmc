@@ -26,7 +26,7 @@
                 $('small.help-block').text(null);
             };
 
-            $.ajaxSetup({
+            $.ajax({
                 type: $t.attr('method'),
                 url: (setting.url) ? setting.url : $t.attr('action'),
                 data: (typeof setting.data === 'undefined') ? setting.data : $t.serialize(),
@@ -54,8 +54,6 @@
                     }
                 }
             });
-            
-            $.ajax();
         });
     };
 

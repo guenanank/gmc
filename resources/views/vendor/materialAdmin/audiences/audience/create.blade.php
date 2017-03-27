@@ -155,7 +155,99 @@
 
 @push('scripts')
 {{ Html::script('js/regions.js') }}
-{{ Html::script('js/validateAudience.js') }}
+<script type="text/javascript">
+(function ($) {
+
+    $.fn.validateAudience = function (obj) {
+        var setting = $.fn.extend({
+            target: 'validate',
+            data: {},
+            callback: function () {}
+        }, obj);
+
+
+        var $flag = false;
+
+        return this.each(function () {
+            var $t = $(this);
+            
+            if ($.isEmptyObject(setting.data)) {
+                $.each($t.find(':input'), function (k, v) {
+                    if (v.name.length)
+                        setting.data[v.name] = v.value;
+                });
+            }
+
+            var $clear = function (create) {
+                if (create) {
+                    $('form').find(':input').trigger('blur');
+                    $('.selectpicker').selectpicker('deselectAll');
+                }
+                $('div.form-group').removeClass('has-warning');
+                $('small.help-block').text(null);
+            };
+
+            $.ajaxSetup({
+                url: setting.target,
+                method: 'POST',
+                data: setting.data,
+                async: true,
+                beforeSend: function () {
+                    $('.page-loader').fadeIn();
+                    $clear(false);
+                },
+                statusCode: {
+                    200: function (data) {
+                        $flag = true;
+                        $clear(data.create);
+                    },
+                    422: function (response) {
+                        $.notify({
+                            message: 'Oh snap! Change a few things up and try submitting again.'
+                        }, {
+                            type: 'danger',
+                            allow_dismiss: false,
+                            label: 'Cancel',
+                            className: 'btn-xs btn-inverse',
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            },
+                            delay: 2500,
+                            animate: {
+                                enter: 'animated bounceIn',
+                                exit: 'animated bounceOut'
+                            },
+                            offset: {
+                                x: 20,
+                                y: 85
+                            }
+                        });
+                        $.each(response.responseJSON, function (k, v) {
+                            $('#' + k).parents('div.form-group').addClass('has-warning');
+                            $('#' + k).text(v);
+                        });
+                    }
+                }
+            });
+            
+            $ajax();
+            alert($flag);
+//            $.ajax().done(function (data, msg, jqXHR) {
+//                setting.callback.call(jqXHR);
+//                $('.page-loader').fadeOut();
+//            }).fail(function (jqXHR) {
+//                $flag = false;
+//                setting.callback.call(jqXHR);
+//                $('.page-loader').fadeOut();
+//            });
+
+        });
+
+        return $flag;
+    };
+})(jQuery);
+</script>
 {{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/ajax-bootstrap-select.min.js') }}
 <script type="text/javascript">
@@ -169,9 +261,10 @@
                 return false;
             },
             onNext: function (tab) {
-                return $(tab.children('a').attr('href')).validateAudience({
+                $(tab.children('a').attr('href')).validateAudience({
                     target: target
                 });
+                return false;
             },
             onPrevious: function () {
                 $('div.form-group').removeClass('has-warning');

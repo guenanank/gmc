@@ -89,7 +89,7 @@
             $('#bootgrid').find('.command-delete').on('click', function (e) {
                 e.preventDefault();
                 $(this).ajaxDelete({
-                    //url: 'audiences/layerQuestion/'
+                    url: 'audiences/audience/'
                 });
             });
         });
