@@ -18,22 +18,36 @@ class Upload extends Controller {
 
     public function download() {
         Excel::create(\Carbon\Carbon::now(), function($excel) {
-            $excel->setTitle('Activity Name');
+            $excel->setTitle('Activity Token');
             $excel->setCreator('GMC')->setCompany('Gramedia Majalah');
             $excel->setDescription('Audience sample upload format');
 
             $excel->sheet('ActivityToken', function($sheet) {
 
-                $sheet->fromArray(Audiences::Question()->all()->pluck('questionId'));
-                $sheet->row(1, function($row) {
-                    $row->setBackground('#000000');
-                });
-                $sheet->row(2, Audiences::Question()->all()->transform(function($item) {
-                            $isMandatory = $item->questionIsMandatory ? '(mandatory)' : null;
-                            return camel_case($item->questionText) . $isMandatory;
-                        })->toArray());
+//                $sheet->row(1, function($row) {
+//                    $row->setBackground('#000000');
+//                });
+//                $sheet->fromArray(Audiences::Question()->all()->pluck('questionId'));
+                
+                $layers = Audiences::Layer()->select('layerName')->with(['questions' => function($query) {
+                                $query->orderBy('questionSort', 'ASC');
+                            }, 'questions.master'])->get();
 
-                $sheet->freezeFirstRow();
+
+                dd($layers->toArray());
+                $sheet->row(1, $layers->toArray());
+                
+                $sheet->row(2, $layers->questions);
+
+//                $sheet->row(2, $layers->transform(function($item) {
+//                    if(is_null($item->masterId) == false) :
+//                        $subText = $item->master->masterFormat->where('form', true)->pluck('name');
+//                        $item->merge($subText);
+//                    endif;
+//                    $isMandatory = $item->questionIsMandatory ? '(mandatory)' : null;
+//                    return camel_case($item->questionText) . $isMandatory;
+//                })->toArray());
+//                $sheet->freezeFirstRow();
             });
         })->export('xls');
     }

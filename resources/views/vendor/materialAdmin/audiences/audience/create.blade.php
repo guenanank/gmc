@@ -64,6 +64,7 @@
                                 <div class="col-sm-offset-1 col-sm-10">
                                     @if(isset($q->master))
                                         @foreach($q->master->masterFormat as $format)
+                                            
                                             @continue($format->form == false)
                                             @if($q->master->masterUseAPI)
                                                 <div class="form-group fg-line">
@@ -82,7 +83,7 @@
                                                         endif;
                                                     ?>
                                                     @if($format->multiple)
-                                                        {{ Form::select($format->name . '[]', json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
+                                                        {{ Form::select($format->name . '[]', json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'multiple' => true, 'title' => 'Choose ' . $format->name]) }}
                                                     @else
                                                         {{ Form::select($format->name, json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'title' => 'Choose ' . $format->name]) }}
                                                     @endif
@@ -94,10 +95,9 @@
                                                         {{ ucwords($q->questionText) }}
                                                         <br /><small class="c-gray">{{ $q->questionDesc }}</small>
                                                     </p>
-                                                    
                                                     {{--*/ $model = '\GMC\Models\\' . ucfirst($format->name) /*--}}
-                                                    @if($format->multiple)
-                                                        {{ Form::select($format->name . '[]', $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'multiple' => true, 'data-selected-text-format' => 'count', 'title' => 'Choose ' . $format->name]) }}
+                                                    @if($q->questionType == 'Multiple Choice')
+                                                        {{ Form::select($format->name . '[]', $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => true, 'multiple' => true, 'title' => 'Choose ' . $format->name]) }}
                                                     @else
                                                         {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'title' => 'Choose ' . $format->name]) }}
                                                     @endif
@@ -111,8 +111,10 @@
                                                 {{ ucwords($q->questionText) }}
                                                 <br /><small class="c-gray">{{ $q->questionDesc }}</small>
                                             </p>
-                                            @if($q->questionType == 'True Or False' OR $q->questionType == 'Multiple Choice')
-                                                {{ Form::select(camel_case($q->questionText), ['' => ''] + $q->questionAnswer, null, ['class' => 'form-control fg-input input-sm selectpicker']) }}
+                                            @if($q->questionType == 'True Or False')
+                                                {{ Form::select(camel_case($q->questionText), $q->questionAnswer, null, ['class' => 'form-control fg-input input-sm selectpicker', 'title' => 'Choose ' . $q->questionText, 'data-live-search' => true]) }}
+                                            @elseif($q->questionType == 'Multiple Choice')
+                                                {{ Form::select(camel_case($q->questionText) . '[]', $q->questionAnswer, null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => true, 'multiple' => true, 'title' => 'Choose ' . $q->questionText]) }}
                                             @else
                                                 @if($q->questionFormType == 'textarea')
                                                     {{ Form::textarea(camel_case($q->questionText), null, ['class' => 'input-sm form-control fg-input auto-size', 'cols' => '', 'rows' => '', 'placeholder' => $q->questionText]) }}
@@ -153,100 +155,7 @@
 
 @push('scripts')
 {{ Html::script('js/regions.js') }}
-<script type="text/javascript">
-
-(function ($) {
-    
-    $.fn.validateAudience = function (obj) {
-        var setting = $.fn.extend({
-            target: 'validate',
-            data: {},
-            callback: function () {}
-        }, obj);
-
-        
-        var $flag = false;
-
-        this.each(function () {
-            var $t = $(this);
-            
-            if ($.isEmptyObject(setting.data)) {
-                $.each($t.find(':input'), function (k, v) {
-                    if (v.name.length)
-                        setting.data[v.name] = v.value;
-                });
-            }
-            
-            var $clear = function (create) {
-                if (create) {
-                    $('form').find(':input').trigger('blur');
-                    $('.selectpicker').selectpicker('deselectAll');
-                }
-                $('div.form-group').removeClass('has-warning');
-                $('small.help-block').text(null);
-            };
-            
-            $.ajaxSetup({
-                url: setting.target,
-                method: 'POST',
-                data: setting.data,
-                async: false,
-                beforeSend: function () {
-                    $('.page-loader').fadeIn();
-                    $clear(false);
-                },
-                statusCode: {
-                    200: function (data) {
-                        console.log(data);
-                        $clear(data.create);
-                    },
-                    422: function (response) {
-                        $.notify({
-                            message: 'Oh snap! Change a few things up and try submitting again.'
-                        }, {
-                            type: 'danger',
-                            allow_dismiss: false,
-                            label: 'Cancel',
-                            className: 'btn-xs btn-inverse',
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            },
-                            delay: 2500,
-                            animate: {
-                                enter: 'animated bounceIn',
-                                exit: 'animated bounceOut'
-                            },
-                            offset: {
-                                x: 20,
-                                y: 85
-                            }
-                        });
-                        $.each(response.responseJSON, function (k, v) {
-                            $('#' + k).parents('div.form-group').addClass('has-warning');
-                            $('#' + k).text(v);
-                        });
-                    }
-                }
-            });
-
-            $.ajax().done(function (data, msg, jqXHR) {
-                $flag = true;
-                setting.callback.call(jqXHR);
-                $('.page-loader').fadeOut();
-            }).fail(function (jqXHR) {
-                $flag = false;
-                setting.callback.call(jqXHR);
-                $('.page-loader').fadeOut();
-            });
-            
-        });
-        
-        return $flag;
-    };
-})(jQuery);
-
-</script>
+{{ Html::script('js/validateAudience.js') }}
 {{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/ajax-bootstrap-select.min.js') }}
 <script type="text/javascript">
@@ -304,5 +213,4 @@
 
     })(jQuery);
 </script>
-
 @endpush

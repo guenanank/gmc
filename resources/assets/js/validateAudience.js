@@ -16,10 +16,12 @@
             callback: function () {}
         }, obj);
 
+
         var $flag = false;
 
         this.each(function () {
             var $t = $(this);
+
             if ($.isEmptyObject(setting.data)) {
                 $.each($t.find(':input'), function (k, v) {
                     if (v.name.length)
@@ -30,9 +32,8 @@
             var $clear = function (create) {
                 if (create) {
                     $('form').find(':input').trigger('blur');
+                    $('.selectpicker').selectpicker('deselectAll');
                 }
-
-                $('.selectpicker').selectpicker('refresh');
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
             };
@@ -43,8 +44,8 @@
                 data: setting.data,
                 async: false,
                 beforeSend: function () {
-                    $clear(false);
                     $('.page-loader').fadeIn();
+                    $clear(false);
                 },
                 statusCode: {
                     200: function (data) {
@@ -83,10 +84,10 @@
             $.ajax().done(function (data, msg, jqXHR) {
                 $flag = true;
                 setting.callback.call(jqXHR);
+                $('.page-loader').fadeOut();
             }).fail(function (jqXHR) {
                 $flag = false;
                 setting.callback.call(jqXHR);
-            }).complet(function() {
                 $('.page-loader').fadeOut();
             });
 
