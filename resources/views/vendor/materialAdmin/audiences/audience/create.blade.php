@@ -20,32 +20,41 @@
     {{ Form::open(['route' => 'audience.store', 'class' => 'ajaxForm']) }}
     <div class="card-body card-padding">
         {{ Form::hidden('audienceType', 'manual') }}
+        
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                {{ Form::label('activityId', 'ACTIVITY', ['class' => 'f-500 c-black']) }}
-                {{ Form::select('activityId[]', [], null, ['class' => 'form-control fg-input ajax-select', 'multiple' => true, 'data-selected-text-format' => 'count', 'data-live-search' => true, 'title' => 'Choose Activities']) }}
-                <small id="activityId" class="help-block"></small>
+                <div class="form-group">
+                    {{ Form::select('activityId[]', $activities, null, ['class' => 'form-control selectpicker', 'data-live-search' => true, 'multiple' => true, 'title' => 'Choose Activities']) }}
+                    <small id="activityId" class="help-block"></small>
+                </div>
             </div>
         </div>
 
         <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                <div class="form-group fg-line">
-                    {{ Form::label('clubId', 'CLUB ID', ['class' => 'f-500 c-black']) }}
-                    {{ Form::text('clubId', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-000000']) }}
+                <div class="form-group fg-float">
+                    <div class="fg-line">
+                        {{ Form::text('clubId', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-000000']) }}
+                        {{ Form::label('clubId', 'CLUB ID', ['class' => 'fg-label']) }}
+                    </div>
                     <small id="clubId" class="help-block"></small>
                 </div>
             </div>
         </div>
 
+        <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                <div class="form-group fg-line">
-                    {{ Form::label('memberId', 'MEMBER ID', ['class' => 'f-500 c-black']) }}
-                    {{ Form::text('memberId', null, ['class' => 'form-control fg-input']) }}
-                    <small id="memberId" class="help-block"></small>
+                
+                <div class="form-group fg-float">
+                    <div class="fg-line">
+                        {{ Form::text('memberId', null, ['class' => 'form-control fg-input']) }}
+                        {{ Form::label('memberId', 'MEMBER ID', ['class' => 'fg-label']) }}
+                    </div>
+                    <small id="clubId" class="help-block"></small>
                 </div>
+                
             </div>
         </div>
         @if($layers->isEmpty() == false)
@@ -155,99 +164,7 @@
 
 @push('scripts')
 {{ Html::script('js/regions.js') }}
-<script type="text/javascript">
-(function ($) {
-
-    $.fn.validateAudience = function (obj) {
-        var setting = $.fn.extend({
-            target: 'validate',
-            data: {},
-            callback: function () {}
-        }, obj);
-
-
-        var $flag = false;
-
-        return this.each(function () {
-            var $t = $(this);
-            
-            if ($.isEmptyObject(setting.data)) {
-                $.each($t.find(':input'), function (k, v) {
-                    if (v.name.length)
-                        setting.data[v.name] = v.value;
-                });
-            }
-
-            var $clear = function (create) {
-                if (create) {
-                    $('form').find(':input').trigger('blur');
-                    $('.selectpicker').selectpicker('deselectAll');
-                }
-                $('div.form-group').removeClass('has-warning');
-                $('small.help-block').text(null);
-            };
-
-            $.ajaxSetup({
-                url: setting.target,
-                method: 'POST',
-                data: setting.data,
-                async: true,
-                beforeSend: function () {
-                    $('.page-loader').fadeIn();
-                    $clear(false);
-                },
-                statusCode: {
-                    200: function (data) {
-                        $flag = true;
-                        $clear(data.create);
-                    },
-                    422: function (response) {
-                        $.notify({
-                            message: 'Oh snap! Change a few things up and try submitting again.'
-                        }, {
-                            type: 'danger',
-                            allow_dismiss: false,
-                            label: 'Cancel',
-                            className: 'btn-xs btn-inverse',
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            },
-                            delay: 2500,
-                            animate: {
-                                enter: 'animated bounceIn',
-                                exit: 'animated bounceOut'
-                            },
-                            offset: {
-                                x: 20,
-                                y: 85
-                            }
-                        });
-                        $.each(response.responseJSON, function (k, v) {
-                            $('#' + k).parents('div.form-group').addClass('has-warning');
-                            $('#' + k).text(v);
-                        });
-                    }
-                }
-            });
-            
-            $ajax();
-            alert($flag);
-//            $.ajax().done(function (data, msg, jqXHR) {
-//                setting.callback.call(jqXHR);
-//                $('.page-loader').fadeOut();
-//            }).fail(function (jqXHR) {
-//                $flag = false;
-//                setting.callback.call(jqXHR);
-//                $('.page-loader').fadeOut();
-//            });
-
-        });
-
-        return $flag;
-    };
-})(jQuery);
-</script>
+{{ Html::script('js/validateAudience.js') }}
 {{ Html::script('js/jquery.bootstrap.wizard.min.js') }}
 {{ Html::script('js/ajax-bootstrap-select.min.js') }}
 <script type="text/javascript">
@@ -261,10 +178,9 @@
                 return false;
             },
             onNext: function (tab) {
-                $(tab.children('a').attr('href')).validateAudience({
+                return $(tab.children('a').attr('href')).validateAudience({
                     target: target
                 });
-                return false;
             },
             onPrevious: function () {
                 $('div.form-group').removeClass('has-warning');
@@ -283,24 +199,24 @@
             }
         });
         
-        $('.ajax-select').selectpicker({liveSearch: true}).ajaxSelectPicker({
-            ajax: {
-                url: '{{ url("masters/activity/selectpicker") }}',
-                data: function () {
-                    return {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        activityName: '@{{{q}}}'
-                    };
-                }
-            },
-            preprocessData: function(data) {
-                return data;
-            }
-        });
+//        $('.ajax-select').selectpicker({liveSearch: true}).ajaxSelectPicker({
+//            ajax: {
+//                url: '{{ url("masters/activity/selectpicker") }}',
+//                data: function () {
+//                    return {
+//                        _token: $('meta[name="csrf-token"]').attr('content'),
+//                        activityName: '@{{{q}}}'
+//                    };
+//                }
+//            },
+//            preprocessData: function(data) {
+//                return data;
+//            }
+//        });
 
         $(document).bind('ajaxComplete', function () {
-            $(':input').not('input[type="hidden"]').val(null);
-            $('.selectpicker').selectpicker('deselectAll');
+            //$(':input').not('input[type="hidden"]').val(null);
+            //$('.selectpicker').selectpicker('deselectAll');
             $('.btnSubmit').addClass('hide');
         });
 

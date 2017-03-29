@@ -10,48 +10,47 @@
 (function ($) {
 
     $.fn.validateAudience = function (obj) {
-        var setting = $.fn.extend({
-            target: 'validate',
+        
+        var set = $.fn.extend({
+            target: '',
             data: {},
-            callback: function () {}
+            callback: function() {}
         }, obj);
-
-
-        var $flag = false;
-
-        this.each(function () {
+        
+        
+        var flag = true;
+        this.each(function() {
+            
             var $t = $(this);
-
-            if ($.isEmptyObject(setting.data)) {
-                $.each($t.find(':input'), function (k, v) {
-                    if (v.name.length)
-                        setting.data[v.name] = v.value;
-                });
-            }
-
-            var $clear = function (create) {
-                if (create) {
-                    $('form').find(':input').trigger('blur');
-                    $('.selectpicker').selectpicker('deselectAll');
+            var clear = function(stat) {
+                if (stat) {
+                    $t.find(':input').trigger('blur');
                 }
+
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
             };
-
+            
+            if ($.isEmptyObject(set.data)) {
+                $.each($t.find(':input'), function (k, v) {
+                    if (v.name.length)
+                        set.data[v.name] = v.value;
+                });
+            }
+                        
             $.ajaxSetup({
-                url: setting.target,
                 method: 'POST',
-                data: setting.data,
+                url: set.target,
                 async: false,
-                beforeSend: function () {
-                    $('.page-loader').fadeIn();
-                    $clear(false);
+                data: set.data,
+                beforeSend: function() {
+                    clear(false);
                 },
                 statusCode: {
-                    200: function (data) {
-                        $clear(data.create);
+                    200: function(data) {
+                        clear(true);
                     },
-                    422: function (response) {
+                    422: function(response) {
                         $.notify({
                             message: 'Oh snap! Change a few things up and try submitting again.'
                         }, {
@@ -80,19 +79,17 @@
                     }
                 }
             });
-
-            $.ajax().done(function (data, msg, jqXHR) {
-                $flag = true;
-                setting.callback.call(jqXHR);
-                $('.page-loader').fadeOut();
-            }).fail(function (jqXHR) {
-                $flag = false;
-                setting.callback.call(jqXHR);
-                $('.page-loader').fadeOut();
+            
+            $.ajax().done(function(data, msg, jqXHR) {
+                set.callback.call(jqXHR);
+            }).fail(function(jqXHR){
+                set.callback.call(jqXHR);
+                flag = false;
             });
-
+            
         });
-
-        return $flag;
+        
+        return flag;
+        
     };
 })(jQuery);
