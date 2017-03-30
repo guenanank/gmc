@@ -11,7 +11,6 @@ use Validator;
 class Audience extends \GMC\Http\Controllers\Controller {
 
     private $request;
-    protected $master;
     protected $client;
     protected $api;
     protected $token;
@@ -141,7 +140,11 @@ class Audience extends \GMC\Http\Controllers\Controller {
     }
 
     public function destroy($id) {
-        //
+        $audience = Audiences::Audience()->findOrFail($id);
+        $delete = $audience->delete();
+        Audiences::AudienceActivity()->where('audienceId', $audience->audienceId)->delete();
+        Audiences::AudienceLayer()->where('audienceId', $audience->audienceId)->delete();
+        return response()->json($delete, 200);
     }
 
     private function audienceLayerResponse($audienceId) {

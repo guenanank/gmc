@@ -44,6 +44,7 @@
                 async: false,
                 data: set.data,
                 beforeSend: function() {
+                    $('.page-loader').fadeIn();
                     clear(false);
                 },
                 statusCode: {
@@ -85,11 +86,11 @@
             }).fail(function(jqXHR){
                 set.callback.call(jqXHR);
                 flag = false;
+            }).always(function() {
+                $('.page-loader').fadeOut();
             });
             
         });
-        
         return flag;
-        
     };
 })(jQuery);

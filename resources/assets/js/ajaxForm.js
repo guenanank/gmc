@@ -31,6 +31,7 @@
                 url: (setting.url) ? setting.url : $t.attr('action'),
                 data: (typeof setting.data === 'undefined') ? setting.data : $t.serialize(),
                 beforeSend: function () {
+                    $('.page-loader').fadeIn();
                     $clear(false);
                 },
                 statusCode: {
@@ -53,6 +54,10 @@
                         });
                     }
                 }
+            }).always(function() {
+                $('.page-loader').fadeOut();
+                $(':input').not('input[type="hidden"]').val(null);
+                $('.selectpicker').selectpicker('deselectAll');
             });
         });
     };

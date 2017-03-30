@@ -16,7 +16,7 @@
                         {{ Form::label('activityId', 'Activities', ['class' => 'col-sm-2 control-label c-black']) }}
                         <div class="col-sm-10">
                             <p class="form-control-static">
-                                @foreach($audience->activities as $index => $activity)
+                                @foreach($audience->activities as $activity)
                                     {{ $activity->activityName }}<br />
                                 @endforeach
                             </p>
@@ -42,17 +42,9 @@
                                             @if($q->masterId)
                                                 @foreach(collect(json_decode($q->master->masterFormat)) as $format)
                                                     @if($q->master->masterUseAPI)
-                                                        {{ $response->get($q->questionId) }}
+                                                        
                                                     @else
-                                                        {{--*/ $model = '\GMC\Models\\' . str_singular(ucfirst($format->name)) /*--}}
-                                                        @continue(empty($response->get($q->questionId)))
-                                                        {{--*/ $master = $model::findOrFail($response->get($q->questionId)) /*--}}
-                                                        @foreach($format->form->value as $key => $val)
-                                                            {{ is_numeric($master->{$val}) ? number_format($master->{$val}) : $master->{$val} }}
-                                                            @if(!empty($master->{$val}) && ($key + 1) < count($format->form->value))
-                                                                &nbsp;&HorizontalLine;&nbsp;
-                                                            @endif
-                                                        @endforeach
+                                                    
                                                     @endif
                                                 @endforeach
                                             @else
@@ -64,9 +56,10 @@
                             </div>
                         </div>
                         @endforeach
-                        
                     </div>
                 </div>
+                
+
                 <div class="clearfix">&nbsp;</div>
             </div>
             <div class="modal-footer">

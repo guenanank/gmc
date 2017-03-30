@@ -28,7 +28,7 @@ class Layer extends \GMC\Http\Controllers\Controller {
         $skip = $current ? ($current - 1) * $rowCount : 0;
         $search = $request->input('searchPhrase');
         $sortColumn = 'layerId';
-        $sortType = 'DESC';
+        $sortType = 'ASC';
 
         if (is_array($request->input('sort'))) :
             foreach ($request->input('sort') as $key => $value):

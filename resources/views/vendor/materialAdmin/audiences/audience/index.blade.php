@@ -64,12 +64,13 @@
                     return row.audienceType.substr(0, 1).toUpperCase() + row.audienceType.substr(1);
                 },
                 activity: function (column, row) {
-                    var activities = [];
+                    var activities = [], act;
                     $.each(row.activities, function (k, v) {
                         activities.push(v.activityName);
                     });
 
-                    return activities.join(', ').length > 37 ? activities.join(', ').substring(0, 37) + '...' : activities.join(', ');
+                    act = activities.join(', ');
+                    return act.length > 37 ? act.substring(0, 37) + '...' : act;
                 },
                 commands: function (column, row) {
                     var detail = '<a data-href="{{ url("audiences/audience/") }}/' + row.audienceId + '" class="bgm-orange command-detail btn btn-default btn-icon waves-effect waves-circle"><i class="zmdi zmdi-search-in-file"></i></a>&nbsp; ';

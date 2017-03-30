@@ -85,9 +85,8 @@
                                                             $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . $format->name . '/lists';
                                                         endif;
                                                         
+                                                        $lists = '[]';
                                                         if($format->nested) :
-                                                            $lists = '[]';
-                                                        else :
                                                             $lists = $client->options($urlAPI, ['query' => ['token' => $token]])->getBody();
                                                         endif;
                                                     ?>
@@ -215,8 +214,6 @@
 //        });
 
         $(document).bind('ajaxComplete', function () {
-            //$(':input').not('input[type="hidden"]').val(null);
-            //$('.selectpicker').selectpicker('deselectAll');
             $('.btnSubmit').addClass('hide');
         });
 

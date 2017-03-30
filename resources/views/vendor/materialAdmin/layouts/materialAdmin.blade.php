@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="api-url" content="{{ config('api.target') . '/' . config('api.version') . '/' }}" />
     <meta name="api-token" content="{{ Request::session()->get('api_token') }}" />
+    <meta name="author" content="nanank" />
     <title>Gramedia Majalah Community</title>
     {{ Html::style('css/all.css') }}
     {{ Html::style('css/app.1.css') }}
