@@ -73,6 +73,7 @@ class Audience extends \GMC\Http\Controllers\Controller {
         $api = $this->api;
         $client = $this->client;
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
+//        $activities = [];
         $layers = Audiences::Layer()->with(['questions.master', 'questions' => function($query) {
             $query->orderBy('questionSort', 'asc');
         }])->get();

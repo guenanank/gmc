@@ -46,7 +46,6 @@
         <br />
         <div class="row">
             <div class="col-sm-offset-1 col-sm-10">
-                
                 <div class="form-group fg-float">
                     <div class="fg-line">
                         {{ Form::text('memberId', null, ['class' => 'form-control fg-input']) }}
@@ -54,29 +53,31 @@
                     </div>
                     <small id="clubId" class="help-block"></small>
                 </div>
-                
             </div>
         </div>
-        @if($layers->isEmpty() == false)
+        
+        @if($layers->isEmpty())
+            <br />
+            <p class="text-center">No layer questions, please create one {{ link_to('layerQuestion', 'here') }}</p>
+        @else
             <div class="form-wizard-audience fw-container">
                 <ul class="tab-nav text-center">
                     @foreach($layers as $tabNav)
-                    <li>{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
+                        <li>{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
                     @endforeach
                 </ul>
                 <div class="tab-content">
                     @foreach($layers as $tabContent)
-                        <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
+                    <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
                         {{ Form::hidden('layerId', $tabContent->layerId) }}
                         @foreach($tabContent->questions as $q)
                             <div class="row">
                                 <div class="col-sm-offset-1 col-sm-10">
                                     @if(isset($q->master))
                                         @foreach($q->master->masterFormat as $format)
-                                            
                                             @continue($format->form == false)
-                                            @if($q->master->masterUseAPI)
-                                                <div class="form-group fg-line">
+                                            <div class="form-group fg-line">
+                                                @if($q->master->masterUseAPI)
                                                     <p class="f-500 c-black">{{ ucwords($format->name) }}</p>
                                                     <?php
                                                         if($q->master->masterName == 'Products') :
@@ -85,9 +86,9 @@
                                                             $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . $format->name . '/lists';
                                                         endif;
                                                         
-                                                        $lists = '[]';
+                                                        $lists = $client->options($urlAPI, ['query' => ['token' => $token]])->getBody();
                                                         if($format->nested) :
-                                                            $lists = $client->options($urlAPI, ['query' => ['token' => $token]])->getBody();
+                                                            $lists = '[]';
                                                         endif;
                                                     ?>
                                                     @if($format->multiple)
@@ -95,10 +96,7 @@
                                                     @else
                                                         {{ Form::select($format->name, json_decode($lists), null, ['class' => 'form-control fg-input input-sm selectpicker', 'id' => $format->name, 'data-live-search' => true, 'title' => 'Choose ' . $format->name]) }}
                                                     @endif
-                                                    <small id="{{ $format->name }}" class="help-block"></small>
-                                                </div>
-                                            @else
-                                                <div class="form-group fg-line">
+                                                @else
                                                     <p class="f-500 c-black">
                                                         {{ ucwords($q->questionText) }}
                                                         <br /><small class="c-gray">{{ $q->questionDesc }}</small>
@@ -109,9 +107,9 @@
                                                     @else
                                                         {{ Form::select($format->name, $model::lists(), null, ['class' => 'form-control fg-input input-sm selectpicker', 'data-live-search' => 'true', 'title' => 'Choose ' . $format->name]) }}
                                                     @endif
-                                                    <small id="{{ $format->name }}" class="help-block"></small>
-                                                </div>
-                                            @endif
+                                                @endif
+                                                <small id="{{ $format->name }}" class="help-block"></small>
+                                            </div>
                                         @endforeach
                                     @else
                                         <div class="form-group fg-line">
@@ -141,7 +139,6 @@
                     </div>
                     @endforeach
                 </div>
-
                 <ul class="fw-footer pagination wizard">
                     <li class="previous"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
                     <li class="next"><a class="a-prevent btn btn-icon waves-effect" href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
@@ -152,10 +149,8 @@
             <button type="submit" class="hide btnSubmit btn btn-primary btn-block btn-icon-text waves-effect">
                 <i class="zmdi zmdi-square-right"></i>SUBMIT
             </button>
-        @else
-            <br />
-            <p class="text-center">No layer questions, please create one {{ link_to('layerQuestion', 'here') }}</p>
         @endif
+        
     </div>
     {{ Form::close() }}
 </div>
@@ -198,21 +193,6 @@
             }
         });
         
-//        $('.ajax-select').selectpicker({liveSearch: true}).ajaxSelectPicker({
-//            ajax: {
-//                url: '{{ url("masters/activity/selectpicker") }}',
-//                data: function () {
-//                    return {
-//                        _token: $('meta[name="csrf-token"]').attr('content'),
-//                        activityName: '@{{{q}}}'
-//                    };
-//                }
-//            },
-//            preprocessData: function(data) {
-//                return data;
-//            }
-//        });
-
         $(document).bind('ajaxComplete', function () {
             $('.btnSubmit').addClass('hide');
         });
