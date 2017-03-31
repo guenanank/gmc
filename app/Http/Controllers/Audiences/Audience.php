@@ -88,7 +88,7 @@ class Audience extends \GMC\Http\Controllers\Controller {
 
         $create = Audiences::Audience()->create($this->request->all());
         foreach ($this->request->activityId as $activityId) :
-            $audienceActivity = [
+            $audienceActivity[] = [
                 'activityId' => $activityId,
                 'audienceId' => $create->audienceId
             ];

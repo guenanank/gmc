@@ -26,40 +26,32 @@
                 
                 <div class="form-wizard-basic fw-container">
                     <ul class="tab-nav text-center">
-                        @foreach($audience->layers as $tabNav)
-                        <li>{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
+                        @foreach($audience->layers as $i => $tabNav)
+                        <li class="{{ $i < 1 ? 'active' : null }}">{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
                         @endforeach
                     </ul>
                     <div class="tab-content">
-                        @foreach($audience->layers as $tabContent)
-                        <div class="tab-pane fade {{ $tabContent->layerId == 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
-                            <div class="form-horizontal">
-                                {{--*/ $response = collect(json_decode($tabContent->pivot->audienceLayerResponse, true)) /*--}}
-                                @foreach($tabContent->questions as $q)
-                                    {{ Form::label(camel_case($q->questionText), $q->questionText, ['class' => 'col-sm-4 control-label f-500']) }}
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">
-                                            @if($q->masterId)
-                                                @foreach(collect(json_decode($q->master->masterFormat)) as $format)
-                                                    @if($q->master->masterUseAPI)
-                                                        
-                                                    @else
-                                                    
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                {{ strtoupper($response->get($q->questionId)) }}
-                                            @endif
-                                        </p>
-                                    </div>
-                                @endforeach
+                        @foreach($audience->layers as $index => $tabContent)
+                            <div class="tab-pane fade {{ $index < 1 ? 'active in' : null }}" id="{{ camel_case($tabContent->layerName) }}">
+                                <div class="form-horizontal">
+                                    {{--*/ $response = collect(json_decode($tabContent->pivot->audienceLayerResponse, true)) /*--}}
+                                    @foreach($tabContent->questions as $q)
+                                        {{ Form::label(camel_case($q->questionText), $q->questionText, ['class' => 'col-sm-4 control-label f-500']) }}
+                                        <div class="col-sm-8">
+                                            <p class="form-control-static">
+                                                @if($q->masterId)
+                                                    {{ dump('here') }}
+                                                @else
+                                                    {{ dump($response->get($q->questionId)) }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
-                
-
                 <div class="clearfix">&nbsp;</div>
             </div>
             <div class="modal-footer">
