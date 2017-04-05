@@ -37,12 +37,25 @@
                                     {{--*/ $response = collect(json_decode($tabContent->pivot->audienceLayerResponse, true)) /*--}}
                                     @foreach($tabContent->questions as $q)
                                         {{ Form::label(camel_case($q->questionText), $q->questionText, ['class' => 'col-sm-4 control-label f-500']) }}
+                                        
                                         <div class="col-sm-8">
                                             <p class="form-control-static">
-                                                @if($q->masterId)
-                                                    {{ dump('here') }}
+                                                @if(isset($q->master))
+                                                    @if($q->master->masterUseAPI)
+                                                    
+                                                    @else
+                                                    
+                                                    @endif
                                                 @else
-                                                    {{ dump($response->get($q->questionId)) }}
+                                                    @if($q->questionType == 'Multiple Choice' || $q->questionType == 'True Or False')
+                                                        @if(is_array($response->get($q->questionId)))
+                                                            {{ $q->questionAnswer->only($response->get($q->questionId))->implode(', ') }}
+                                                        @else
+                                                            {{ $q->questionAnswer->get($response->get($q->questionId)) }}
+                                                        @endif
+                                                    @else
+                                                        {{ $response->get($q->questionId) }}
+                                                    @endif
                                                 @endif
                                             </p>
                                         </div>

@@ -104,7 +104,7 @@ class Question extends Model {
                 $answer[camel_case($item)] = $item;
             }
 
-            return $answer;
+            return collect($answer);
         }
 
         return $value;
