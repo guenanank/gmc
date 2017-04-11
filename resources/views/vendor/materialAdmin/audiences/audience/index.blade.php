@@ -82,8 +82,11 @@
         }).on('loaded.rs.jquery.bootgrid', function () {
             $('#bootgrid').find('.command-detail').on('click', function (e) {
                 e.preventDefault();
+                $('.page-loader').fadeIn();
                 $.get($(this).data('href'), function (data) {
                     $(data).modal();
+                }).always(function() {
+                    $('.page-loader').fadeOut();
                 });
 
             });

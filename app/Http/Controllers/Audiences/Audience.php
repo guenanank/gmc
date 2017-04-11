@@ -99,8 +99,11 @@ class Audience extends \GMC\Http\Controllers\Controller {
     }
 
     public function show($id) {
+        $token = $this->token;
+        $api = $this->api;
+        $client = $this->client;
         $audience = Audiences::Audience()->with('layers.questions.master', 'activities')->find($id);
-        return view('vendor.materialAdmin.audiences.audience.show', compact('audience'));
+        return view('vendor.materialAdmin.audiences.audience.show', compact('token', 'api', 'client', 'audience'));
     }
 
     public function edit($id) {

@@ -36,15 +36,31 @@
                                 <div class="form-horizontal">
                                     {{--*/ $response = collect(json_decode($tabContent->pivot->audienceLayerResponse, true)) /*--}}
                                     @foreach($tabContent->questions as $q)
-                                        {{ Form::label(camel_case($q->questionText), $q->questionText, ['class' => 'col-sm-4 control-label f-500']) }}
-                                        
-                                        <div class="col-sm-8">
+                                        {{ Form::label(camel_case($q->questionText), $q->questionText, ['class' => 'col-sm-5 control-label f-500']) }}
+                                        <div class="col-sm-7">
                                             <p class="form-control-static">
-                                                @if(isset($q->master))
-                                                    @if($q->master->masterUseAPI)
-                                                    
+                                                @if(isset($q->master) && $q->master->masterUseAPI)
+                                                    {{--*/ $url = $api . strtolower($q->master->masterNamespaces) /*--}}
+                                                    @if($q->master->masterName == 'Region')
+                                                        @foreach($response->get($q->questionId) as $key => $item)
+                                                            {{ json_decode($client->get($url . '/' . $key . '/' . $item, ['query' => ['token' => $token]])->getBody())->{$key . 'Name'} }} <br />
+                                                        @endforeach
+                                                    @elseif($q->master->masterName == 'Products')
+                                                        @foreach($response->get($q->questionId) as $key => $value)
+                                                            <strong>{{ ucwords($key) }}</strong><br />
+                                                            @foreach($value as $v)
+                                                                {{ json_decode($client->get($url . '/media/' . $v, ['query' => ['token' => $token]])->getBody())->mediaName }} <br />
+                                                            @endforeach
+                                                            <br />
+                                                        @endforeach
+                                                    @elseif($q->master->masterName == 'Vehicles')
+                                                        @foreach($response->get($q->questionId) as $k => $i)
+                                                            @foreach($i as $x => $y)
+                                                                {{ json_decode($client->get($url . '/' . $k . '/' . $y, ['query' => ['token' => $token]])->getBody())->{$k . 'Name'} }} <br />
+                                                            @endforeach
+                                                        @endforeach
                                                     @else
-                                                    
+                                                        {{ dump($response->get($q->questionId)) }}
                                                     @endif
                                                 @else
                                                     @if($q->questionType == 'Multiple Choice' || $q->questionType == 'True Or False')

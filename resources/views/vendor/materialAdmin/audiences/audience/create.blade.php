@@ -80,10 +80,10 @@
                                                 @if($q->master->masterUseAPI)
                                                     <p class="f-500 c-black">{{ ucwords($format->name) }}</p>
                                                     <?php
+                                                        $url = $api . strtolower($q->master->masterNamespaces) . '/';
+                                                        $urlAPI = $url . $format->name . '/lists';
                                                         if($q->master->masterName == 'Products') :
-                                                            $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . strtolower(str_singular($q->master->masterName)) . '/' . strtolower($format->name);
-                                                        else :
-                                                            $urlAPI = $api . strtolower($q->master->masterNamespaces) . '/' . $format->name . '/lists';
+                                                            $urlAPI = $url . strtolower(str_singular($q->master->masterName)) . '/' . strtolower($format->name);
                                                         endif;
                                                         
                                                         $lists = $client->options($urlAPI, ['query' => ['token' => $token]])->getBody();
