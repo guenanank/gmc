@@ -41,11 +41,7 @@
                                             <p class="form-control-static">
                                                 @if(isset($q->master) && $q->master->masterUseAPI)
                                                     {{--*/ $url = $api . strtolower($q->master->masterNamespaces) /*--}}
-                                                    @if($q->master->masterName == 'Region')
-                                                        @foreach($response->get($q->questionId) as $key => $item)
-                                                            {{ json_decode($client->get($url . '/' . $key . '/' . $item, ['query' => ['token' => $token]])->getBody())->{$key . 'Name'} }} <br />
-                                                        @endforeach
-                                                    @elseif($q->master->masterName == 'Products')
+                                                    @if($q->master->masterName == 'Products')
                                                         @foreach($response->get($q->questionId) as $key => $value)
                                                             <strong>{{ ucwords($key) }}</strong><br />
                                                             @foreach($value as $v)
@@ -53,14 +49,16 @@
                                                             @endforeach
                                                             <br />
                                                         @endforeach
-                                                    @elseif($q->master->masterName == 'Vehicles')
-                                                        @foreach($response->get($q->questionId) as $k => $i)
-                                                            @foreach($i as $x => $y)
-                                                                {{ json_decode($client->get($url . '/' . $k . '/' . $y, ['query' => ['token' => $token]])->getBody())->{$k . 'Name'} }} <br />
-                                                            @endforeach
-                                                        @endforeach
                                                     @else
-                                                        {{ dump($response->get($q->questionId)) }}
+                                                        @foreach($response->get($q->questionId) as $key => $item)
+                                                            @if(is_array($item))
+                                                                @foreach($item as $i)
+                                                                    {{ json_decode($client->get($url . '/' . $key . '/' . $i, ['query' => ['token' => $token]])->getBody())->{$key . 'Name'} }} <br />
+                                                                @endforeach
+                                                            @else
+                                                                {{ json_decode($client->get($url . '/' . $key . '/' . $item, ['query' => ['token' => $token]])->getBody())->{$key . 'Name'} }} <br />
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 @else
                                                     @if($q->questionType == 'Multiple Choice' || $q->questionType == 'True Or False')
