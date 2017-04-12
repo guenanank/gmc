@@ -27,7 +27,7 @@
                 <div class="form-wizard-basic fw-container">
                     <ul class="tab-nav text-center">
                         @foreach($audience->layers as $i => $tabNav)
-                        <li class="{{ $i < 1 ? 'active' : null }}">{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
+                            <li class="{{ $i < 1 ? 'active' : null }}">{{ link_to('#' . camel_case($tabNav->layerName), $tabNav->layerName, ['data-toggle' => 'tab']) }}</li>
                         @endforeach
                     </ul>
                     <div class="tab-content">
@@ -42,8 +42,10 @@
                                                 @if(isset($q->master) && $q->master->masterUseAPI)
                                                     {{--*/ $url = $api . strtolower($q->master->masterNamespaces) /*--}}
                                                     @if($q->master->masterName == 'Products')
-                                                        @foreach($response->get($q->questionId) as $key => $value)
-                                                            <strong>{{ ucwords($key) }}</strong><br />
+                                                        @foreach($response->get($q->questionId) as $index => $value)
+                                                            @continue(empty($value))
+                                                        
+                                                            <strong>{{ ucwords($index) }}</strong><br />
                                                             @foreach($value as $v)
                                                                 {{ json_decode($client->get($url . '/media/' . $v, ['query' => ['token' => $token]])->getBody())->mediaName }} <br />
                                                             @endforeach
@@ -51,6 +53,8 @@
                                                         @endforeach
                                                     @else
                                                         @foreach($response->get($q->questionId) as $key => $item)
+                                                            @continue(empty($item))
+                                                            
                                                             @if(is_array($item))
                                                                 @foreach($item as $i)
                                                                     {{ json_decode($client->get($url . '/' . $key . '/' . $i, ['query' => ['token' => $token]])->getBody())->{$key . 'Name'} }} <br />

@@ -214,7 +214,6 @@
                 e.stopImmediatePropagation();
                 $(this).ajaxForm();
             });
-
         })(jQuery);
     </script>
 

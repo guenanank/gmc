@@ -84,7 +84,9 @@
                 e.preventDefault();
                 $('.page-loader').fadeIn();
                 $.get($(this).data('href'), function (data) {
-                    $(data).modal();
+                    $(data).modal().on('hidden.bs.modal', function() {
+                        $('[class^=form-wizard-basic]').bootstrapWizard('remove');
+                    });
                 }).always(function() {
                     $('.page-loader').fadeOut();
                 });
