@@ -45,7 +45,7 @@ class Audience extends \GMC\Http\Controllers\Controller {
                 ->orWhereHas('activities', function($query) use($search) {
                     $query->where('activityName', 'LIKE', '%' . $search . '%');
                 })
-                ->with('activities', 'layers')
+                ->with('activities', 'layers', 'audienceLayers')
                 ->skip($skip)->take($rowCount)->orderBy($sortColumn, $sortType)
                 ->get();
 
@@ -74,8 +74,8 @@ class Audience extends \GMC\Http\Controllers\Controller {
         $client = $this->client;
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $layers = Audiences::Layer()->with(['questions.master', 'questions' => function($query) {
-            $query->orderBy('questionSort', 'asc');
-        }])->get();
+                        $query->orderBy('questionSort', 'asc');
+                    }])->get();
         return view('vendor.materialAdmin.audiences.audience.create', compact('token', 'api', 'client', 'activities', 'layers'));
     }
 
@@ -112,9 +112,9 @@ class Audience extends \GMC\Http\Controllers\Controller {
         $client = $this->client;
         $activities = Audiences::Activity()->lists('activityName', 'activityId')->all();
         $layers = Audiences::Layer()->with(['questions.master', 'questions' => function($query) {
-            $query->orderBy('questionSort', 'asc');
-        }])->get();
-        $audience = Audiences::Audience()->with('audienceLayers', 'audienceActivities')->find($id);
+                        $query->orderBy('questionSort', 'asc');
+                    }])->get();
+        $audience = Audiences::Audience()->with('audienceLayers', 'audienceActivities')->findOrFail($id);
         return view('vendor.materialAdmin.audiences.audience.edit', compact('token', 'api', 'client', 'activities', 'audience', 'layers'));
     }
 

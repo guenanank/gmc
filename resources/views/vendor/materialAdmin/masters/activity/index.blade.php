@@ -22,7 +22,7 @@
                 <tr>
                     <!--<th data-column-id="activityOldName" data-formatter="activityOldName" data-type="string">Old Name</th>-->
                     <th data-column-id="activityName" data-type="string" data-identifier="true">Name</th>
-                    <th data-column-id="activityWhere" data-type="string">Location</th>
+                    <th data-column-id="activityWhere" data-formatter="location" data-type="string">Location</th>
                     <th data-column-id="activityWhen" data-converter="datetime" data-type="date">Date</th>
                     <th data-column-id="sourceId" data-formatter="source" data-type="string">Source</th>
                     <th data-column-id="mediaId" data-formatter="media" data-type="string" data-sortable="false">Media</th>
@@ -65,6 +65,10 @@
                 }
             },
             formatters: {
+                location: function(column, row) {
+                    var location = row.activityWhere.length > 37 ? row.activityWhere.substring(0, 37) + '...' : row.activityWhere;
+                    return '<span data-toggle="tooltip" data-placement="right" title="' + row.activityWhere + '">' + location + '</span>';
+                },
                 activityOldName: function (column, row) {
                     var activityOldName = row.activityOldName.length > 37 ? row.activityOldName.substring(0, 37) + '...' : row.activityOldName;
                     return '<span data-toggle="tooltip" data-placement="right" title="' + row.activityOldName + '">' + activityOldName + '</span>';

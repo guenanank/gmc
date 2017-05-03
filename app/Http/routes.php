@@ -67,56 +67,6 @@ Route::group(['middleware' => 'auth'], function() {
             Route::post('selectpicker', ['uses' => 'Activity@selectpicker', 'as' => 'activity.selectpicker']);
         });
 
-        Route::group(['prefix' => 'education'], function() {
-            Route::get('/', ['uses' => 'Education@index', 'as' => 'education.index']);
-            Route::post('bootgrid', ['uses' => 'Education@bootgrid', 'as' => 'education.bootgrid', 'middleware' => 'IsAjax']);
-            Route::get('create', ['uses' => 'Education@create', 'as' => 'education.create']);
-            Route::post('store', ['uses' => 'Education@store', 'as' => 'education.store', 'middleware' => 'IsAjax']);
-            Route::get('{educationId}/edit', ['uses' => 'Education@edit', 'as' => 'education.edit']);
-            Route::match(['PUT', 'PATCH'], 'update/{educationId}', ['uses' => 'Education@update', 'as' => 'education.update', 'middleware' => 'IsAjax']);
-            Route::delete('{educationId}', ['uses' => 'Education@destroy', 'as' => 'education.delete']);
-        });
-
-        Route::group(['prefix' => 'expense'], function() {
-            Route::get('/', ['uses' => 'Expense@index', 'as' => 'expense.index']);
-            Route::post('bootgrid', ['uses' => 'Expense@bootgrid', 'as' => 'expense.bootgrid', 'middleware' => 'IsAjax']);
-            Route::get('create', ['uses' => 'Expense@create', 'as' => 'expense.create']);
-            Route::post('store', ['uses' => 'Expense@store', 'as' => 'expense.store', 'middleware' => 'IsAjax']);
-            Route::get('{expenseId}/edit', ['uses' => 'Expense@edit', 'as' => 'expense.edit']);
-            Route::match(['PUT', 'PATCH'], 'update/{expenseId}', ['uses' => 'Expense@update', 'as' => 'expense.update', 'middleware' => 'IsAjax']);
-            Route::delete('{expenseId}', ['uses' => 'Expense@destroy', 'as' => 'expense.delete']);
-        });
-
-        Route::group(['prefix' => 'hobby'], function() {
-            Route::get('/', ['uses' => 'Hobby@index', 'as' => 'hobby.index']);
-            Route::post('bootgrid', ['uses' => 'Hobby@bootgrid', 'as' => 'hobby.bootgrid', 'middleware' => 'IsAjax']);
-            Route::get('create', ['uses' => 'Hobby@create', 'as' => 'hobby.create']);
-            Route::post('store', ['uses' => 'Hobby@store', 'as' => 'hobby.store', 'middleware' => 'IsAjax']);
-            Route::get('{hobbyId}/edit', ['uses' => 'Hobby@edit', 'as' => 'hobby.edit']);
-            Route::match(['PUT', 'PATCH'], 'update/{hobbyId}', ['uses' => 'Hobby@update', 'as' => 'hobby.update', 'middleware' => 'IsAjax']);
-            Route::delete('{hobbyId}', ['uses' => 'Hobby@destroy', 'as' => 'hobby.delete']);
-        });
-
-        Route::group(['prefix' => 'interest'], function() {
-            Route::get('/', ['uses' => 'Interest@index', 'as' => 'interest.index']);
-            Route::post('bootgrid', ['uses' => 'Interest@bootgrid', 'as' => 'interest.bootgrid', 'middleware' => 'IsAjax']);
-            Route::get('create', ['uses' => 'Interest@create', 'as' => 'interest.create']);
-            Route::post('store', ['uses' => 'Interest@store', 'as' => 'interest.store', 'middleware' => 'IsAjax']);
-            Route::get('{interestId}/edit', ['uses' => 'Interest@edit', 'as' => 'interest.edit']);
-            Route::match(['PUT', 'PATCH'], 'update/{interestId}', ['uses' => 'Interest@update', 'as' => 'interest.update', 'middleware' => 'IsAjax']);
-            Route::delete('{interestId}', ['uses' => 'Interest@destroy', 'as' => 'interest.delete']);
-        });
-
-        Route::group(['prefix' => 'profession'], function() {
-            Route::get('/', ['uses' => 'Profession@index', 'as' => 'profession.index']);
-            Route::post('bootgrid', ['uses' => 'Profession@bootgrid', 'as' => 'profession.bootgrid', 'middleware' => 'IsAjax']);
-            Route::get('create', ['uses' => 'Profession@create', 'as' => 'profession.create']);
-            Route::post('store', ['uses' => 'Profession@store', 'as' => 'profession.store', 'middleware' => 'IsAjax']);
-            Route::get('{professionId}/edit', ['uses' => 'Profession@edit', 'as' => 'profession.edit']);
-            Route::match(['PUT', 'PATCH'], 'update/{professionId}', ['uses' => 'Profession@update', 'as' => 'profession.update', 'middleware' => 'IsAjax']);
-            Route::delete('{professionId}', ['uses' => 'Profession@destroy', 'as' => 'profession.delete']);
-        });
-
         Route::group(['prefix' => 'greaterArea'], function() {
             Route::get('/', ['uses' => 'GreaterArea@index', 'as' => 'greaterArea.index']);
             Route::get('create', ['uses' => 'GreaterArea@create', 'as' => 'greaterArea.create']);

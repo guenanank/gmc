@@ -25,7 +25,7 @@
             <thead>
                 <tr>
                     <th data-column-id="layerName" data-type="string" data-identifier="true">Layer Name</th>
-                    <th data-column-id="layerDesc" data-type="string">Layer Description</th>
+                    <th data-column-id="layerDesc" data-formatter="lDesc" data-type="string">Layer Description</th>
                     <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
                 </tr>
             </thead>
@@ -54,6 +54,10 @@
                 iconRefresh: 'zmdi-refresh'
             },
             formatters: {
+                lDesc: function(column, row) {
+                    var lDesc = row.layerDesc.length > 77 ? row.layerDesc.substring(0, 77) + '...' : row.layerDesc;
+                    return '<span data-toggle="tooltip" data-placement="right" title="' + row.layerDesc + '">' + lDesc + '</span>';
+                },
                 commands: function (column, row) {
                     var questionList = '<a href="{{ url("audiences/layerQuestion") }}/l/' + row.layerId + '" data-toggle="tooltip" class="btn btn-icon bgm-amber" title="' + row.layerName + ' Question List"><span class="zmdi zmdi-view-list-alt"></span></a>&nbsp;';
                     var edit = '<a href="{{ url("audiences/layerQuestion") }}/' + row.layerId + '/edit" data-toggle="tooltip" class="btn btn-icon bgm-blue command-edit" title="Edit ' + row.layerName + '"><span class="zmdi zmdi-edit"></span></a>&nbsp;';

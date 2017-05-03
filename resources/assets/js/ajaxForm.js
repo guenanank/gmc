@@ -21,6 +21,7 @@
                 if (create) {
                     $t.find(':input').val(null).trigger('blur');
                     $('.selectpicker').selectpicker('refresh');
+                    location.reload();
                 }
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
